@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TagSystemApplication {
+public class UserManagingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TagSystemApplication.class, args);
+		SpringApplication.run(UserManagingApplication.class, args);
 	}
 }
