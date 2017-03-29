@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.extra.tagmate.system.usermanagement.dao.NfcDao;
 import it.extra.tagmate.system.usermanagement.dao.UserDao;
-import it.extra.tagmate.system.usermanagement.data.NfcEntity;
+import it.extra.tagmate.system.usermanagement.data.NfcTagEntity;
 import it.extra.tagmate.system.usermanagement.data.UserEntity;
 @Component
 public class UserManagerImpl implements UserManager {
@@ -33,7 +33,7 @@ public class UserManagerImpl implements UserManager {
 		userDao.save(user);
 	}
 	@Transactional
-	public void saveNfc(NfcEntity nfc)
+	public void saveNfc(NfcTagEntity nfc)
 	{
 		nfcDao.save(nfc);
 	}

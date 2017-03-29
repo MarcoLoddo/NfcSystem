@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.extra.tagmate.system.usermanagement.dao.NfcDao;
 import it.extra.tagmate.system.usermanagement.dao.UserDao;
-import it.extra.tagmate.system.usermanagement.data.NfcEntity;
+import it.extra.tagmate.system.usermanagement.data.NfcTagEntity;
 import it.extra.tagmate.system.usermanagement.data.UserEntity;
 
 
@@ -55,7 +55,7 @@ public class UserDaoTest {
 	@Transactional
 	public void recoverByTag()
 	{
-		NfcEntity nfcTagEntity=nfcDao.getByTag("7");
+		NfcTagEntity nfcTagEntity=nfcDao.getByTag("7");
 		UserEntity userEntity=userDao.getUserByNfc(nfcTagEntity);
 		assertTrue(userEntity!=null);
 	}

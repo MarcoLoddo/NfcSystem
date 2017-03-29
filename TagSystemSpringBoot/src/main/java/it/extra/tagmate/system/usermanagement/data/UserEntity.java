@@ -11,10 +11,11 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import it.extra.tagmate.system.usermanagement.controller.serializing.UserSerializer;
-import it.extra.tagmate.system.usermanagement.data.NfcEntity;
+import it.extra.tagmate.system.usermanagement.data.NfcTagEntity;
 
 @Entity(name="Users")
-@Table (name="Users")
+@Table (name="users")
+@JsonSerialize(using = UserSerializer.class)
 public class UserEntity {
 	@Id
     @GeneratedValue
@@ -26,12 +27,12 @@ public class UserEntity {
     private String password;
     
     @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
-    private List<NfcEntity> nfc;
+    private List<NfcTagEntity> nfc;
     
-	public void setNfc(List<NfcEntity> nfc) {
+	public void setNfc(List<NfcTagEntity> nfc) {
 		this.nfc = nfc;
 	}
-	public List<NfcEntity> getNfc() {
+	public List<NfcTagEntity> getNfc() {
 		return nfc;
 	}
 	public String getPassword() {

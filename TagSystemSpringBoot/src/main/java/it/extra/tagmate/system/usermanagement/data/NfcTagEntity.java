@@ -6,15 +6,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import it.extra.tagmate.system.usermanagement.controller.serializing.NfcTagSerializer;
 import it.extra.tagmate.system.usermanagement.data.UserEntity;
 
 @Entity(name="NfcTags")
 @Table (name="nfctags")
-public class NfcEntity {
+@JsonSerialize(using=NfcTagSerializer.class)
+public class NfcTagEntity {
 	@Id
-	private String nfcId;
+	private String nfc_id;
 	@ManyToOne
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "user_Id")
 	private UserEntity user;
 	
 	private boolean disabled;
@@ -31,14 +35,14 @@ public class NfcEntity {
 		this.user=user;
 	}
 	public String getNfcId() {
-		return nfcId;
+		return nfc_id;
 	}
 	public void setNfcId(String value) {
-		nfcId=value;
+		nfc_id=value;
 	}
 	@Override
 	public String toString()
 	{
-		return nfcId +", disabled=" +disabled;
+		return nfc_id +", disabled=" +disabled;
 	}
 }

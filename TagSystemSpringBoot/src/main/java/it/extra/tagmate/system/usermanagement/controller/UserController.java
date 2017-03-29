@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.extra.tagmate.system.usermanagement.controller.serializing.JsonSerializer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import it.extra.tagmate.system.usermanagement.data.UserEntity;
 import it.extra.tagmate.system.usermanagement.manager.UserManager;
 
@@ -27,7 +29,14 @@ public class UserController {
 		UserEntity logging= new UserEntity();
 		logging.setEmail(email);
 		logging.setPassword(password);
-		return JsonSerializer.serialize(manager.login(logging));
+		//return JsonSerializer.serialize(manager.login(logging));
+		try {
+			return new ObjectMapper().writeValueAsString(manager.login(logging));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }
