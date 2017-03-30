@@ -6,19 +6,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import it.extra.tagmate.system.usermanagement.controller.serializing.NfcTagSerializer;
 import it.extra.tagmate.system.usermanagement.data.UserEntity;
 
 @Entity(name="NfcTags")
 @Table (name="nfctags")
-@JsonSerialize(using=NfcTagSerializer.class)
 public class NfcTagEntity {
 	@Id
 	private String nfc_id;
 	@ManyToOne
 	@JoinColumn(name = "user_Id")
+	
 	private UserEntity user;
 	
 	private boolean disabled;

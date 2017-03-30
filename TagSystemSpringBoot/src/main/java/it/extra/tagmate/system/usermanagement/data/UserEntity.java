@@ -8,14 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import it.extra.tagmate.system.usermanagement.controller.serializing.UserSerializer;
 import it.extra.tagmate.system.usermanagement.data.NfcTagEntity;
 
 @Entity(name="Users")
 @Table (name="users")
-@JsonSerialize(using = UserSerializer.class)
 public class UserEntity {
 	@Id
     @GeneratedValue
@@ -27,6 +23,7 @@ public class UserEntity {
     private String password;
     
     @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
+    
     private List<NfcTagEntity> nfc;
     
 	public void setNfc(List<NfcTagEntity> nfc) {
