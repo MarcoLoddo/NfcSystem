@@ -6,8 +6,9 @@ import it.extra.tagmate.system.usermanagement.data.NfcTagEntity;
 import it.extra.tagmate.system.usermanagement.data.UserEntity;
 
 public interface UserManager {
-	UserEntity login(UserEntity user);
+	UserEntity findUser(UserEntity user);
+	UserEntity findById(int id);
 	List<UserEntity> userListByName(String name);
-	void saveUser(UserEntity user);
-	void saveNfc(NfcTagEntity nfc);
+	UserEntity updateUser(UserEntity user);
+	List<NfcTagEntity> findNfcOfUser(UserEntity user);
 }

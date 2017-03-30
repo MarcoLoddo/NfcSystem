@@ -15,7 +15,6 @@ public class NfcTagEntity {
 	private String nfc_id;
 	@ManyToOne
 	@JoinColumn(name = "user_Id")
-	
 	private UserEntity user;
 	
 	private boolean disabled;
@@ -31,10 +30,10 @@ public class NfcTagEntity {
 	public  void setUser(UserEntity user) {
 		this.user=user;
 	}
-	public String getNfcId() {
+	public String getNfc_id() {
 		return nfc_id;
 	}
-	public void setNfcId(String value) {
+	public void setNfc_id(String value) {
 		nfc_id=value;
 	}
 	@Override

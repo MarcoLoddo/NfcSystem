@@ -25,19 +25,25 @@ public class UserDaoTest {
 	private UserDao userDao;
 	@Autowired
 	private NfcDao nfcDao;
+	
+	
 	@Test
 	@Transactional
 	public void testRead()
 	{
 		List<UserEntity> users;
 		users=userDao.findUserByName("bob");
+		
 		assertTrue(users.size() == 4);
 
 		users=userDao.findUserByName("rob");
 		assertTrue(users.size() == 1);
+		
 		UserEntity nullUser=userDao.findByEmailPassword("super@man", "clarkent1");
+		
 		assertTrue(nullUser==null);
 	}
+	
 	@Test
 	@Transactional
 	@Rollback(true)
@@ -51,6 +57,7 @@ public class UserDaoTest {
 		System.out.print(u1);
 		userDao.save(u1);
 	}
+	
 	@Test
 	@Transactional
 	public void recoverByTag()
@@ -59,12 +66,14 @@ public class UserDaoTest {
 		UserEntity userEntity=userDao.getUserByNfc(nfcTagEntity);
 		assertTrue(userEntity!=null);
 	}
+	
 	@Test 
 	public void login()
 	{
 		UserEntity userEntity=userDao.findByEmailPassword("super@man", "clarkent");
 		assertTrue(userEntity!=null);
 	}
+	
 	@Test
 	@Transactional
 	@Rollback(true)
