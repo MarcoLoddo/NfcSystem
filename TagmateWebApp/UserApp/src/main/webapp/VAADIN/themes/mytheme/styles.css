@@ -12413,8 +12413,8 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	overflow: hidden;
 }
 
-.background-black {
-	background-color: black;
+.top {
+	background-color: #515D5A;
 }
 
 .mytheme.v-app, .mytheme.v-app-loading {
@@ -23299,6 +23299,6 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	overflow: hidden;
 }
 
-.mytheme .background-black {
-	background-color: black;
+.mytheme .top {
+	background-color: #515D5A;
 }

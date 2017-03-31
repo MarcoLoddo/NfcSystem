@@ -2,6 +2,7 @@ package it.extra.tagmate.system.usermanagement.data;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,22 +12,18 @@ import javax.persistence.Table;
 
 import it.extra.tagmate.system.usermanagement.controller.dto.NfcTagDto;
 import it.extra.tagmate.system.usermanagement.controller.dto.UserDto;
-import it.extra.tagmate.system.usermanagement.data.NfcTagEntity;
 
-@Entity(name = "Users")
-@Table(name = "users")
+@Entity(name = "Users") @Table(name = "users")
 public class UserEntity {
-	@Id
-	@GeneratedValue
-	private Integer user_id;
+	@Id @GeneratedValue private Integer user_id;
 
 	private String name;
 	private String surname;
 	private String email;
 	private String password;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private List<NfcTagEntity> nfcTags;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user") private List<NfcTagEntity> nfcTags;
 
 	public List<NfcTagEntity> getNfcTags() {
 		return nfcTags;
@@ -41,7 +38,7 @@ public class UserEntity {
 	}
 
 	public UserEntity(UserDto userDto) {
-		user_id=userDto.getUser_id();
+		user_id = userDto.getUser_id();
 		email = userDto.getEmail();
 		password = userDto.getPassword();
 		if (userDto.getNfcTags() != null) {
@@ -54,9 +51,8 @@ public class UserEntity {
 			}
 			nfcTags = nfcs;
 		}
-		
-	}
 
+	}
 
 	public String getPassword() {
 		return password;
@@ -66,7 +62,7 @@ public class UserEntity {
 		this.password = password;
 	}
 
-	public Integer getUserId() {
+	public Integer getUser_id() {
 		return user_id;
 	}
 
@@ -115,7 +111,7 @@ public class UserEntity {
 		UserDto userDto = new UserDto();
 		userDto.setEmail(this.getEmail());
 		userDto.setPassword(this.getPassword());
-		userDto.setUser_id(this.getUserId());
+		userDto.setUser_id(this.getUser_id());
 		if (this.nfcTags != null)
 			userDto.setNfcTags(convertNfcTagsToDto());
 

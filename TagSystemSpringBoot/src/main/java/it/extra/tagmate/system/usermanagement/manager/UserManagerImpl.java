@@ -1,5 +1,6 @@
 package it.extra.tagmate.system.usermanagement.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.loader.custom.Return;
@@ -31,19 +32,22 @@ public class UserManagerImpl implements UserManager {
 
 	@Transactional
 	public UserEntity updateUser(UserEntity user) {
-		
-		List<NfcTagEntity> dbUserNfc = nfcDao.findByUser(user);
-		if (dbUserNfc.size() < user.getNfcTags().size()) {
-			for (NfcTagEntity nfc : user.getNfcTags()) {
-				if (!dbUserNfc.contains(nfc))
-					nfc.setUser(user);
-					nfcDao.save(nfc);
-			}
-		}
-		// update user info
-		userDao.save(user);
+		if (user.getNfcTags() != null) {
+			List<NfcTagEntity> dbUserNfc = nfcDao.findByUser(user);
+			if (dbUserNfc.size() < user.getNfcTags().size())
+				for (NfcTagEntity nfc : user.getNfcTags())
+					if (!dbUserNfc.contains(nfc)) {
+						nfc.setUser(user);
+						nfcDao.save(nfc);
+					}
 
-		return userDao.findById(user.getUserId());
+		} else
+			//declaration in case of null collection to prevent hibernate from not fetching the list
+			//if the collection is not declared, hibernate can't put in the data because
+			//list is an abstract type which hasn't a unique implementation
+			user.setNfcTags(new ArrayList<NfcTagEntity>());
+		userDao.save(user);
+		return user;
 	}
 
 	@Transactional
