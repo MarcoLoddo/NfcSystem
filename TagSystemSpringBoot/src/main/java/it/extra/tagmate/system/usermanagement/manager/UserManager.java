@@ -9,6 +9,6 @@ public interface UserManager {
 	UserEntity findUser(UserEntity user);
 	UserEntity findById(int id);
 	List<UserEntity> userListByName(String name);
-	UserEntity updateUser(UserEntity user);
+	void updateUser(UserEntity user);
 	List<NfcTagEntity> findNfcOfUser(UserEntity user);
 }

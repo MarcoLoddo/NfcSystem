@@ -31,7 +31,7 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Transactional
-	public UserEntity updateUser(UserEntity user) {
+	public void updateUser(UserEntity user) {
 		if (user.getNfcTags() != null) {
 			List<NfcTagEntity> dbUserNfc = nfcDao.findByUser(user);
 			if (dbUserNfc.size() < user.getNfcTags().size())
@@ -47,7 +47,6 @@ public class UserManagerImpl implements UserManager {
 			//list is an abstract type which hasn't a unique implementation
 			user.setNfcTags(new ArrayList<NfcTagEntity>());
 		userDao.save(user);
-		return user;
 	}
 
 	@Transactional

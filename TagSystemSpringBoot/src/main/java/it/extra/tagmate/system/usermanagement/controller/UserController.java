@@ -45,9 +45,9 @@ public class UserController {
 	 */
 	@RequestMapping("/updateUser")
 	public UserDto update(@RequestBody UserDto user) {
-		
-		UserEntity updated=manager.updateUser(new UserEntity(user));
-		
+		UserEntity userEntity=new UserEntity(user);
+		manager.updateUser(userEntity);
+		UserEntity updated=manager.findById(userEntity.getUser_id());
 		return updated.convertToDto();
 	}
 
