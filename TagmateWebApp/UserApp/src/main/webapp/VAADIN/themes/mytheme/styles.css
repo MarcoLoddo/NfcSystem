@@ -12413,8 +12413,14 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	overflow: hidden;
 }
 
-.top {
-	background-color: #515D5A;
+.background-dark {
+	background: #74737A;
+	color: white;
+}
+
+.background-white {
+	background: #CACECD;
+	color: black;
 }
 
 .mytheme.v-app, .mytheme.v-app-loading {
@@ -23299,6 +23305,12 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	overflow: hidden;
 }
 
-.mytheme .top {
-	background-color: #515D5A;
+.mytheme .background-dark {
+	background: #74737A;
+	color: white;
+}
+
+.mytheme .background-white {
+	background: #CACECD;
+	color: black;
 }

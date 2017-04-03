@@ -39,6 +39,7 @@ public class UserEntity {
 
 	public UserEntity(UserDto userDto) {
 		user_id = userDto.getUser_id();
+		name=userDto.getName();
 		email = userDto.getEmail();
 		password = userDto.getPassword();
 		if (userDto.getNfcTags() != null) {
@@ -112,6 +113,7 @@ public class UserEntity {
 		userDto.setEmail(this.getEmail());
 		userDto.setPassword(this.getPassword());
 		userDto.setUser_id(this.getUser_id());
+		userDto.setName(this.name);
 		if (this.nfcTags != null)
 			userDto.setNfcTags(convertNfcTagsToDto());
 

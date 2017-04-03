@@ -2,12 +2,12 @@ package it.extra.tagmate.system.usermanagement.dao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import it.extra.tagmate.system.usermanagement.data.NfcTagEntity;
 import it.extra.tagmate.system.usermanagement.data.UserEntity;
-public interface UserDao extends CrudRepository<UserEntity, Long> {
+public interface UserDao extends JpaRepository<UserEntity, Long> {
 	@Query("SELECT u FROM Users u WHERE u.name = ?1")
 	List<UserEntity> findUserByName(String fname);
 	@Query("SELECT u FROM Users u JOIN FETCH u.nfcTags n WHERE u.user_id = ?1")

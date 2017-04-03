@@ -29,62 +29,10 @@ public class UserDaoTest {
 	
 	@Test
 	@Transactional
-	public void testRead()
+	public void testwrite()
 	{
-		List<UserEntity> users;
-		users=userDao.findUserByName("bob");
+		//write new nfc, pickup from user the update list
 		
-		assertTrue(users.size() == 4);
-
-		users=userDao.findUserByName("rob");
-		assertTrue(users.size() == 1);
-		
-		UserEntity nullUser=userDao.findByEmailPassword("super@man", "clarkent1");
-		
-		assertTrue(nullUser==null);
 	}
 	
-	@Test
-	@Transactional
-	@Rollback(true)
-	public void testWrite()
-	{
-		UserEntity u1=new UserEntity();
-		u1.setFirstName("Carl");
-		u1.setLastName("Carlson");
-		u1.setEmail("carl@carlson");
-		u1.setPassword("superman");
-		System.out.print(u1);
-		userDao.save(u1);
-	}
-	
-	@Test
-	@Transactional
-	public void recoverByTag()
-	{
-		NfcTagEntity nfcTagEntity=nfcDao.getByTag("7");
-		UserEntity userEntity=userDao.getUserByNfc(nfcTagEntity);
-		assertTrue(userEntity!=null);
-	}
-	
-	@Test 
-	public void login()
-	{
-		UserEntity userEntity=userDao.findByEmailPassword("super@man", "clarkent");
-		assertTrue(userEntity!=null);
-	}
-	
-	@Test
-	@Transactional
-	@Rollback(true)
-	public void updateUser()
-	{
-		UserEntity userEntity = userDao.findByEmailPassword("super@man", "clarkent");
-		String nameBefore=userEntity.getFirstName();
-		userEntity.setFirstName("Clark");
-		userDao.save(userEntity);
-		userEntity = userDao.findByEmailPassword("super@man", "clarkent");
-		String nameAfter=userEntity.getFirstName();
-		assertTrue(nameBefore!=nameAfter);
-	}
 }

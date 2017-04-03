@@ -1,4 +1,4 @@
-package it.extra.tagmate.system.usermanagement.controller.dto;
+package data;
 
 import java.util.List;
 

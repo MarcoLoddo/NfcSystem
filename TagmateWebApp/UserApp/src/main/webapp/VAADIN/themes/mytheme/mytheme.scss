@@ -1,11 +1,19 @@
+
 @import "../valo/valo.scss";
-$v-font-color(default: computed)
-$v-font-family: 'Open Sans', sans-serif, 'Source Sans Pro';
+$v-font-family: "Open Sans", sans-serif;
 @mixin mytheme {
-  @include valo;
-	.top
+	@include valo;
+	
+	.background-dark
 	{
-		background-color:#515D5A;
+	 	background: #74737A;
+	 	color:white;
 	}
+	.background-white
+	{
+		background: #CACECD;
+	 	color:black;
+	}
+	
 }
 @include mytheme;

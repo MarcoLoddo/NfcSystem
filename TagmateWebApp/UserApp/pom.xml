@@ -10,7 +10,6 @@
 
 	<name>UserApp</name>
 	<description>Demo project for Spring Boot</description>
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -47,6 +46,11 @@
 			<groupId>com.vaadin</groupId>
 	        <artifactId>vaadin-maven-plugin</artifactId>
 	        <version>7.7.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.8</version>
 		</dependency>
 	</dependencies>
 
