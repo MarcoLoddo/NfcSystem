@@ -80,7 +80,7 @@ public class Login extends HorizontalLayout implements View {
 				UserDto userDto=new UserDto();
 				userDto.setEmail(user.getValue());
 				userDto.setPassword(password.getValue());
-				UserDto response= new RestManager().sendUserDto("http://localhost:8090/login", userDto);
+				UserDto response= RestManager.sendUserDto("http://localhost:8090/login", userDto);
 				Notification.show("Hello "+response.getName());
 				try {
 				    VaadinSession.getCurrent().getLockInstance().lock();
@@ -88,7 +88,7 @@ public class Login extends HorizontalLayout implements View {
 				} finally {
 				    VaadinSession.getCurrent().getLockInstance().unlock();
 				}
-				getUI().getNavigator().navigateTo("UserManaging");
+				getUI().getNavigator().navigateTo("Navigation");
 				
 			}
 		});

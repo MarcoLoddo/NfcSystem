@@ -61,4 +61,10 @@ public class UserManagerImpl implements UserManager {
 		return nfcDao.findByUser(user);
 	}
 
+	@Override
+	public List<UserEntity> findByName(String name) {
+		
+		return userDao.findUserByName(name);
+	}
+
 }

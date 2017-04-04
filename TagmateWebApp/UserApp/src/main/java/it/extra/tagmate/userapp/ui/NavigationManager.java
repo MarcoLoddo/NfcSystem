@@ -7,6 +7,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
 
 import it.extra.tagmate.userapp.ui.view.Login;
+import it.extra.tagmate.userapp.ui.view.MenuNavigation;
 import it.extra.tagmate.userapp.ui.view.UserManaging;
 @SpringUI
 @Theme("mytheme")
@@ -19,6 +20,7 @@ public class NavigationManager extends UI {
 		navigator = new Navigator(this,this);
 		navigator.addView("", new Login());
 		navigator.addView("UserManaging", new UserManaging());
+		navigator.addView("Navigation", new MenuNavigation());
 	}
 
 }

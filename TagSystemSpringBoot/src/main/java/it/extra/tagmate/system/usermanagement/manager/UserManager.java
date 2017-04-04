@@ -7,6 +7,7 @@ import it.extra.tagmate.system.usermanagement.data.UserEntity;
 
 public interface UserManager {
 	UserEntity findUser(UserEntity user);
+	List<UserEntity> findByName(String name);
 	UserEntity findById(int id);
 	List<UserEntity> userListByName(String name);
 	void updateUser(UserEntity user);

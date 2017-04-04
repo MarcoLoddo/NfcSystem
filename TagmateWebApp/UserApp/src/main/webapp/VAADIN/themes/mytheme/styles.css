@@ -12415,12 +12415,15 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 
 .background-dark {
 	background: #74737A;
-	color: white;
 }
 
 .background-white {
 	background: #CACECD;
-	color: black;
+}
+
+.button-text {
+	color: white;
+	text-decoration: none;
 }
 
 .mytheme.v-app, .mytheme.v-app-loading {
@@ -23307,10 +23310,13 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 
 .mytheme .background-dark {
 	background: #74737A;
-	color: white;
 }
 
 .mytheme .background-white {
 	background: #CACECD;
-	color: black;
+}
+
+.mytheme .button-text {
+	color: white;
+	text-decoration: none;
 }

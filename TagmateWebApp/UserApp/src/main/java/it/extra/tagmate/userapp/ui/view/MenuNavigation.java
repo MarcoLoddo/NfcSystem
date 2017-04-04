@@ -19,6 +19,7 @@ public class MenuNavigation extends HorizontalLayout implements View {
 		
 		Button button=new Button("User Managing");
 		button.addStyleName(ValoTheme.BUTTON_LINK);
+		button.addStyleName("button-text");
 		button.addClickListener(new ClickListener() {
 			
 			@Override

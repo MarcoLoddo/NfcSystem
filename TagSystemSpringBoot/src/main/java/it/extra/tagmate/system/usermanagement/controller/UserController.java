@@ -1,5 +1,10 @@
 package it.extra.tagmate.system.usermanagement.controller;
 
+import static org.mockito.Mockito.only;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sun.research.ws.wadl.Method;
+
 
 import it.extra.tagmate.system.usermanagement.controller.dto.UserDto;
 import it.extra.tagmate.system.usermanagement.data.UserEntity;
@@ -54,6 +60,18 @@ public class UserController {
 		manager.updateUser(userEntity);
 		UserEntity updated = manager.findById(userEntity.getUser_id());
 		return updated.convertToDto();
+	}
+	
+	
+	@RequestMapping("/findeUserByName")
+	public List<UserDto> findUserByName(@RequestBody UserDto onlyName)
+	{
+		List<UserEntity> entities=manager.findByName(onlyName.getName());
+		List<UserDto> dtos=new ArrayList<>();
+		for (UserEntity entity : entities) {
+			dtos.add(entity.convertToDto());
+		}
+		return dtos;
 	}
 
 }
