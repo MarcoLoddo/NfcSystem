@@ -1,5 +1,6 @@
 package it.extra.tagmate.userapp.ui.view;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,7 +82,8 @@ public class UserManaging extends VerticalLayout implements View {
 				List<NfcTagDto> nfcs = userSelected.get().getNfcTags();
 				if (nfcs.size() > 0)
 					nfcData.setItems(nfcs);
-
+				else
+					nfcData.setItems(new ArrayList<>());
 			}
 		});
 
