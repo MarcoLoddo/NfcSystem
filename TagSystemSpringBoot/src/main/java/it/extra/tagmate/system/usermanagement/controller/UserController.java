@@ -24,7 +24,7 @@ import it.extra.tagmate.system.usermanagement.manager.UserManager;
 
 /**
  * @author marco
- *
+ *	convenzione rest mapping /collezione/risorsa/azione
  */
 @RestController
 public class UserController {
@@ -65,7 +65,7 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping("/user/find/name")
+	@RequestMapping("/user/name/find")
 	public List<UserDto> findUserByName(@RequestBody String nameToFind)
 	{
 		List<UserEntity> entities=manager.findByName(nameToFind);

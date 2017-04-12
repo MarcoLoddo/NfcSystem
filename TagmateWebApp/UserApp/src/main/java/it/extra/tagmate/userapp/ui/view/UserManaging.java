@@ -70,7 +70,7 @@ public class UserManaging extends VerticalLayout implements View {
 				RestTemplate restTemplate = new RestTemplate();
 				String name = searchbar.getValue();
 				ResponseEntity<UserDto[]> responseEntity = restTemplate
-						.postForEntity("http://localhost:8090/user/find/name", name, UserDto[].class);
+						.postForEntity("http://localhost:8090/user/name/find", name, UserDto[].class);
 				List<UserDto> dtos = Arrays.asList(responseEntity.getBody());
 				usersData.setItems(dtos);
 				Notification.show(Integer.toString(dtos.size()));
