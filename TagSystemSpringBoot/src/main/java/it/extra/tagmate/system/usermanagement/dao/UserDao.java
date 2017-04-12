@@ -16,4 +16,6 @@ public interface UserDao extends JpaRepository<UserEntity, Long> {
 	UserEntity findByEmailPassword(String mail, String pwd);
 	@Query("select n.user from NfcTags n where nfc_id = ?1")
 	UserEntity getUserByNfc(NfcTagEntity nfc);
+	
+	
 }

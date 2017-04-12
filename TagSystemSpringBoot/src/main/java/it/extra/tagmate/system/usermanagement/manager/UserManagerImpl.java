@@ -33,18 +33,17 @@ public class UserManagerImpl implements UserManager {
 	@Transactional
 	public void updateUser(UserEntity user) {
 		if (user.getNfcTags() != null) {
-			List<NfcTagEntity> dbUserNfc = nfcDao.findByUser(user);
-			if (dbUserNfc.size() < user.getNfcTags().size())
-				for (NfcTagEntity nfc : user.getNfcTags())
-					if (!dbUserNfc.contains(nfc)) {
-						nfc.setUser(user);
-						nfcDao.save(nfc);
-					}
+			for (NfcTagEntity nfc : user.getNfcTags()) {
+				nfc.setUser(user);
+				nfcDao.save(nfc);
+			}
 
 		} else
-			//declaration in case of null collection to prevent hibernate from not fetching the list
-			//if the collection is not declared, hibernate can't put in the data because
-			//list is an abstract type which hasn't a unique implementation
+			// declaration in case of null collection to prevent hibernate from
+			// not fetching the list
+			// if the collection is not declared, hibernate can't put in the
+			// data because
+			// list is an abstract type which hasn't a unique implementation
 			user.setNfcTags(new ArrayList<NfcTagEntity>());
 		userDao.save(user);
 	}
@@ -55,15 +54,16 @@ public class UserManagerImpl implements UserManager {
 		return userEntity;
 	}
 
-	@Override
 	@Transactional
 	public List<NfcTagEntity> findNfcOfUser(UserEntity user) {
 		return nfcDao.findByUser(user);
 	}
 
-	@Override
+
+	@Transactional
 	public List<UserEntity> findByName(String name) {
-		
+		if(name.toLowerCase().equals("all"))
+			return userDao.findAll();
 		return userDao.findUserByName(name);
 	}
 

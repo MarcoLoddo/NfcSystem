@@ -10,20 +10,24 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import it.extra.tagmate.system.usermanagement.controller.dto.LoginDto;
 import it.extra.tagmate.system.usermanagement.controller.dto.NfcTagDto;
 import it.extra.tagmate.system.usermanagement.controller.dto.UserDto;
 
-@Entity(name = "Users") @Table(name = "users")
+@Entity(name = "Users")
+@Table(name = "users")
 public class UserEntity {
-	@Id @GeneratedValue private Integer user_id;
+	@Id
+	@GeneratedValue
+	private Integer user_id;
 
 	private String name;
 	private String surname;
 	private String email;
 	private String password;
 
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user") private List<NfcTagEntity> nfcTags;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private List<NfcTagEntity> nfcTags;
 
 	public List<NfcTagEntity> getNfcTags() {
 		return nfcTags;
@@ -37,9 +41,14 @@ public class UserEntity {
 
 	}
 
+	public UserEntity(LoginDto loginDto) {
+		email = loginDto.getEmail();
+		password = loginDto.getPassword();
+	}
+
 	public UserEntity(UserDto userDto) {
 		user_id = userDto.getUser_id();
-		name=userDto.getName();
+		name = userDto.getName();
 		email = userDto.getEmail();
 		password = userDto.getPassword();
 		if (userDto.getNfcTags() != null) {

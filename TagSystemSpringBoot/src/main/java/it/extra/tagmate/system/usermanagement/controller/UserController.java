@@ -1,5 +1,6 @@
 package it.extra.tagmate.system.usermanagement.controller;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.mockito.Mockito.only;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sun.research.ws.wadl.Method;
 
-
+import it.extra.tagmate.system.usermanagement.controller.dto.LoginDto;
 import it.extra.tagmate.system.usermanagement.controller.dto.UserDto;
 import it.extra.tagmate.system.usermanagement.data.UserEntity;
 import it.extra.tagmate.system.usermanagement.manager.UserManager;
@@ -40,12 +41,13 @@ public class UserController {
 	 * @return null if user is not in the database, return a UserDTO(in JSON) if
 	 *         found
 	 */
-	@RequestMapping(value="/login")
-	public UserDto login(@RequestBody UserDto loginData) {
+	@RequestMapping(value="/user/session")
+	public UserDto login(@RequestBody LoginDto loginData) {
 		try {
 			return manager.findUser(new UserEntity(loginData)).convertToDto();
 		} catch (Exception e) {
-			return new UserDto();
+			e.printStackTrace();
+			return null;
 		}
 	}
 
@@ -54,7 +56,7 @@ public class UserController {
 	 *            New User data to be updated
 	 * @return User User(DTO) updated
 	 */
-	@RequestMapping("/updateUser")
+	@RequestMapping("/user/update")
 	public UserDto update(@RequestBody UserDto user) {
 		UserEntity userEntity = new UserEntity(user);
 		manager.updateUser(userEntity);
@@ -63,10 +65,10 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping("/findeUserByName")
-	public List<UserDto> findUserByName(@RequestBody UserDto onlyName)
+	@RequestMapping("/user/find/name")
+	public List<UserDto> findUserByName(@RequestBody String nameToFind)
 	{
-		List<UserEntity> entities=manager.findByName(onlyName.getName());
+		List<UserEntity> entities=manager.findByName(nameToFind);
 		List<UserDto> dtos=new ArrayList<>();
 		for (UserEntity entity : entities) {
 			dtos.add(entity.convertToDto());
