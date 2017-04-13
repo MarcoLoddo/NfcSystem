@@ -12,10 +12,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.extra.tagmate.system.usermanagement.dao.NfcDao;
-import it.extra.tagmate.system.usermanagement.dao.UserDao;
-import it.extra.tagmate.system.usermanagement.data.NfcTagEntity;
-import it.extra.tagmate.system.usermanagement.data.UserEntity;
+import it.extrasys.tesi.tagsystem.user_service.db.jpa.dao.NfcDao;
+import it.extrasys.tesi.tagsystem.user_service.db.jpa.dao.UserDao;
+import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.NfcTagEntity;
+import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity;
 
 
 @RunWith(SpringRunner.class)
