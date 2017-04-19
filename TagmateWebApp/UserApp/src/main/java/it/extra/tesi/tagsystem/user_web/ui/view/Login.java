@@ -1,6 +1,9 @@
 package it.extra.tesi.tagsystem.user_web.ui.view;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,11 +29,15 @@ import client.UserDto;
 
 public class Login extends HorizontalLayout implements View {
 
-	private String userUri="http://localhost:8090/user";
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 396611984540369299L;
+
+	private String userUri;
+
 	private final TextField user;
-
 	private final PasswordField password;
-
 	private final Button loginButton;
 
 	public Login() {
@@ -54,26 +61,22 @@ public class Login extends HorizontalLayout implements View {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				LoginDto userDto = new LoginDto();
 				userDto.setEmail(user.getValue());
 				userDto.setPassword(password.getValue());
 				RestTemplate restTemplate = new RestTemplate();
-				String uri=userUri+"/session";
-				System.out.println("Uri:"+uri);
+
+				String uri = userUri + "/session";
 				UserDto response = restTemplate.postForEntity(uri, userDto, UserDto.class).getBody();
-				if (response != null)
-				{
+				if (response != null) {
 					try {
 						VaadinSession.getCurrent().getLockInstance().lock();
 						VaadinSession.getCurrent().setAttribute("user", response);
 					} finally {
 						VaadinSession.getCurrent().getLockInstance().unlock();
 					}
-				getUI().getNavigator().navigateTo("Navigation");
-				}
-				else
-				{
+					getUI().getNavigator().navigateTo("Navigation");
+				} else {
 					Notification notification = new Notification("Login error, try again",
 							Notification.TYPE_WARNING_MESSAGE);
 					notification.setPosition(Position.BOTTOM_RIGHT);
@@ -100,12 +103,19 @@ public class Login extends HorizontalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
 		UserDto admin = (UserDto) VaadinSession.getCurrent().getAttribute("user");
 		if (admin != null) {
 			getUI().getNavigator().navigateTo("Navigation");
 		}
 		user.focus();
+	}
+
+	public String getUserUri() {
+		return userUri;
+	}
+
+	public void setUserUri(String userUri) {
+		this.userUri = userUri;
 	}
 
 }

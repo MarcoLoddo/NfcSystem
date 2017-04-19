@@ -24,8 +24,6 @@ import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
-
 	@Autowired
 	private UserManager manager;
 
@@ -50,7 +48,7 @@ public class UserController {
 	/**
 	 * @param user
 	 *            New User data to be updated
-	 * @return User User(DTO) updated
+	 * @return User User(DTO) updated, with list of nfc up to date
 	 */
 	@RequestMapping(path = "/update")
 	public UserDto update(@RequestBody UserDto user) {
@@ -60,6 +58,11 @@ public class UserController {
 		return updated.convertToDto();
 	}
 
+	
+	/**
+	 * @param name Name to find in the DB
+	 * @return List of matching user by given name, if "all" is passed as name value, it will return all the users in the DB
+	 */
 	@RequestMapping(path = "/{name}/find", method = RequestMethod.GET)
 	public List<UserDto> findUserByName(@PathVariable String name) {
 		List<UserEntity> entities = manager.findByName(name);
