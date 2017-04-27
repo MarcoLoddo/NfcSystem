@@ -3,8 +3,6 @@ package it.extrasys.tesi.tagsystem.user_service.resources;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,57 +15,66 @@ import it.extrasys.tesi.tagsystem.user_service.api.UserDto;
 import it.extrasys.tesi.tagsystem.user_service.db.UserManager;
 import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author marco
- * @version 1.0.0 convenzione rest mapping /collezione/risorsa/azione
+ * The Class UserController.
  */
 @RestController
 @RequestMapping("/user")
 public class UserController {
-	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
-	@Autowired
-	private UserManager manager;
+    /** The manager. */
+    @Autowired
+    private UserManager manager;
 
-	/**
-	 * @param email
-	 *            email of the user
-	 * @param password
-	 *            password used to login
-	 * @return null if user is not in the database, return a UserDTO(in JSON) if
-	 *         found
-	 */
-	@RequestMapping(path = "/session")
-	public UserDto login(@RequestBody LoginDto loginData) {
-		try {
-			return manager.findUser(new UserEntity(loginData)).convertToDto();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+    /**
+     * Find user by name service.
+     *
+     * @param name
+     *            the name
+     * @return the list
+     */
+    @RequestMapping(path = "/{name}/find", method = RequestMethod.GET)
+    public List<UserDto> findUserByName(@PathVariable String name) {
+        List<UserEntity> entities = this.manager.findByName(name);
+        List<UserDto> dtos = new ArrayList<>();
+        for (UserEntity entity : entities) {
+            dtos.add(entity.convertToDto());
+        }
+        return dtos;
+    }
 
-	/**
-	 * @param user
-	 *            New User data to be updated
-	 * @return User User(DTO) updated
-	 */
-	@RequestMapping(path = "/update")
-	public UserDto update(@RequestBody UserDto user) {
-		UserEntity userEntity = new UserEntity(user);
-		manager.updateUser(userEntity);
-		UserEntity updated = manager.findById(userEntity.getUser_id());
-		return updated.convertToDto();
-	}
+    /**
+     * Login service.
+     *
+     * @param loginData
+     *            the login data
+     * @return the user dto
+     */
+    @RequestMapping(path = "/session")
+    public UserDto login(@RequestBody LoginDto loginData) {
+        try {
+            return this.manager.findUser(new UserEntity(loginData))
+                    .convertToDto();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-	@RequestMapping(path = "/{name}/find", method = RequestMethod.GET)
-	public List<UserDto> findUserByName(@PathVariable String name) {
-		List<UserEntity> entities = manager.findByName(name);
-		List<UserDto> dtos = new ArrayList<>();
-		for (UserEntity entity : entities) {
-			dtos.add(entity.convertToDto());
-		}
-		return dtos;
-	}
-
+    /**
+     * Update user service.
+     *
+     * @param user
+     *            the user
+     * @return the user dto
+     */
+    @RequestMapping(path = "/update")
+    public UserDto update(@RequestBody UserDto user) {
+        UserEntity userEntity = new UserEntity(user);
+        this.manager.updateUser(userEntity);
+        UserEntity updated = this.manager.findById(userEntity.getUserId());
+        UserDto updatedDto = updated.convertToDto();
+        return updatedDto;
+    }
 }

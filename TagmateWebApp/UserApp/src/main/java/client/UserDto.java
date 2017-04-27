@@ -1,53 +1,69 @@
 package client;
 
 import java.util.List;
+/**
+ * User information class container. It's used to pass serialized information(in
+ * JSON) to other app/services
+ *
+ * @author marco
+ *
+ */
+public class UserDto extends Dto {
+    private int userId;
+    private String name;
 
-public class UserDto {
-	private int user_id;
-	private String name;
-	private String email;
-	private String password;
-	private List<NfcTagDto> nfcTags;
+    private String email;
 
-	
-	public String getName() {
-		return name;
-	}
+    private String password;
+    private List<NfcTagDto> nfcTags;
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public List<NfcTagDto> getNfcTags() {
-		return nfcTags;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        UserDto objDto = (UserDto) obj;
+        return getUserId() == objDto.getUserId();
+    }
+    public String getEmail() {
+        return this.email;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public List<NfcTagDto> getNfcTags() {
+        return this.nfcTags;
+    }
 
-	public void setNfcTags(List<NfcTagDto> nfcTags) {
-		this.nfcTags = nfcTags;
-	}
+    public String getPassword() {
+        return this.password;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public int getUserId() {
+        return this.userId;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    @Override
+    public int hashCode() {
+        // TODO Auto-generated method stub
+        return super.hashCode();
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getUser_id() {
-		return user_id;
-	}
+    public void setNfcTags(List<NfcTagDto> nfcTags) {
+        this.nfcTags = nfcTags;
+    }
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
 }
