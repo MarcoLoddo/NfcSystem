@@ -11,6 +11,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * The Class EditableLabel.
+ *
  */
 public class EditableLabel extends VerticalLayout {
     private Label label;
@@ -57,6 +58,9 @@ public class EditableLabel extends VerticalLayout {
                 addComponent(EditableLabel.this.label);
             }
         });
+    }
+    public String getValue() {
+        return this.label.getValue();
     }
 
 }

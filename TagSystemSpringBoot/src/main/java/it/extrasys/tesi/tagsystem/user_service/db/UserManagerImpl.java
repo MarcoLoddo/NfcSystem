@@ -1,6 +1,5 @@
 package it.extrasys.tesi.tagsystem.user_service.db;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,23 +86,21 @@ public class UserManagerImpl implements UserManager {
      * it.extrasys.tesi.tagsystem.user_service.db.UserManager#updateUser(it.
      * extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity)
      */
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.extrasys.tesi.tagsystem.user_service.db.UserManager#updateNfc(it.
+     * extrasys.tesi.tagsystem.user_service.db.jpa.entity.NfcTagEntity)
+     */
+    @Override
+    public void updateNfc(NfcTagEntity nfc) {
+        this.nfcDao.save(nfc);
+    }
+
     @Override
     @Transactional
     public void updateUser(UserEntity user) {
-        if (user.getNfcTags() != null) {
-            for (NfcTagEntity nfc : user.getNfcTags()) {
-                nfc.setUser(user);
-                this.nfcDao.save(nfc);
-            }
-
-        } else {
-            // declaration in case of null collection to prevent hibernate from
-            // not fetching the list
-            // if the collection is not declared, hibernate can't put in the
-            // data because
-            // list is an abstract type which hasn't a unique implementation
-            user.setNfcTags(new ArrayList<NfcTagEntity>());
-        }
 
         // controlli per l'integrità dei dati dell'user
         this.userDao.save(user);

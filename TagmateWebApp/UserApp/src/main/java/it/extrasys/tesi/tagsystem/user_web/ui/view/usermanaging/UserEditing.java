@@ -16,6 +16,7 @@ public class UserEditing extends VerticalLayout implements View {
     private UserDto userDto;
     private UserForm form;
     private DataEditor editor;
+    private String userUri;
     /**
      * Instantiates a new user view.
      *
@@ -23,7 +24,7 @@ public class UserEditing extends VerticalLayout implements View {
      *            the user uri
      */
     public UserEditing(String userUri) {
-
+        this.userUri = userUri;
     }
 
     @Override
@@ -35,7 +36,7 @@ public class UserEditing extends VerticalLayout implements View {
             if (getComponentIndex(this.form) >= 0) {
                 removeComponent(this.form);
             }
-            this.form = new UserForm(this.userDto);
+            this.form = new UserForm(this.userDto, this.userUri);
             addComponent(this.form);
             setComponentAlignment(this.form, Alignment.MIDDLE_CENTER);
         }
