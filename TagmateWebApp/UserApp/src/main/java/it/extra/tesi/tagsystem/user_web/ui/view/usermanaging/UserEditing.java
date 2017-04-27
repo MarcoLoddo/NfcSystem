@@ -25,6 +25,7 @@ public class UserEditing extends VerticalLayout implements View {
     public UserEditing(String userUri) {
 
         this.form = new UserForm();
+        addComponent(this.form);
         setComponentAlignment(this.form, Alignment.MIDDLE_CENTER);
     }
 
