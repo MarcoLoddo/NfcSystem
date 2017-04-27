@@ -1,4 +1,4 @@
-package it.extra.tesi.tagsystem.user_web.ui.view;
+package it.extrasys.tesi.tagsystem.user_web.ui.view;
 
 import org.springframework.web.client.RestTemplate;
 
@@ -19,8 +19,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import client.LoginDto;
-import client.UserDto;
+import it.extrasys.tesi.tagsystem.user_web.client.LoginDto;
+import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
 
 /**
  * Login page.

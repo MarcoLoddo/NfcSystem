@@ -1,4 +1,4 @@
-package it.extra.tesi.tagsystem.user_web.ui.view.usermanaging;
+package it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.ItemClickListener;
 import com.vaadin.ui.themes.ValoTheme;
 
-import client.UserDto;
+import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
 
 /**
  * User search UI.

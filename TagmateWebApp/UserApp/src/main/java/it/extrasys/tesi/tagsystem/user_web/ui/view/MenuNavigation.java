@@ -1,4 +1,4 @@
-package it.extra.tesi.tagsystem.user_web.ui.view;
+package it.extrasys.tesi.tagsystem.user_web.ui.view;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -13,7 +13,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import client.UserDto;
+import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
 
 /**
  * Navigation page.

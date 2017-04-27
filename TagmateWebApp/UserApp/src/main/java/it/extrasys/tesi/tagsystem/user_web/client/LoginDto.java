@@ -1,4 +1,4 @@
-package client;
+package it.extrasys.tesi.tagsystem.user_web.client;
 
 /**
  * Login information class container. It's used to pass serialized

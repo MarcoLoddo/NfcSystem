@@ -1,4 +1,4 @@
-package it.extra.tesi.tagsystem.user_web.ui;
+package it.extrasys.tesi.tagsystem.user_web.ui;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -8,10 +8,10 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
 
-import it.extra.tesi.tagsystem.user_web.ui.view.Login;
-import it.extra.tesi.tagsystem.user_web.ui.view.MenuNavigation;
-import it.extra.tesi.tagsystem.user_web.ui.view.usermanaging.UserEditing;
-import it.extra.tesi.tagsystem.user_web.ui.view.usermanaging.UserManaging;
+import it.extrasys.tesi.tagsystem.user_web.ui.view.Login;
+import it.extrasys.tesi.tagsystem.user_web.ui.view.MenuNavigation;
+import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.UserEditing;
+import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.UserManaging;
 
 /**
  * Navigation manager. Here all the pages are connected so they can be accessed.

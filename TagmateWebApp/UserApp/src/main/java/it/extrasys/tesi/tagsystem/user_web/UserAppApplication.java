@@ -1,4 +1,4 @@
-package it.extra.tesi.tagsystem.user_web;
+package it.extrasys.tesi.tagsystem.user_web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

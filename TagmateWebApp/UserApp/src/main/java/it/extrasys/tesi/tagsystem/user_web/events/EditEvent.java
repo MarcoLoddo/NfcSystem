@@ -1,7 +1,7 @@
-package it.extra.tesi.tagsystem.user_web.ui.events;
+package it.extrasys.tesi.tagsystem.user_web.events;
 
-import client.NfcTagDto;
-import client.UserDto;
+import it.extrasys.tesi.tagsystem.user_web.client.NfcTagDto;
+import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
 
 /**
  * Event class for storing event data when an information is edited.

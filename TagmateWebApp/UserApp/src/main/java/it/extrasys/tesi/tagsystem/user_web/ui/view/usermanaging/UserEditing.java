@@ -1,12 +1,12 @@
-package it.extra.tesi.tagsystem.user_web.ui.view.usermanaging;
+package it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.VerticalLayout;
 
-import client.UserDto;
-import it.extra.tesi.tagsystem.user_web.ui.view.editor.DataEditor;
+import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
+import it.extrasys.tesi.tagsystem.user_web.ui.view.editor.DataEditor;
 
 /**
  * User profile Ui.
@@ -24,9 +24,6 @@ public class UserEditing extends VerticalLayout implements View {
      */
     public UserEditing(String userUri) {
 
-        this.form = new UserForm();
-        addComponent(this.form);
-        setComponentAlignment(this.form, Alignment.MIDDLE_CENTER);
     }
 
     @Override
@@ -35,7 +32,12 @@ public class UserEditing extends VerticalLayout implements View {
         if (this.userDto == null) {
             getUI().getNavigator().navigateTo("UserManaging");
         } else {
-            this.form.init(this.userDto);
+            if (getComponentIndex(this.form) >= 0) {
+                removeComponent(this.form);
+            }
+            this.form = new UserForm(this.userDto);
+            addComponent(this.form);
+            setComponentAlignment(this.form, Alignment.MIDDLE_CENTER);
         }
 
     }

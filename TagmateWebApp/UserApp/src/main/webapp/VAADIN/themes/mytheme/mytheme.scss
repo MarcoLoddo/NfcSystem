@@ -2,21 +2,27 @@
 @import "../valo/valo.scss";
 $v-font-color: valo-font-color($v-app-background-color) !default;
 $v-font-family: "Open Sans", sans-serif;
+
+
+
 @mixin mytheme {
-@include valo;
-.background-dark
-{
-background: #74737A;
-}
-.background-white
-{
-background: #CACECD;
-}
-.button-text
-{
-color:white;
-text-decoration:none;
-}
+	@include valo;
+	
+	.background-dark
+	{
+	   background: #74737A;
+	}
+	.background-white
+	{
+	   background: #CACECD;
+	}
+	.button-text
+	{
+		color:white;
+		text-decoration:none;
+	}
+	
+
 
 }
 @include mytheme;

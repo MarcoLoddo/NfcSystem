@@ -1,4 +1,4 @@
-package it.extra.tesi.tagsystem.user_web.ui.events;
+package it.extrasys.tesi.tagsystem.user_web.events;
 
 /**
  * The Interface EditEventInterface.

@@ -1,4 +1,4 @@
-package it.extra.tesi.tagsystem.user_web.ui.view.editor;
+package it.extrasys.tesi.tagsystem.user_web.ui.view.editor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,11 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import client.NfcTagDto;
-import client.UserDto;
-import it.extra.tesi.tagsystem.user_web.ui.events.EditEvent;
-import it.extra.tesi.tagsystem.user_web.ui.events.EndEditEventInterface;
-import it.extra.tesi.tagsystem.user_web.ui.events.StartEditEventInterface;
+import it.extrasys.tesi.tagsystem.user_web.client.NfcTagDto;
+import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
+import it.extrasys.tesi.tagsystem.user_web.events.EditEvent;
+import it.extrasys.tesi.tagsystem.user_web.events.EndEditEventInterface;
+import it.extrasys.tesi.tagsystem.user_web.events.StartEditEventInterface;
 
 /**
  * Father class for data editing user interfaces.

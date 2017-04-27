@@ -1,33 +1,40 @@
-package it.extra.tesi.tagsystem.user_web.ui.view.usermanaging;
+package it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging;
 
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import client.NfcTagDto;
-import client.UserDto;
+import it.extrasys.tesi.tagsystem.user_web.client.EditableLabel;
+import it.extrasys.tesi.tagsystem.user_web.client.NfcTagDto;
+import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
 
 /**
  * The Class UserForm.
  */
+
 public class UserForm extends VerticalLayout {
-    private TextField name, email, passwordField;
+    private EditableLabel name, email, passwordField;
     private Grid<NfcTagDto> nfc;
 
+    private Button submit;
     /**
      * Instantiates a new user form.
      */
-    public UserForm() {
-        this.name = new TextField("Name");
-        this.email = new TextField("Email");
-        this.passwordField = new TextField("Password");
+    public UserForm(UserDto userDto) {
+
+        this.name = new EditableLabel(userDto.getName());
+        this.name.setCaption("Name:");
+        this.email = new EditableLabel(userDto.getEmail());
+        this.email.setCaption("Email:");
+        this.passwordField = new EditableLabel(userDto.getPassword());
+        this.passwordField.setCaption("Password:");
         this.nfc = new Grid<NfcTagDto>();
+        addComponents(this.name, this.email, this.passwordField, this.nfc);
+        this.nfc.setItems(userDto.getNfcTags());
         this.nfc.addColumn(NfcTagDto::getNfcId).setCaption("Nfc tag");
         this.nfc.addColumn(NfcTagDto::isDisabled).setCaption("Disabled");
 
@@ -47,11 +54,9 @@ public class UserForm extends VerticalLayout {
         setComponentAlignment(previousPage, Alignment.BOTTOM_LEFT);
         addStyleName(ValoTheme.LAYOUT_CARD);
         setSizeUndefined();
-
-        setSpacing(true);
-        setMargin(new MarginInfo(true, true, true, true));
+        setSpacing(false);
+        setSubmit();
     }
-
     /**
      * Initialize method.
      *
@@ -59,9 +64,18 @@ public class UserForm extends VerticalLayout {
      *            the user dto
      */
     public void init(UserDto userDto) {
-        this.name.setValue(userDto.getName());
-        this.email.setValue(userDto.getEmail());
-        this.passwordField.setValue(userDto.getPassword());
-        this.nfc.setItems(userDto.getNfcTags());
+
+    }
+    private void setSubmit() {
+        this.submit = new Button("Submit");
+        addComponent(this.submit);
+        setComponentAlignment(this.submit, Alignment.BOTTOM_RIGHT);
+        this.submit.addClickListener(new ClickListener() {
+
+            @Override
+            public void buttonClick(ClickEvent event) {
+
+            }
+        });
     }
 }

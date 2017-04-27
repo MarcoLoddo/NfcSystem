@@ -1,4 +1,4 @@
-package client;
+package it.extrasys.tesi.tagsystem.user_web.client;
 
 import java.util.List;
 /**
