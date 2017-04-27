@@ -5,11 +5,61 @@ import java.util.List;
 import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.NfcTagEntity;
 import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity;
 
+/**
+ * The Interface of the UserManager.
+ */
 public interface UserManager {
-	UserEntity findUser(UserEntity user);
-	List<UserEntity> findByName(String name);
-	UserEntity findById(int id);
-	List<UserEntity> userListByName(String name);
-	void updateUser(UserEntity user);
-	List<NfcTagEntity> findNfcOfUser(UserEntity user);
+
+    /**
+     * Find by id.
+     *
+     * @param id
+     *            the id
+     * @return the user entity
+     */
+    UserEntity findById(int id);
+
+    /**
+     * Find by name.
+     *
+     * @param name
+     *            the name
+     * @return the list
+     */
+    List<UserEntity> findByName(String name);
+
+    /**
+     * Find nfc of user.
+     *
+     * @param user
+     *            the user
+     * @return the list
+     */
+    List<NfcTagEntity> findNfcOfUser(UserEntity user);
+
+    /**
+     * Find user.
+     *
+     * @param user
+     *            the user
+     * @return the user entity
+     */
+    UserEntity findUser(UserEntity user);
+
+    /**
+     * Update user.
+     *
+     * @param user
+     *            the user
+     */
+    void updateUser(UserEntity user);
+
+    /**
+     * User list by name.
+     *
+     * @param name
+     *            the name
+     * @return the list
+     */
+    List<UserEntity> userListByName(String name);
 }

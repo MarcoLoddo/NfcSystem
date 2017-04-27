@@ -2,52 +2,69 @@ package it.extrasys.tesi.tagsystem.user_service.api;
 
 import java.util.List;
 
+/**
+ * Dto for user entity.
+ *
+ * @author marco
+ *
+ */
 public class UserDto {
-	private int user_id;
-	private String name;
-	private String email;
-	private String password;
-	private List<NfcTagDto> nfcTags;
+    private int userId;
+    private String name;
+    private String email;
+    private String password;
+    private List<NfcTagDto> nfcTags;
 
-	
-	public String getName() {
-		return name;
-	}
+    public String getEmail() {
+        return this.email;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public List<NfcTagDto> getNfcTags() {
-		return nfcTags;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setNfcTags(List<NfcTagDto> nfcTags) {
-		this.nfcTags = nfcTags;
-	}
+    public List<NfcTagDto> getNfcTags() {
+        return this.nfcTags;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getPassword() {
+        return this.password;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public int getUserId() {
+        return this.userId;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getUser_id() {
-		return user_id;
-	}
+    /**
+     * Sets the nfc tags.
+     *
+     * @param nfcTags
+     *            the new nfc tags
+     */
+    public void setNfcTags(List<NfcTagDto> nfcTags) {
+        this.nfcTags = nfcTags;
+    }
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
 }

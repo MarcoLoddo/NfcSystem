@@ -1,20 +1,28 @@
 package client;
 
-public class NfcTagDto {
-	
-	private boolean disabled;
-	private String nfc_id;
-	
-	public boolean isDisabled() {
-		return disabled;
-	}
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
-	}
-	public String getNfc_id() {
-		return nfc_id;
-	}
-	public void setNfc_id(String nfc_id) {
-		this.nfc_id = nfc_id;
-	}
+/**
+ * Nfctag information class container. It's used to pass serialized
+ * information(in JSON) to other app/services
+ *
+ * @author marco
+ *
+ */
+public class NfcTagDto extends Dto {
+
+    private boolean disabled;
+    private String nfcId;
+
+    public String getNfcId() {
+        return this.nfcId;
+    }
+    public boolean isDisabled() {
+        return this.disabled;
+    }
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+    public void setNfcId(String nfcId) {
+        this.nfcId = nfcId;
+    }
+
 }
