@@ -10,8 +10,8 @@ import com.vaadin.ui.UI;
 
 import it.extrasys.tesi.tagsystem.user_web.ui.view.Login;
 import it.extrasys.tesi.tagsystem.user_web.ui.view.MenuNavigation;
-import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.UserEditing;
 import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.UserManaging;
+import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.UserView;
 
 /**
  * Navigation manager. Here all the pages are connected so they can be accessed.
@@ -20,7 +20,7 @@ import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.UserManaging;
  *
  */
 @SpringUI
-@Theme("mytheme")
+@Theme("userapptheme")
 public class NavigationManager extends UI {
 
     /**
@@ -48,7 +48,7 @@ public class NavigationManager extends UI {
 
         this.navigator.addView("Navigation", new MenuNavigation());
 
-        this.navigator.addView("UserView", new UserEditing(this.userUri));
+        this.navigator.addView("UserView", new UserView(this.userUri));
     }
     public void setUserUri(String userUri) {
         this.userUri = userUri;

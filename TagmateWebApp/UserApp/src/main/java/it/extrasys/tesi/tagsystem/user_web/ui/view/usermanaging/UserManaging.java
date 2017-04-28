@@ -116,9 +116,7 @@ public class UserManaging extends VerticalLayout implements View {
 
                 }
             }
-        }
-
-        );
+        });
 
     }
 

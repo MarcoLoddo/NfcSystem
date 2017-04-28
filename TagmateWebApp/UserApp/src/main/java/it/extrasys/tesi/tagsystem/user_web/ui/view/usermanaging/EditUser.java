@@ -8,11 +8,10 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Grid;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
+import it.extrasys.tesi.tagsystem.user_web.client.EditableGrid;
 import it.extrasys.tesi.tagsystem.user_web.client.EditableLabel;
 import it.extrasys.tesi.tagsystem.user_web.client.NfcTagDto;
 import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
@@ -21,16 +20,19 @@ import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
  * The Class UserForm.
  */
 
-public class UserForm extends VerticalLayout {
+public class EditUser extends UserView {
+
     private EditableLabel name, email, passwordField;
-    private Grid<NfcTagDto> nfc;
+    private EditableGrid<NfcTagDto> nfc;
 
     private UserDto incomingData;
     private Button submit;
+
     /**
      * Instantiates a new user form.
      */
-    public UserForm(UserDto userDto, String userUri) {
+    public EditUser(UserDto userDto, String userUri) {
+        super(userUri);
         this.incomingData = userDto;
 
         this.name = new EditableLabel(userDto.getName());
@@ -42,12 +44,10 @@ public class UserForm extends VerticalLayout {
         this.passwordField = new EditableLabel(userDto.getPassword());
         this.passwordField.setCaption("Password:");
 
-        this.nfc = new Grid<NfcTagDto>();
+        this.nfc = new EditableGrid<NfcTagDto>(NfcTagDto.class);
 
         addComponents(this.name, this.email, this.passwordField, this.nfc);
         this.nfc.setItems(userDto.getNfcTags());
-        this.nfc.addColumn(NfcTagDto::getNfcId).setCaption("Nfc tag");
-        this.nfc.addColumn(NfcTagDto::isDisabled).setCaption("Disabled");
 
         this.nfc.setCaption("Nfc tag list");
         addComponents(this.name, this.email, this.passwordField, this.nfc);
@@ -68,6 +68,7 @@ public class UserForm extends VerticalLayout {
         setSpacing(false);
         setSubmit(userUri);
     }
+
     private void setSubmit(String userUri) {
         this.submit = new Button("Submit");
         addComponent(this.submit);
@@ -76,17 +77,16 @@ public class UserForm extends VerticalLayout {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                UserForm.this.incomingData
-                        .setName(UserForm.this.name.getValue());
-                UserForm.this.incomingData
-                        .setEmail(UserForm.this.email.getValue());
-                UserForm.this.incomingData
-                        .setPassword(UserForm.this.passwordField.getValue());
-
+                EditUser.this.incomingData
+                        .setName(EditUser.this.name.getValue());
+                EditUser.this.incomingData
+                        .setEmail(EditUser.this.email.getValue());
+                EditUser.this.incomingData
+                        .setPassword(EditUser.this.passwordField.getValue());
                 RestTemplate restTemplate = new RestTemplate();
                 String uri = userUri + "/update";
                 UserDto response = restTemplate.postForEntity(uri,
-                        UserForm.this.incomingData, UserDto.class).getBody();
+                        EditUser.this.incomingData, UserDto.class).getBody();
                 if (response != null) {
                     Notification notification = new Notification(
                             "Update successful!",

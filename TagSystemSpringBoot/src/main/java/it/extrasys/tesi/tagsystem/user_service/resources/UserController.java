@@ -73,7 +73,7 @@ public class UserController {
      *            the nfc tag dto
      * @return the user updated
      */
-    @RequestMapping(path = "/{id}/nfc/update")
+    @RequestMapping(path = "/{id}/nfc/update", method = RequestMethod.GET)
     public UserDto update(@PathVariable int id,
             @RequestBody NfcTagDto nfcTagDto) {
         NfcTagEntity entity = new NfcTagEntity(nfcTagDto,
