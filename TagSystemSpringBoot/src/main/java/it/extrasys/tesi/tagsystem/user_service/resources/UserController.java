@@ -30,13 +30,24 @@ public class UserController {
     private UserManager manager;
 
     /**
+     * Find user by id.
+     *
+     * @param id
+     *            the id
+     * @return the user dto
+     */
+    @RequestMapping(path = "/{id}/findById", method = RequestMethod.GET)
+    public UserDto findUserById(@PathVariable int id) {
+        return this.manager.findById(id).convertToDto();
+    }
+    /**
      * Find user by name service.
      *
      * @param name
      *            the name
      * @return the list
      */
-    @RequestMapping(path = "/{name}/find", method = RequestMethod.GET)
+    @RequestMapping(path = "/{name}/findByName", method = RequestMethod.GET)
     public List<UserDto> findUserByName(@PathVariable String name) {
         List<UserEntity> entities = this.manager.findByName(name);
         List<UserDto> dtos = new ArrayList<>();
@@ -45,7 +56,6 @@ public class UserController {
         }
         return dtos;
     }
-
     /**
      * Login service.
      *

@@ -10,7 +10,8 @@ import com.vaadin.ui.UI;
 
 import it.extrasys.tesi.tagsystem.user_web.ui.view.Login;
 import it.extrasys.tesi.tagsystem.user_web.ui.view.MenuNavigation;
-import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.UserManaging;
+import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.EditUser;
+import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.UserSearch;
 import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.UserView;
 
 /**
@@ -44,11 +45,15 @@ public class NavigationManager extends UI {
 
         this.navigator.addView("", loginPage);
 
-        this.navigator.addView("UserManaging", new UserManaging(this.userUri));
+        this.navigator.addView("Navigation", MenuNavigation.class);
 
-        this.navigator.addView("Navigation", new MenuNavigation());
+        UserSearch userSearch = new UserSearch(this.userUri);
+        EditUser editUser = new EditUser(this.userUri);
+        this.navigator.addView(userSearch.getPageName(), userSearch);
+        this.navigator.addView(editUser.getPageName(), editUser);
 
-        this.navigator.addView("UserView", new UserView(this.userUri));
+        this.navigator.addView("UserView",
+                new UserView(this.userUri, userSearch, editUser));
     }
     public void setUserUri(String userUri) {
         this.userUri = userUri;

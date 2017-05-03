@@ -28,7 +28,10 @@ $v-selection-item-border-radius: 0;
   
     .bg
     {
-    @include animation(valo-animate-in-fade $duration $delay backwards);
-        background-color:white;
+        background-color:#7183A9;
+        color:white;
+    }
+    .bg .v-button-link {
+        color:white;
     }
 }
