@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import it.extrasys.tesi.tagsystem.user_service.api.NfcTagDto;
+
 /**
  * Nfc tag entity class.
  *
@@ -24,6 +26,26 @@ public class NfcTagEntity {
     private UserEntity user;
 
     private boolean disabled;
+
+    /**
+     * Instantiates a new nfc tag entity.
+     */
+    public NfcTagEntity() {
+        // TODO Auto-generated constructor stub
+    }
+    /**
+     * Instantiates a new nfc tag entity.
+     *
+     * @param dto
+     *            the dto
+     * @param user
+     *            the user
+     */
+    public NfcTagEntity(NfcTagDto dto, UserEntity user) {
+        this.nfcId = dto.getNfcId();
+        this.disabled = dto.isDisabled();
+        this.user = user;
+    }
     public String getNfcId() {
         return this.nfcId;
     }

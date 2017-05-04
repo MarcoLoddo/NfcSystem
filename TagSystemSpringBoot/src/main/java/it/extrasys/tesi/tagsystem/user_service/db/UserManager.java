@@ -47,6 +47,16 @@ public interface UserManager {
     UserEntity findUser(UserEntity user);
 
     /**
+     * Update nfc.
+     *
+     * @param oldNfc
+     *            the old nfc
+     * @param newNfc
+     *            the new nfc
+     */
+    void updateNfc(NfcTagEntity oldNfc, NfcTagEntity newNfc);
+
+    /**
      * Update user.
      *
      * @param user

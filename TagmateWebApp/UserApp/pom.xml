@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>it.extra.tagmate.userapp</groupId>
+	<groupId>it.extrasys.tesi.tagsystem.user_web</groupId>
 	<artifactId>UserApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -86,13 +86,16 @@
 	        <executions>
 	            <execution>
 	                <goals>
+	                
+	                <goal>clean</goal>
+                        <goal>resources</goal>
+                        <goal>update-widgetset</goal>
+                        <goal>compile</goal>
+                        
 	                    <goal>update-theme</goal>
 	                    <goal>compile-theme</goal>
 	                    
-	                    <goal>clean</goal>
-	                    <goal>resources</goal>
-	                    <goal>update-widgetset</goal>
-	                    <goal>compile</goal>
+	                    
 	                    
 	                </goals>
 	            </execution>
