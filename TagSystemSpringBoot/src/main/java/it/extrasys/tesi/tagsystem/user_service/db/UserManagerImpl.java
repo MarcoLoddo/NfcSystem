@@ -87,15 +87,12 @@ public class UserManagerImpl implements UserManager {
      * extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity)
      */
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see it.extrasys.tesi.tagsystem.user_service.db.UserManager#updateNfc(it.
-     * extrasys.tesi.tagsystem.user_service.db.jpa.entity.NfcTagEntity)
-     */
     @Override
-    public void updateNfc(NfcTagEntity nfc) {
-        this.nfcDao.save(nfc);
+    @Transactional
+    public void updateNfc(NfcTagEntity oldNfc, NfcTagEntity newNfc) {
+        this.nfcDao.delete(oldNfc);
+        this.nfcDao.save(newNfc);
+
     }
 
     @Override

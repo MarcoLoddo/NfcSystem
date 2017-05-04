@@ -20,17 +20,16 @@ public interface NfcDao extends JpaRepository<NfcTagEntity, Long> {
      *            the user
      * @return the list
      */
-    @Query("select n from NfcTags n where n.user= ?1")
+    @Query("select n from NfcTags n where n.user = ?1")
     List<NfcTagEntity> findByUser(UserEntity user);
-
     /**
-     * Gets the by tag.
+     * Find nfc by id.
      *
      * @param tag
      *            the tag
-     * @return the by tag
+     * @return the nfc tag entity
      */
     @Query("select n from NfcTags n where nfcId = ?1")
-    List<NfcTagEntity> getByTag(String tag);
+    NfcTagEntity findNfcById(String tag);
 
 }

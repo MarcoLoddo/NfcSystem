@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.user_web.client;
+package it.extrasys.tesi.tagsystem.user_web.form;
 
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;

@@ -49,10 +49,12 @@ public interface UserManager {
     /**
      * Update nfc.
      *
-     * @param nfc
-     *            the nfc
+     * @param oldNfc
+     *            the old nfc
+     * @param newNfc
+     *            the new nfc
      */
-    void updateNfc(NfcTagEntity nfc);
+    void updateNfc(NfcTagEntity oldNfc, NfcTagEntity newNfc);
 
     /**
      * Update user.

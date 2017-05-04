@@ -3,6 +3,7 @@ package it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.vaadin.navigator.View;
@@ -13,14 +14,20 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.ItemClick;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window.CloseEvent;
+import com.vaadin.ui.Window.CloseListener;
+import com.vaadin.ui.components.grid.ItemClickListener;
 import com.vaadin.ui.themes.ValoTheme;
 
-import it.extrasys.tesi.tagsystem.user_web.client.EditableGrid;
-import it.extrasys.tesi.tagsystem.user_web.client.EditableLabel;
 import it.extrasys.tesi.tagsystem.user_web.client.NfcTagDto;
+import it.extrasys.tesi.tagsystem.user_web.client.NfcUpdateDto;
 import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
+import it.extrasys.tesi.tagsystem.user_web.form.EditNfc;
+import it.extrasys.tesi.tagsystem.user_web.form.EditableLabel;
 import it.extrasys.tesi.tagsystem.user_web.ui.view.MenuBarPage;
 
 /**
@@ -33,7 +40,7 @@ public class EditUser extends MenuBarPage implements View {
     private String pageName = "EditUser";
     private EditableLabel name, email, passwordField;
 
-    private EditableGrid<NfcTagDto> nfc;
+    private Grid<NfcTagDto> nfc;
     private VerticalLayout verticalLayout;
     private UserDto incomingData;
 
@@ -68,6 +75,7 @@ public class EditUser extends MenuBarPage implements View {
      * @param id
      *            the id
      */
+    @SuppressWarnings("unchecked")
     public void init(int id) {
         this.verticalLayout.removeAllComponents();
         RestTemplate restTemplate = new RestTemplate();
@@ -87,13 +95,51 @@ public class EditUser extends MenuBarPage implements View {
         this.passwordField = new EditableLabel(this.incomingData.getPassword());
         this.passwordField.setCaption("Password:");
 
-        this.nfc = new EditableGrid<NfcTagDto>(NfcTagDto.class);
+        this.nfc = new Grid<NfcTagDto>(NfcTagDto.class);
 
         this.verticalLayout.addComponents(this.name, this.email,
                 this.passwordField, this.nfc);
         this.nfc.setItems(this.incomingData.getNfcTags());
 
         this.nfc.setCaption("Nfc tag list");
+
+        this.nfc.addItemClickListener(new ItemClickListener<NfcTagDto>() {
+
+            @Override
+            public void itemClick(ItemClick<NfcTagDto> event) {
+                if (event.getMouseEventDetails().isDoubleClick()) {
+                    EditNfc window = new EditNfc(event.getItem());
+                    getUI().addWindow(window);
+                    window.center();
+                    window.focus();
+                    window.addCloseListener(new CloseListener() {
+
+                        @Override
+                        public void windowClose(CloseEvent e) {
+                            NfcUpdateDto updateDto = new NfcUpdateDto();
+                            updateDto.setOlNfcTagDto(window.getOldNfc());
+                            updateDto.setNewNfcTagDto(window.getNewNfc());
+                            sendNfcUpdate(EditUser.this.userUri, id, updateDto);
+                            EditUser.this.nfc.getDataProvider()
+                                    .refreshItem(event.getItem());
+
+                        }
+                    });
+                }
+
+            }
+
+        });
+
+        // this.nfc.addColumn(nfctag -> "Enable/Disable",
+        // new ButtonRenderer(clickEvent -> {
+        //
+        // NfcTagDto nfcTagDto = (NfcTagDto) clickEvent.getItem();
+        // nfcTagDto.setDisabled(!nfcTagDto.isDisabled());
+        // this.nfc.getDataProvider().refreshAll();
+        // sendUpdate(this.userUri, id, nfcTagDto);
+        // }));
+
         this.verticalLayout.addComponents(this.name, this.email,
                 this.passwordField, this.nfc);
         Button previousPage = new Button("Back to user search");
@@ -112,8 +158,25 @@ public class EditUser extends MenuBarPage implements View {
                 Alignment.BOTTOM_LEFT);
         setSubmit();
     }
+    /**
+     * Send update.
+     *
+     * @param userUri
+     *            the user uri
+     */
+    private void sendNfcUpdate(String userUri, Integer userId,
+            NfcUpdateDto nfcUpdateDto) {
 
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Integer> map = new HashMap<>();
+        map.put("id", userId);
+        String uri = userUri + "/{id}/nfc/update";
+
+        ResponseEntity<UserDto> responseEntity = restTemplate.postForEntity(uri,
+                nfcUpdateDto, UserDto.class, map);
+    }
     private void setSubmit() {
+
         this.submit = new Button("Submit");
         this.verticalLayout.addComponent(this.submit);
         this.verticalLayout.setComponentAlignment(this.submit,
@@ -122,6 +185,7 @@ public class EditUser extends MenuBarPage implements View {
 
             @Override
             public void buttonClick(ClickEvent event) {
+
                 EditUser.this.incomingData
                         .setName(EditUser.this.name.getValue());
                 EditUser.this.incomingData

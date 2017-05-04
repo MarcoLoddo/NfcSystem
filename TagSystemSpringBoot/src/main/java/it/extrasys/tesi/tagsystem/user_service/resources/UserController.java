@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.extrasys.tesi.tagsystem.user_service.api.LoginDto;
-import it.extrasys.tesi.tagsystem.user_service.api.NfcTagDto;
+import it.extrasys.tesi.tagsystem.user_service.api.NfcUpdateDto;
 import it.extrasys.tesi.tagsystem.user_service.api.UserDto;
 import it.extrasys.tesi.tagsystem.user_service.db.UserManager;
 import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.NfcTagEntity;
@@ -78,17 +78,19 @@ public class UserController {
      * Update nfc.
      *
      * @param id
-     *            the id
+     *            the user id
      * @param nfcTagDto
      *            the nfc tag dto
      * @return the user updated
      */
-    @RequestMapping(path = "/{id}/nfc/update", method = RequestMethod.GET)
+    @RequestMapping(path = "/{id}/nfc/update")
     public UserDto update(@PathVariable int id,
-            @RequestBody NfcTagDto nfcTagDto) {
-        NfcTagEntity entity = new NfcTagEntity(nfcTagDto,
+            @RequestBody NfcUpdateDto nfcTagDto) {
+        NfcTagEntity oldNfc = new NfcTagEntity(nfcTagDto.getOlNfcTagDto(),
                 this.manager.findById(id));
-        this.manager.updateNfc(entity);
+        NfcTagEntity newNfc = new NfcTagEntity(nfcTagDto.getNewNfcTagDto(),
+                this.manager.findById(id));
+        this.manager.updateNfc(oldNfc, newNfc);
         return this.manager.findById(id).convertToDto();
 
     }

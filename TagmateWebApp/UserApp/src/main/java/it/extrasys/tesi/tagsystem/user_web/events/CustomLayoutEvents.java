@@ -25,12 +25,16 @@ public class CustomLayoutEvents extends HorizontalLayout
     }
     @Override
     public void addEndEditListener(EndEditUserListener listener) {
-        this.endEditListeners.add(listener);
+        if (!this.endEditListeners.contains(listener)) {
+            this.endEditListeners.add(listener);
+        }
     }
 
     @Override
     public void addStartEditListener(StartEditUserListener listener) {
-        this.startEditListeners.add(listener);
+        if (!this.startEditListeners.contains(listener)) {
+            this.startEditListeners.add(listener);
+        }
 
     }
     @Override
