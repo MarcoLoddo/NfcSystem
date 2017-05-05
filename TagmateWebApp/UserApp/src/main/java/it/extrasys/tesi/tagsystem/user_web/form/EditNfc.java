@@ -33,11 +33,13 @@ public class EditNfc extends Window {
         this.oldNfc.setNfcId(nfcTagDto.getNfcId());
         this.oldNfc.setDisabled(nfcTagDto.isDisabled());
         this.newNfc = new NfcTagDto();
-        TextField field = new TextField();
+        TextField id = new TextField();
+        id.setCaption("Nfc tag");
         CheckBox disabled = new CheckBox();
-        this.form.addComponents(field, disabled);
-        field.setValue(nfcTagDto.getNfcId());
+        this.form.addComponents(id, disabled);
+        id.setValue(nfcTagDto.getNfcId());
         disabled.setValue(nfcTagDto.isDisabled());
+        disabled.setCaption("Disabled");
         this.submit = new Button("Submit");
         this.form.addComponent(this.submit);
         this.form.setSpacing(true);
@@ -47,9 +49,9 @@ public class EditNfc extends Window {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                nfcTagDto.setNfcId(field.getValue());
+                nfcTagDto.setNfcId(id.getValue());
                 nfcTagDto.setDisabled(disabled.getValue());
-                EditNfc.this.newNfc.setNfcId(field.getValue());
+                EditNfc.this.newNfc.setNfcId(id.getValue());
                 EditNfc.this.newNfc.setDisabled(disabled.getValue());
                 close();
 

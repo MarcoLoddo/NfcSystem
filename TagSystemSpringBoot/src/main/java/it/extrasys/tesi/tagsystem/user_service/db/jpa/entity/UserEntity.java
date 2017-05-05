@@ -72,6 +72,18 @@ public class UserEntity {
     }
 
     /**
+     * Adds the new nfc.
+     *
+     * @param nfcTagEntity
+     *            the nfc tag entity
+     */
+    public void addNewNfc(NfcTagEntity nfcTagEntity) {
+        List<NfcTagEntity> list = new ArrayList<>();
+        list.addAll(this.nfcTags);
+        list.add(nfcTagEntity);
+        setNfcTags(list);
+    }
+    /**
      * Conversion of nfc tag entity list to dto list.
      */
     public List<NfcTagDto> convertNfcTagsToDto() {
@@ -148,6 +160,6 @@ public class UserEntity {
     public String toString() {
         return "User [id=" + this.userId + ", firstName=" + this.name
                 + ", lastName=" + this.surname + ", email=" + this.email
-                + ", nfc=" + this.nfcTags + "]\n\n";
+                + "\n\n";
     }
 }
