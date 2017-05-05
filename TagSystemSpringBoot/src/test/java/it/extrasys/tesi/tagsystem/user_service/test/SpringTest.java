@@ -1,5 +1,7 @@
 package it.extrasys.tesi.tagsystem.user_service.test;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,25 +42,19 @@ public class SpringTest {
     @Test
     @Commit
     public void addNfc() {
-
+        addUser();
         UserEntity userEntity = this.userDao.findByEmailPassword("super@man",
                 "clarkent");
         NfcTagEntity nfcTagEntity = new NfcTagEntity();
         nfcTagEntity.setNfcId("prova1");
         nfcTagEntity.setUser(userEntity);
         userEntity.addNewNfc(nfcTagEntity);
+        this.nfcDao.save(nfcTagEntity);
+        this.userDao.save(userEntity);
 
     }
-    /**
-     * Setup.
-     *
-     * @throws Exception
-     *             the exception
-     */
-    @Before
-    public void setup() throws Exception {
-        this.userDao.deleteAll();
-        this.nfcDao.deleteAll();
+
+    private void addUser() {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail("super@man");
         userEntity.setFirstName("Clark");
@@ -75,9 +71,39 @@ public class SpringTest {
         this.userDao.save(userEntity);
 
         this.nfcDao.save(nfcTagEntity);
-
+    }
+    /**
+     * Adds the user.
+     */
+    @Test
+    @Commit
+    public void addUserTest() {
+        addUser();
+    }
+    /**
+     * Read nfc.
+     */
+    @Test
+    @Commit
+    public void readNfc() {
+        addUser();
+        UserEntity userEntity = this.userDao.findByEmailPassword("super@man",
+                "clarkent");
+        System.out.println(this.nfcDao.findByUser(userEntity));
     }
 
+    /**
+     * Setup.
+     *
+     * @throws Exception
+     *             the exception
+     */
+    @Before
+    public void setup() throws Exception {
+        this.nfcDao.deleteAll();
+        this.userDao.deleteAll();
+
+    }
     /**
      * Show.
      */
@@ -89,7 +115,24 @@ public class SpringTest {
 
         System.out.println("\n\n\n\n\n");
         System.out.println(this.nfcDao.findAll());
+        System.out.println("\n\n\n\n\n");
 
+    }
+    /**
+     * Update nfc.
+     */
+    @Test
+    @Commit
+    public void updateNfc() {
+        addUser();
+        NfcTagEntity oldNfc = this.nfcDao.findNfcById("provanfc");
+        NfcTagEntity newNfc = new NfcTagEntity();
+
+        newNfc.setNfcId("provanfc2");
+        newNfc.setUser(oldNfc.getUser());
+        this.nfcDao.delete(oldNfc);
+        this.nfcDao.save(newNfc);
+        assertTrue(this.nfcDao.findNfcById("provanfc2") != null);
     }
 
 }

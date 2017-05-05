@@ -66,6 +66,6 @@ public class NfcTagEntity {
     }
     @Override
     public String toString() {
-        return this.nfcId + ", disabled=" + this.disabled;
+        return this.nfcId + ", disabled=" + this.disabled + ", " + this.user;
     }
 }
