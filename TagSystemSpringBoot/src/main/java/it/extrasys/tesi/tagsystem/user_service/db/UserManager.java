@@ -11,6 +11,15 @@ import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity;
 public interface UserManager {
 
     /**
+     * Adds the nfc.
+     *
+     * @param nfcTagEntity
+     *            the nfc tag entity
+     * @return the user entity
+     */
+    UserEntity addNfc(NfcTagEntity nfcTagEntity);
+
+    /**
      * Find by id.
      *
      * @param id

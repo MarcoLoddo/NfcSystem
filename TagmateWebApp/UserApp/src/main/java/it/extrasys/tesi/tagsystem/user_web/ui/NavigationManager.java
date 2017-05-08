@@ -49,11 +49,17 @@ public class NavigationManager extends UI {
 
         UserSearch userSearch = new UserSearch(this.userUri);
         EditUser editUser = new EditUser(this.userUri);
+
         this.navigator.addView(userSearch.getPageName(), userSearch);
         this.navigator.addView(editUser.getPageName(), editUser);
 
-        this.navigator.addView("UserView",
-                new UserView(this.userUri, userSearch, editUser));
+        UserView userView = new UserView(this.userUri, userSearch, editUser);
+
+        userSearch.addStartEditListener(userView);
+        editUser.addEndEditListener(userView);
+        editUser.addStartEditListener(userView);
+        userView.addStartEditListener(userView);
+        this.navigator.addView("UserView", userView);
     }
     public void setUserUri(String userUri) {
         this.userUri = userUri;

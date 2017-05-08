@@ -27,6 +27,20 @@ public class UserManagerImpl implements UserManager {
 
     /*
      * (non-Javadoc)
+     * 
+     * @see
+     * it.extrasys.tesi.tagsystem.user_service.db.UserManager#addNfc(it.extrasys
+     * .tesi.tagsystem.user_service.db.jpa.entity.NfcTagEntity)
+     */
+    @Override
+    public UserEntity addNfc(NfcTagEntity nfcTagEntity) {
+        this.nfcDao.save(nfcTagEntity);
+
+        return this.userDao.findById(nfcTagEntity.getUser().getUserId());
+    }
+
+    /*
+     * (non-Javadoc)
      *
      * @see it.extrasys.tesi.tagsystem.user_service.db.UserManager#findById(int)
      */
@@ -69,6 +83,14 @@ public class UserManagerImpl implements UserManager {
     /*
      * (non-Javadoc)
      *
+     * @see
+     * it.extrasys.tesi.tagsystem.user_service.db.UserManager#updateUser(it.
+     * extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity)
+     */
+
+    /*
+     * (non-Javadoc)
+     *
      * @see it.extrasys.tesi.tagsystem.user_service.db.UserManager#findUser(it.
      * extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity)
      */
@@ -78,14 +100,6 @@ public class UserManagerImpl implements UserManager {
         return this.userDao.findByEmailPassword(user.getEmail(),
                 user.getPassword());
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * it.extrasys.tesi.tagsystem.user_service.db.UserManager#updateUser(it.
-     * extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity)
-     */
 
     @Override
     @Transactional

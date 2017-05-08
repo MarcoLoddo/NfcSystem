@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.extrasys.tesi.tagsystem.user_service.api.LoginDto;
+import it.extrasys.tesi.tagsystem.user_service.api.NfcTagDto;
 import it.extrasys.tesi.tagsystem.user_service.api.NfcUpdateDto;
 import it.extrasys.tesi.tagsystem.user_service.api.UserDto;
 import it.extrasys.tesi.tagsystem.user_service.db.UserManager;
@@ -29,6 +30,24 @@ public class UserController {
     @Autowired
     private UserManager manager;
 
+    /**
+     * Adds the nfc.
+     *
+     * @param id
+     *            the user id
+     * @param nfcTagDto
+     *            the nfc tag dto to be added
+     * @return the user dto updated
+     */
+    @RequestMapping(path = "/{id}/nfc/add")
+    public UserDto addNfc(@PathVariable int id,
+            @RequestBody NfcTagDto nfcTagDto) {
+        NfcTagEntity newNfc = new NfcTagEntity(nfcTagDto,
+                this.manager.findById(id));
+
+        return this.manager.addNfc(newNfc).convertToDto();
+
+    }
     /**
      * Find user by id.
      *
@@ -56,6 +75,7 @@ public class UserController {
         }
         return dtos;
     }
+
     /**
      * Login service.
      *
@@ -73,7 +93,6 @@ public class UserController {
             return null;
         }
     }
-
     /**
      * Update nfc.
      *

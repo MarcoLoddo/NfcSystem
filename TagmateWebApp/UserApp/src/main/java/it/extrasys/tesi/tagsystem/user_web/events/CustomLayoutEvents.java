@@ -39,16 +39,23 @@ public class CustomLayoutEvents extends HorizontalLayout
     }
     @Override
     public void fireEndEditUser() {
-        for (EndEditUserListener listener : this.endEditListeners) {
-            listener.endEditUser();
+        if (this.endEditListeners.size() == 0) {
+            System.out.println("Evento endedit vuoto!");
+        } else {
+            for (EndEditUserListener listener : this.endEditListeners) {
+                listener.endEditUser();
+            }
         }
     }
     @Override
     public void fireStartEdit(int id) {
-        for (StartEditUserListener listener : this.startEditListeners) {
-            listener.startEdit(id);
+        if (this.startEditListeners.size() == 0) {
+            System.out.println("Evento startedit vuoto!");
+        } else {
+            for (StartEditUserListener listener : this.startEditListeners) {
+                listener.startEdit(id);
+            }
         }
-
     }
 
 }

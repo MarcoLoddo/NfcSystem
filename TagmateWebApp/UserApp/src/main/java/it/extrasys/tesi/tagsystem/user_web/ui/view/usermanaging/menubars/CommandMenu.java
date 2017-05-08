@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging;
+package it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.menubars;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -13,6 +13,7 @@ import it.extrasys.tesi.tagsystem.user_web.events.CustomLayoutEvents;
  */
 public class CommandMenu extends CustomLayoutEvents {
     private String userUri;
+    private VerticalLayout buttons;
     /**
      * Instantiates a new command menu.
      */
@@ -23,13 +24,21 @@ public class CommandMenu extends CustomLayoutEvents {
 
     }
 
+    public VerticalLayout getButtons() {
+        return this.buttons;
+    }
+
     private void initializeStyle() {
         setWidthUndefined();
         setHeight("100%");
         addStyleName("bg");
     }
-    private void initializeUI() {
-        VerticalLayout buttons = new VerticalLayout();
+
+    /**
+     * Initialize UI.
+     */
+    protected void initializeUI() {
+        this.buttons = new VerticalLayout();
         Button search = new Button("Search User");
         search.addStyleName(ValoTheme.BUTTON_LINK);
         search.addClickListener(new ClickListener() {
@@ -50,8 +59,8 @@ public class CommandMenu extends CustomLayoutEvents {
         });
         addNewUser.addStyleName(ValoTheme.BUTTON_LINK);
 
-        buttons.addComponents(search, addNewUser);
-        addComponent(buttons);
+        this.buttons.addComponents(search, addNewUser);
+        addComponent(this.buttons);
 
     }
 

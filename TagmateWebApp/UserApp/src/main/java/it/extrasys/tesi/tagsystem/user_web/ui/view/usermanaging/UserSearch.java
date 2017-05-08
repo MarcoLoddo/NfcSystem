@@ -25,19 +25,23 @@ import com.vaadin.ui.components.grid.ItemClickListener;
 import com.vaadin.ui.themes.ValoTheme;
 
 import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
-import it.extrasys.tesi.tagsystem.user_web.ui.view.MenuBarPage;
+import it.extrasys.tesi.tagsystem.user_web.events.CustomLayoutEvents;
+import it.extrasys.tesi.tagsystem.user_web.events.StartEditUserListener;
+import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.menubars.CommandMenu;
 
 /**
  * User search UI.
  */
 
-public class UserSearch extends MenuBarPage implements View {
+public class UserSearch extends CustomLayoutEvents implements View {
 
     /** The name. */
     private String pageName = "UserSearch";
 
     /** The users data. */
     private final Grid<UserDto> usersData;
+
+    private CommandMenu menuBar;
 
     /**
      * Instantiates a new user search.
@@ -46,7 +50,8 @@ public class UserSearch extends MenuBarPage implements View {
      *            the user uri
      */
     public UserSearch(String userUri) {
-        super(userUri);
+        this.menuBar = new CommandMenu(userUri);
+        addComponent(this.menuBar);
         VerticalLayout verticalLayout = new VerticalLayout();
 
         verticalLayout.addStyleName(ValoTheme.LAYOUT_CARD);
@@ -104,6 +109,12 @@ public class UserSearch extends MenuBarPage implements View {
 
             }
         });
+    }
+    @Override
+    public void addStartEditListener(StartEditUserListener listener) {
+        // TODO Auto-generated method stub
+        super.addStartEditListener(listener);
+        this.menuBar.addStartEditListener(listener);
     }
     @Override
     public void enter(ViewChangeEvent event) {

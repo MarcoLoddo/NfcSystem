@@ -26,15 +26,17 @@ import com.vaadin.ui.themes.ValoTheme;
 import it.extrasys.tesi.tagsystem.user_web.client.NfcTagDto;
 import it.extrasys.tesi.tagsystem.user_web.client.NfcUpdateDto;
 import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
+import it.extrasys.tesi.tagsystem.user_web.events.CustomLayoutEvents;
+import it.extrasys.tesi.tagsystem.user_web.events.StartEditUserListener;
 import it.extrasys.tesi.tagsystem.user_web.form.EditNfc;
 import it.extrasys.tesi.tagsystem.user_web.form.EditableLabel;
-import it.extrasys.tesi.tagsystem.user_web.ui.view.MenuBarPage;
+import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.menubars.EditUserBar;
 
 /**
  * The Class UserForm.
  */
 
-public class EditUser extends MenuBarPage implements View {
+public class EditUser extends CustomLayoutEvents implements View {
 
     /** The name. */
     private String pageName = "EditUser";
@@ -44,22 +46,28 @@ public class EditUser extends MenuBarPage implements View {
     private VerticalLayout verticalLayout;
     private UserDto incomingData;
 
+    private EditUserBar editUserBar;
     private Button submit;
     private String userUri;
     /**
      * Instantiates a new user form.
      */
     public EditUser(String userUri) {
-
-        super(userUri);
-        this.verticalLayout = new VerticalLayout();
         this.userUri = userUri;
+
+        setMenuBar(new EditUserBar(this.userUri));
+        this.verticalLayout = new VerticalLayout();
         this.verticalLayout.addStyleName(ValoTheme.LAYOUT_CARD);
         this.verticalLayout.setSizeUndefined();
         this.verticalLayout.setSpacing(false);
         addComponent(this.verticalLayout);
         setComponentAlignment(this.verticalLayout, Alignment.TOP_CENTER);
-
+    }
+    @Override
+    public void addStartEditListener(StartEditUserListener listener) {
+        // TODO Auto-generated method stub
+        super.addStartEditListener(listener);
+        this.editUserBar.addStartEditListener(listener);
     }
     @Override
     public void enter(ViewChangeEvent event) {
@@ -68,7 +76,6 @@ public class EditUser extends MenuBarPage implements View {
     public String getPageName() {
         return this.pageName;
     }
-
     /**
      * Initializer.
      *
@@ -77,6 +84,9 @@ public class EditUser extends MenuBarPage implements View {
      */
     @SuppressWarnings("unchecked")
     public void init(int id) {
+
+        this.editUserBar.initialize(id);
+
         this.verticalLayout.removeAllComponents();
         RestTemplate restTemplate = new RestTemplate();
         Map<String, Integer> map = new HashMap<>();
@@ -119,7 +129,7 @@ public class EditUser extends MenuBarPage implements View {
                             NfcUpdateDto updateDto = new NfcUpdateDto();
                             updateDto.setOlNfcTagDto(window.getOldNfc());
                             updateDto.setNewNfcTagDto(window.getNewNfc());
-                            sendNfcUpdate(EditUser.this.userUri, id, updateDto);
+                            sendNfcUpdate(id, updateDto);
                             EditUser.this.nfc.getDataProvider()
                                     .refreshItem(event.getItem());
 
@@ -130,16 +140,6 @@ public class EditUser extends MenuBarPage implements View {
             }
 
         });
-
-        // this.nfc.addColumn(nfctag -> "Enable/Disable",
-        // new ButtonRenderer(clickEvent -> {
-        //
-        // NfcTagDto nfcTagDto = (NfcTagDto) clickEvent.getItem();
-        // nfcTagDto.setDisabled(!nfcTagDto.isDisabled());
-        // this.nfc.getDataProvider().refreshAll();
-        // sendUpdate(this.userUri, id, nfcTagDto);
-        // }));
-
         this.verticalLayout.addComponents(this.name, this.email,
                 this.passwordField, this.nfc);
         Button previousPage = new Button("Back to user search");
@@ -164,16 +164,30 @@ public class EditUser extends MenuBarPage implements View {
      * @param userUri
      *            the user uri
      */
-    private void sendNfcUpdate(String userUri, Integer userId,
-            NfcUpdateDto nfcUpdateDto) {
+    private void sendNfcUpdate(Integer userId, NfcUpdateDto nfcUpdateDto) {
 
         RestTemplate restTemplate = new RestTemplate();
         Map<String, Integer> map = new HashMap<>();
         map.put("id", userId);
-        String uri = userUri + "/{id}/nfc/update";
+        String uri = this.userUri + "/{id}/nfc/update";
 
         ResponseEntity<UserDto> responseEntity = restTemplate.postForEntity(uri,
                 nfcUpdateDto, UserDto.class, map);
+    }
+
+    /**
+     * Sets the menu bar.
+     *
+     * @param menuBar
+     *            the new menu bar
+     */
+    public void setMenuBar(EditUserBar menuBar) {
+
+        if (this.editUserBar != null) {
+            removeComponent(this.editUserBar);
+        }
+        this.editUserBar = menuBar;
+        addComponentAsFirst(this.editUserBar);
     }
     private void setSubmit() {
 
