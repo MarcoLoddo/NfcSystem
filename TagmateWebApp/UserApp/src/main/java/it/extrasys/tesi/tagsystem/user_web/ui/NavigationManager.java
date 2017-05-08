@@ -9,7 +9,6 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
 
 import it.extrasys.tesi.tagsystem.user_web.ui.view.Login;
-import it.extrasys.tesi.tagsystem.user_web.ui.view.MenuNavigation;
 import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.EditUser;
 import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.UserSearch;
 import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.UserView;
@@ -37,15 +36,13 @@ public class NavigationManager extends UI {
     @Override
     protected void init(VaadinRequest request) {
         addStyleName("background-dark");
-        getPage().setTitle("Tagmate Test");
+        getPage().setTitle("Nfc tag system Test");
         this.navigator = new Navigator(this, this);
 
         Login loginPage = new Login();
         loginPage.setUserUri(this.userUri);
 
         this.navigator.addView("", loginPage);
-
-        this.navigator.addView("Navigation", MenuNavigation.class);
 
         UserSearch userSearch = new UserSearch(this.userUri);
         EditUser editUser = new EditUser(this.userUri);
@@ -55,10 +52,12 @@ public class NavigationManager extends UI {
 
         UserView userView = new UserView(this.userUri, userSearch, editUser);
 
+        // eventi click/edit
         userSearch.addStartEditListener(userView);
         editUser.addEndEditListener(userView);
         editUser.addStartEditListener(userView);
         userView.addStartEditListener(userView);
+
         this.navigator.addView("UserView", userView);
     }
     public void setUserUri(String userUri) {

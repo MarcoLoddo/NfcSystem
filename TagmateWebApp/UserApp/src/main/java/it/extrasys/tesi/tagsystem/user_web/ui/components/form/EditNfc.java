@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.user_web.form;
+package it.extrasys.tesi.tagsystem.user_web.ui.components.form;
 
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;

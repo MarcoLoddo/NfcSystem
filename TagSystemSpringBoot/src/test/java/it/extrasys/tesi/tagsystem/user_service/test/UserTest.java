@@ -1,5 +1,6 @@
 package it.extrasys.tesi.tagsystem.user_service.test;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity;
  */
 @DataJpaTest
 @RunWith(SpringRunner.class)
-public class SpringTest {
+public class UserTest {
 
     @Autowired
     private EntityManager manager;
@@ -38,7 +39,6 @@ public class SpringTest {
     /**
      * Adds the nfc.
      */
-
     @Test
     @Commit
     public void addNfc() {
@@ -52,6 +52,7 @@ public class SpringTest {
         this.nfcDao.save(nfcTagEntity);
         this.userDao.save(userEntity);
 
+        assertNotNull(this.nfcDao.findNfcById("prova1"));
     }
 
     private void addUser() {
@@ -71,7 +72,9 @@ public class SpringTest {
         this.userDao.save(userEntity);
 
         this.nfcDao.save(nfcTagEntity);
+
     }
+
     /**
      * Adds the user.
      */
@@ -79,7 +82,10 @@ public class SpringTest {
     @Commit
     public void addUserTest() {
         addUser();
+        assertNotNull(
+                this.userDao.findByEmailPassword("super@man", "clarkent"));
     }
+
     /**
      * Read nfc.
      */
@@ -89,7 +95,7 @@ public class SpringTest {
         addUser();
         UserEntity userEntity = this.userDao.findByEmailPassword("super@man",
                 "clarkent");
-        System.out.println(this.nfcDao.findByUser(userEntity));
+        assertTrue(this.nfcDao.findByUser(userEntity).size() > 0);
     }
 
     /**
@@ -104,6 +110,7 @@ public class SpringTest {
         this.userDao.deleteAll();
 
     }
+
     /**
      * Show.
      */
@@ -118,6 +125,7 @@ public class SpringTest {
         System.out.println("\n\n\n\n\n");
 
     }
+
     /**
      * Update nfc.
      */

@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.menubars;
+package it.extrasys.tesi.tagsystem.user_web.ui.components.menubars;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import it.extrasys.tesi.tagsystem.user_web.client.NfcTagDto;
 import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
-import it.extrasys.tesi.tagsystem.user_web.form.AddNfcForm;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.form.AddNfcForm;
 
 /**
  * The Class EditUserBar.

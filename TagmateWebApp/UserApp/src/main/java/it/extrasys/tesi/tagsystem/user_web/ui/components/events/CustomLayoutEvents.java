@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.user_web.events;
+package it.extrasys.tesi.tagsystem.user_web.ui.components.events;
 
 import java.util.ArrayList;
 import java.util.List;

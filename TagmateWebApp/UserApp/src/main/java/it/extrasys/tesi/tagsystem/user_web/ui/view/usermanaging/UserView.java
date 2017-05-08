@@ -2,12 +2,13 @@ package it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
-import it.extrasys.tesi.tagsystem.user_web.events.CustomLayoutEvents;
-import it.extrasys.tesi.tagsystem.user_web.events.EndEditUserListener;
-import it.extrasys.tesi.tagsystem.user_web.events.StartEditUserListener;
-import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.menubars.CommandMenu;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.events.CustomLayoutEvents;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.events.EndEditUserListener;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.events.StartEditUserListener;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.menubars.CommandMenu;
 
 /**
  * The Class UserForm.
@@ -53,7 +54,9 @@ public class UserView extends CustomLayoutEvents
     }
     @Override
     public void enter(ViewChangeEvent event) {
-
+        if (VaadinSession.getCurrent().getAttribute("user") == null) {
+            UI.getCurrent().getNavigator().navigateTo("");
+        }
     }
     private void goEdit(int id) {
 

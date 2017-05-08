@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.menubars;
+package it.extrasys.tesi.tagsystem.user_web.ui.components.menubars;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -6,7 +6,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-import it.extrasys.tesi.tagsystem.user_web.events.CustomLayoutEvents;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.events.CustomLayoutEvents;
 
 /**
  * The Class CommandMenu.
@@ -49,7 +49,7 @@ public class CommandMenu extends CustomLayoutEvents {
             }
         });
 
-        Button addNewUser = new Button("Add user");
+        Button addNewUser = new Button("Add new user");
         addNewUser.addClickListener(new ClickListener() {
 
             @Override

@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.user_web.events;
+package it.extrasys.tesi.tagsystem.user_web.ui.components.events;
 
 /**
  * The listener interface for receiving startEditUser events. The class that is

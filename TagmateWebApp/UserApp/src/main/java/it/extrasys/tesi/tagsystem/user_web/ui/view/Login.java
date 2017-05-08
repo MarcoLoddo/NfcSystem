@@ -71,14 +71,10 @@ public class Login extends HorizontalLayout implements View {
                 UserDto response = restTemplate
                         .postForEntity(uri, userDto, UserDto.class).getBody();
                 if (response != null) {
-                    try {
-                        VaadinSession.getCurrent().getLockInstance().lock();
-                        VaadinSession.getCurrent().setAttribute("user",
-                                response);
-                    } finally {
-                        VaadinSession.getCurrent().getLockInstance().unlock();
-                    }
-                    getUI().getNavigator().navigateTo("Navigation");
+
+                    VaadinSession.getCurrent().setAttribute("user", response);
+
+                    getUI().getNavigator().navigateTo("UserView");
                 } else {
                     Notification notification = new Notification(
                             "Login error, try again",
@@ -112,7 +108,7 @@ public class Login extends HorizontalLayout implements View {
         UserDto admin = (UserDto) VaadinSession.getCurrent()
                 .getAttribute("user");
         if (admin != null) {
-            getUI().getNavigator().navigateTo("Navigation");
+            getUI().getNavigator().navigateTo("UserView");
         }
         this.user.focus();
     }

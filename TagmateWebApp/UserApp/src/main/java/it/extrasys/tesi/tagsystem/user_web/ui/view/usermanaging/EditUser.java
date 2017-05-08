@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -17,6 +18,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.ItemClick;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
@@ -26,11 +28,11 @@ import com.vaadin.ui.themes.ValoTheme;
 import it.extrasys.tesi.tagsystem.user_web.client.NfcTagDto;
 import it.extrasys.tesi.tagsystem.user_web.client.NfcUpdateDto;
 import it.extrasys.tesi.tagsystem.user_web.client.UserDto;
-import it.extrasys.tesi.tagsystem.user_web.events.CustomLayoutEvents;
-import it.extrasys.tesi.tagsystem.user_web.events.StartEditUserListener;
-import it.extrasys.tesi.tagsystem.user_web.form.EditNfc;
-import it.extrasys.tesi.tagsystem.user_web.form.EditableLabel;
-import it.extrasys.tesi.tagsystem.user_web.ui.view.usermanaging.menubars.EditUserBar;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.events.CustomLayoutEvents;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.events.StartEditUserListener;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.form.EditNfc;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.form.EditableLabel;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.menubars.EditUserBar;
 
 /**
  * The Class UserForm.
@@ -71,7 +73,9 @@ public class EditUser extends CustomLayoutEvents implements View {
     }
     @Override
     public void enter(ViewChangeEvent event) {
-
+        if (VaadinSession.getCurrent().getAttribute("user") == null) {
+            UI.getCurrent().getNavigator().navigateTo("");
+        }
     }
     public String getPageName() {
         return this.pageName;
