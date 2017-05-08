@@ -19,7 +19,6 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.ItemClick;
 import com.vaadin.ui.Grid.SelectionMode;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -44,7 +43,7 @@ public class UserSearch extends CustomLayoutEvents implements View {
     private final Grid<UserDto> usersData;
 
     private CommandMenu menuBar;
-
+    private Button submitSerch;
     /**
      * Instantiates a new user search.
      *
@@ -72,9 +71,9 @@ public class UserSearch extends CustomLayoutEvents implements View {
         searchbar.setCaption("Enter a name:");
         searchbar.setValue("");
         searchbar.focus();
-        Button submitSerch = new Button("Search");
+        this.submitSerch = new Button("Search");
 
-        submitSerch.addClickListener(new ClickListener() {
+        this.submitSerch.addClickListener(new ClickListener() {
 
             @Override
             public void buttonClick(ClickEvent event) {
@@ -88,16 +87,21 @@ public class UserSearch extends CustomLayoutEvents implements View {
                         .getForEntity(uri, UserDto[].class, map);
                 List<UserDto> dtos = Arrays.asList(responseEntity.getBody());
                 UserSearch.this.usersData.setItems(dtos);
-                Notification.show(Integer.toString(dtos.size()));
             }
         });
 
-        verticalLayout.addComponent(submitSerch);
-        verticalLayout.setComponentAlignment(submitSerch,
+        verticalLayout.addComponent(this.submitSerch);
+        verticalLayout.setComponentAlignment(this.submitSerch,
                 Alignment.MIDDLE_RIGHT);
 
         // griglie dati
-        this.usersData = new Grid<UserDto>(UserDto.class);
+        this.usersData = new Grid<UserDto>();
+        this.usersData.addColumn(UserDto::getName).setCaption("Name");
+        this.usersData.addColumn(UserDto::getEmail).setCaption("Email");
+        this.usersData.addColumn(UserDto::getPassword).setCaption("Pwd");
+        this.usersData.addColumn(UserDto::sizeNfcTags)
+                .setCaption("Nfc list size");
+
         this.usersData.setSizeUndefined();
         this.usersData.setSelectionMode(SelectionMode.SINGLE);
         verticalLayout.addComponent(this.usersData);
@@ -114,7 +118,6 @@ public class UserSearch extends CustomLayoutEvents implements View {
     }
     @Override
     public void addStartEditListener(StartEditUserListener listener) {
-        // TODO Auto-generated method stub
         super.addStartEditListener(listener);
         this.menuBar.addStartEditListener(listener);
     }
@@ -128,6 +131,10 @@ public class UserSearch extends CustomLayoutEvents implements View {
 
     public String getPageName() {
         return this.pageName;
+    }
+    @Override
+    public void refresh() {
+        this.submitSerch.click();
     }
 
 }

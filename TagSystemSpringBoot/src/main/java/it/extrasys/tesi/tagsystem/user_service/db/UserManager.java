@@ -20,6 +20,14 @@ public interface UserManager {
     UserEntity addNfc(NfcTagEntity nfcTagEntity);
 
     /**
+     * Adds the user.
+     *
+     * @param user
+     *            the user
+     */
+    void addUser(UserEntity user);
+
+    /**
      * Find by id.
      *
      * @param id

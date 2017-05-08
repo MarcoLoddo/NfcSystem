@@ -105,7 +105,9 @@ public class UserEntity {
         userDto.setPassword(getPassword());
         userDto.setUserId(getUserId());
         userDto.setName(this.name);
-        if (this.nfcTags != null) {
+        if (this.nfcTags == null) {
+            userDto.setNfcTags(new ArrayList<NfcTagDto>());
+        } else {
             userDto.setNfcTags(convertNfcTagsToDto());
         }
 

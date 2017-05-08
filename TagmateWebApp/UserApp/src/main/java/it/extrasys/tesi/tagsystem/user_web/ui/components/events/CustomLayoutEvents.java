@@ -58,4 +58,11 @@ public class CustomLayoutEvents extends HorizontalLayout
         }
     }
 
+    /**
+     * Refresh.
+     */
+    public void refresh() {
+
+    }
+
 }

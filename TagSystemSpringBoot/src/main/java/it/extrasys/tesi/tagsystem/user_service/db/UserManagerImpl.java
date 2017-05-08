@@ -27,7 +27,7 @@ public class UserManagerImpl implements UserManager {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * it.extrasys.tesi.tagsystem.user_service.db.UserManager#addNfc(it.extrasys
      * .tesi.tagsystem.user_service.db.jpa.entity.NfcTagEntity)
@@ -37,6 +37,12 @@ public class UserManagerImpl implements UserManager {
         this.nfcDao.save(nfcTagEntity);
 
         return this.userDao.findById(nfcTagEntity.getUser().getUserId());
+    }
+
+    @Override
+    public void addUser(UserEntity user) {
+        this.userDao.save(user);
+
     }
 
     /*
@@ -71,6 +77,14 @@ public class UserManagerImpl implements UserManager {
      * (non-Javadoc)
      *
      * @see
+     * it.extrasys.tesi.tagsystem.user_service.db.UserManager#updateUser(it.
+     * extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity)
+     */
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
      * it.extrasys.tesi.tagsystem.user_service.db.UserManager#findNfcOfUser(it.
      * extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity)
      */
@@ -79,14 +93,6 @@ public class UserManagerImpl implements UserManager {
     public List<NfcTagEntity> findNfcOfUser(UserEntity user) {
         return this.nfcDao.findByUser(user);
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * it.extrasys.tesi.tagsystem.user_service.db.UserManager#updateUser(it.
-     * extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity)
-     */
 
     /*
      * (non-Javadoc)

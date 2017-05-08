@@ -48,6 +48,20 @@ public class UserController {
         return this.manager.addNfc(newNfc).convertToDto();
 
     }
+
+    /**
+     * Adds a new user from a dto.
+     *
+     * @param userDto
+     *            the user dto
+     */
+    @RequestMapping(path = "/add")
+    public void addNfc(@RequestBody UserDto userDto) {
+
+        this.manager.addUser(new UserEntity(userDto));
+
+    }
+
     /**
      * Find user by id.
      *
@@ -57,7 +71,9 @@ public class UserController {
      */
     @RequestMapping(path = "/{id}/findById", method = RequestMethod.GET)
     public UserDto findUserById(@PathVariable int id) {
-        return this.manager.findById(id).convertToDto();
+        UserEntity userEntity = this.manager.findById(id);
+
+        return userEntity.convertToDto();
     }
     /**
      * Find user by name service.

@@ -43,7 +43,6 @@ public class UserView extends CustomLayoutEvents
     }
     @Override
     public void addStartEditListener(StartEditUserListener listener) {
-        // TODO Auto-generated method stub
         super.addStartEditListener(listener);
         this.menuBar.addStartEditListener(listener);
     }
@@ -51,6 +50,7 @@ public class UserView extends CustomLayoutEvents
     public void endEditUser() {
         System.out.println("Fire edit!\n\n\n");
         goSearch();
+
     }
     @Override
     public void enter(ViewChangeEvent event) {
@@ -67,6 +67,7 @@ public class UserView extends CustomLayoutEvents
     private void goSearch() {
         UI.getCurrent().getNavigator()
                 .navigateTo(this.userSearchView.getPageName());
+        this.userSearchView.refresh();
     }
 
     @Override

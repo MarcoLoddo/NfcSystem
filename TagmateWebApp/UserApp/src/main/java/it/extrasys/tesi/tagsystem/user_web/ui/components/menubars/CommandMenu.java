@@ -3,10 +3,12 @@ package it.extrasys.tesi.tagsystem.user_web.ui.components.menubars;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 import it.extrasys.tesi.tagsystem.user_web.ui.components.events.CustomLayoutEvents;
+import it.extrasys.tesi.tagsystem.user_web.ui.components.form.AddUserForm;
 
 /**
  * The Class CommandMenu.
@@ -54,7 +56,11 @@ public class CommandMenu extends CustomLayoutEvents {
 
             @Override
             public void buttonClick(ClickEvent event) {
-
+                AddUserForm form = new AddUserForm(CommandMenu.this.userUri);
+                UI.getCurrent().addWindow(form);
+                form.center();
+                form.focus();
+                fireStartEdit(-1);
             }
         });
         addNewUser.addStyleName(ValoTheme.BUTTON_LINK);

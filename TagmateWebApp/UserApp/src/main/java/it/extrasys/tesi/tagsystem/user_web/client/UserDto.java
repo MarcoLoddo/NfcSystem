@@ -31,7 +31,6 @@ public class UserDto extends Dto {
     public List<NfcTagDto> getNfcTags() {
         return this.nfcTags;
     }
-
     public String getPassword() {
         return this.password;
     }
@@ -64,6 +63,15 @@ public class UserDto extends Dto {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    /**
+     * Size nfc tags.
+     *
+     * @return the integer
+     */
+    public Integer sizeNfcTags() {
+        return this.nfcTags.size();
     }
 
 }

@@ -23,7 +23,7 @@ public interface UserDao extends JpaRepository<UserEntity, Long> {
      *            the pwd
      * @return the user entity
      */
-    @Query("SELECT u FROM Users u JOIN FETCH u.nfcTags n WHERE u.email = ?1 AND u.password = ?2")
+    @Query("SELECT u FROM Users u LEFT JOIN FETCH u.nfcTags n WHERE u.email = ?1 AND u.password = ?2")
     UserEntity findByEmailPassword(String mail, String pwd);
 
     /**
@@ -33,7 +33,7 @@ public interface UserDao extends JpaRepository<UserEntity, Long> {
      *            the id
      * @return the user entity
      */
-    @Query("SELECT u FROM Users u JOIN FETCH u.nfcTags n WHERE u.userId = ?1")
+    @Query("SELECT u FROM Users u LEFT JOIN FETCH u.nfcTags n WHERE u.userId = ?1")
     UserEntity findById(int id);
 
     /**

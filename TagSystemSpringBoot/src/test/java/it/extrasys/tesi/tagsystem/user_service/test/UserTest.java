@@ -75,6 +75,15 @@ public class UserTest {
 
     }
 
+    private void addUserNoNfc() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail("super@man");
+        userEntity.setFirstName("Clark");
+        userEntity.setLastName("Kent");
+        userEntity.setPassword("clarkent");
+        this.userDao.save(userEntity);
+
+    }
     /**
      * Adds the user.
      */
@@ -84,6 +93,18 @@ public class UserTest {
         addUser();
         assertNotNull(
                 this.userDao.findByEmailPassword("super@man", "clarkent"));
+    }
+
+    /**
+     * Find user no nfc.
+     */
+    @Test
+    @Commit
+    public void findUserNoNfc() {
+        addUserNoNfc();
+        UserEntity userDto = this.userDao.findByEmailPassword("super@man",
+                "clarkent");
+        System.out.println(userDto);
     }
 
     /**
