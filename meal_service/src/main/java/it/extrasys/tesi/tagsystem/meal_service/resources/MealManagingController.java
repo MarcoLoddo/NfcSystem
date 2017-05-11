@@ -1,6 +1,5 @@
 package it.extrasys.tesi.tagsystem.meal_service.resources;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,7 @@ public class MealManagingController {
      */
     @RequestMapping("/menu/add")
     public void addMenu(@RequestBody MenuDto menu) {
-        MenuEntity menuEntity = DtoConverter.toEntity(menu);
+        MenuEntity menuEntity = DtoConverter.menuDtotoEntity(menu);
         this.manager.addMenu(menuEntity);
 
     }
@@ -69,8 +68,10 @@ public class MealManagingController {
      * @return the menus of day
      */
     @RequestMapping("/menu/{date}/find")
-    public List<MenuDto> getMenusOfDay(@PathVariable Date date) {
-        return DtoConverter.toDtoList(this.manager.getMenuByDate(date));
+    public List<MenuDto> getMenusOfDay(@PathVariable String date) {
+
+        return DtoConverter
+                .menuEntitytoDtoList(this.manager.getMenuByDate(date));
     }
 
 }

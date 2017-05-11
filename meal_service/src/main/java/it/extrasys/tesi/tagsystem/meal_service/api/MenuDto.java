@@ -1,6 +1,5 @@
 package it.extrasys.tesi.tagsystem.meal_service.api;
 
-import java.sql.Date;
 import java.util.List;
 
 /**
@@ -10,11 +9,11 @@ public class MenuDto {
 
     private int menuId;
 
-    private MealType type;
+    private String type;
 
     private List<MealDto> meals;
-    private Date date;
-    public Date getDate() {
+    private String date;
+    public String getDate() {
         return this.date;
     }
     public List<MealDto> getMeals() {
@@ -24,10 +23,10 @@ public class MenuDto {
         return this.menuId;
     }
 
-    public MealType getType() {
+    public String getType() {
         return this.type;
     }
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
     public void setMeals(List<MealDto> meals) {
@@ -37,7 +36,7 @@ public class MenuDto {
     public void setMenuId(int menuId) {
         this.menuId = menuId;
     }
-    public void setType(MealType type) {
+    public void setType(String type) {
         this.type = type;
     }
 }

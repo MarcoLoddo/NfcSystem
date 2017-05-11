@@ -1,6 +1,5 @@
 package it.extrasys.tesi.tagsystem.meal_service.db.entity;
 
-import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -10,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import it.extrasys.tesi.tagsystem.meal_service.api.MealType;
 
 /**
  * The Class MenuEntity.
@@ -27,15 +24,15 @@ public class MenuEntity {
     private int menuId;
 
     /** The date. */
-    private Date date;
+    private String date;
 
-    private MealType type;
+    private String type;
 
     /** The meals. */
     @ManyToMany(mappedBy = "menus")
     private List<MealEntity> meals;
 
-    public Date getDate() {
+    public String getDate() {
         return this.date;
     }
 
@@ -52,20 +49,20 @@ public class MenuEntity {
         return this.menuId;
     }
 
-    public MealType getType() {
+    public String getType() {
         return this.type;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public void setMeals(List<MealEntity> meals) {
-        this.meals = meals;
+    public void setMeals(List<MealEntity> mealEntityList) {
+        this.meals = mealEntityList;
     }
 
-    public void setType(MealType type) {
-        this.type = type;
+    public void setType(String menuType) {
+        this.type = menuType;
     }
 
 }

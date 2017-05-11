@@ -1,6 +1,5 @@
 package it.extrasys.tesi.tagsystem.meal_service.db.dao;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +18,6 @@ public interface MenuDao extends JpaRepository<MenuEntity, Integer> {
      *            the date
      * @return the list
      */
-    List<MenuEntity> findByDate(Date date);
+    List<MenuEntity> findByDate(String date);
 
 }

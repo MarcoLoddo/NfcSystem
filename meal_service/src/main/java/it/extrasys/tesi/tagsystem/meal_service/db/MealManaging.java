@@ -1,6 +1,5 @@
 package it.extrasys.tesi.tagsystem.meal_service.db;
 
-import java.sql.Date;
 import java.util.List;
 
 import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity;
@@ -10,6 +9,7 @@ import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
 /**
  * The Interface MealManaging.
  */
+
 public interface MealManaging {
 
     /**
@@ -29,15 +29,6 @@ public interface MealManaging {
     void addMenu(MenuEntity menu);
 
     /**
-     * Gets the by date.
-     *
-     * @param date
-     *            the date
-     * @return the by date
-     */
-    List<MenuEntity> getMenuByDate(Date date);
-
-    /**
      * Gets the meal.
      *
      * @param id
@@ -54,6 +45,15 @@ public interface MealManaging {
      * @return the menu
      */
     MenuEntity getMenu(int menuId);
+
+    /**
+     * Gets the by date.
+     *
+     * @param date
+     *            the date
+     * @return the by date
+     */
+    List<MenuEntity> getMenuByDate(String date);
 
     /**
      * Update menu.

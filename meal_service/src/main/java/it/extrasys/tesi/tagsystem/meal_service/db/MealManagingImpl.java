@@ -1,11 +1,11 @@
 package it.extrasys.tesi.tagsystem.meal_service.db;
 
-import java.sql.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import it.extrasys.tesi.tagsystem.meal_service.db.dao.MealDao;
 import it.extrasys.tesi.tagsystem.meal_service.db.dao.MenuDao;
@@ -16,6 +16,7 @@ import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
 /**
  * The Class MealManagingImpl.
  */
+@Component
 public class MealManagingImpl implements MealManaging {
 
     /** The meal dao. */
@@ -51,10 +52,6 @@ public class MealManagingImpl implements MealManaging {
 
     }
 
-    public List<MenuEntity> getMenuByDate(Date date) {
-        return this.menuDao.findByDate(date);
-    }
-
     /*
      * (non-Javadoc)
      *
@@ -73,6 +70,10 @@ public class MealManagingImpl implements MealManaging {
     @Transactional
     public MenuEntity getMenu(int menuId) {
         return this.menuDao.findOne(menuId);
+    }
+
+    public List<MenuEntity> getMenuByDate(String date) {
+        return this.menuDao.findByDate(date);
     }
 
     /*
