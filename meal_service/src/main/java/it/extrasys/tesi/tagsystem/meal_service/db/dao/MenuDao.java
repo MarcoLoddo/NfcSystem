@@ -1,24 +1,24 @@
 package it.extrasys.tesi.tagsystem.meal_service.db.dao;
 
-import java.io.Serializable;
+import java.sql.Date;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
 
 /**
  * The Interface MenuDao.
  */
-public interface MenuDao extends JpaRepository<MenuEntity, Serializable> {
+public interface MenuDao extends JpaRepository<MenuEntity, Integer> {
 
     /**
-     * Find by id.
+     * Find by date.
      *
-     * @param id
-     *            the id
-     * @return the menu entity
+     * @param date
+     *            the date
+     * @return the list
      */
-    @Query("select m from Menus m where m.menuId=?1")
-    MenuEntity findById(int id);
+    List<MenuEntity> findByDate(Date date);
+
 }

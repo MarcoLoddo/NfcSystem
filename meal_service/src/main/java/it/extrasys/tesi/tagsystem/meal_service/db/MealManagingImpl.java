@@ -1,5 +1,8 @@
 package it.extrasys.tesi.tagsystem.meal_service.db;
 
+import java.sql.Date;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +51,30 @@ public class MealManagingImpl implements MealManaging {
 
     }
 
+    public List<MenuEntity> getMenuByDate(Date date) {
+        return this.menuDao.findByDate(date);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see it.extrasys.tesi.tagsystem.meal_service.db.MealManaging#getMeal(int)
+     */
+    @Transactional
+    public MealEntity getMeal(int id) {
+        return this.mealDao.findOne(id);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see it.extrasys.tesi.tagsystem.meal_service.db.MealManaging#getMenu(int)
+     */
+    @Transactional
+    public MenuEntity getMenu(int menuId) {
+        return this.menuDao.findOne(menuId);
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -58,7 +85,7 @@ public class MealManagingImpl implements MealManaging {
     @Transactional
     public MenuEntity updateMenu(MenuEntity menu) {
         this.menuDao.save(menu);
-        return this.menuDao.findById(menu.getMenuId());
+        return this.menuDao.findOne(menu.getMenuId());
     }
 
 }

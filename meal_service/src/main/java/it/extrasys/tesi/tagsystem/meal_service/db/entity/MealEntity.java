@@ -34,6 +34,16 @@ public class MealEntity {
     @ManyToMany
     @JoinColumn(name = "menu_id")
     private List<MenuEntity> menus;
+
+    /**
+     * Adds the menu.
+     *
+     * @param menu
+     *            the menu
+     */
+    public void addToMenu(MenuEntity menu) {
+        this.menus.add(menu);
+    }
     /**
      * Gets the description.
      *
@@ -42,7 +52,6 @@ public class MealEntity {
     public String getDescription() {
         return this.description;
     }
-
     /**
      * Gets the meal id.
      *
@@ -50,6 +59,10 @@ public class MealEntity {
      */
     public int getMealId() {
         return this.mealId;
+    }
+
+    public List<MenuEntity> getMenus() {
+        return this.menus;
     }
 
     /**
@@ -69,6 +82,14 @@ public class MealEntity {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setMealId(int mealId) {
+        this.mealId = mealId;
+    }
+
+    public void setMenus(List<MenuEntity> menus) {
+        this.menus = menus;
     }
 
     /**
