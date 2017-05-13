@@ -22,7 +22,7 @@ public class DtoConverter {
 
         List<MealEntity> listToAdd = new ArrayList<MealEntity>();
         for (MealDto mealDto : mealDtos) {
-            listToAdd.add(toEntity(mealDto));
+            listToAdd.add(mealDtoToEntity(mealDto));
         }
         return listToAdd;
     }
@@ -39,7 +39,7 @@ public class DtoConverter {
         mealDto.setDescription(mealEntity.getDescription());
         mealDto.setMealId(mealEntity.getMealId());
         mealDto.setPrice(mealEntity.getPrice());
-
+        mealDto.setType(mealEntity.getType());
         return mealDto;
     }
 
@@ -132,13 +132,13 @@ public class DtoConverter {
      *            the meal dto
      * @return the meal entity
      */
-    public static MealEntity toEntity(MealDto mealDto) {
+    public static MealEntity mealDtoToEntity(MealDto mealDto) {
         MealEntity mealEntity = new MealEntity();
         mealEntity.setPrice(mealDto.getPrice());
         mealEntity.setDescription(mealDto.getDescription());
         mealEntity.setMealId(mealDto.getMealId());
         mealEntity.setMenus(new ArrayList<MenuEntity>());
-
+        mealEntity.setType(mealDto.getType());
         return mealEntity;
     }
 }

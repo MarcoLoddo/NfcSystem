@@ -2,6 +2,8 @@ package it.extrasys.tesi.tagsystem.meal_service.api;
 
 import java.util.List;
 
+import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealType;
+
 /**
  * The Class MealDto.
  */
@@ -15,12 +17,12 @@ public class MealDto {
     /** The price. */
     private int price;
 
-    private List<MenuDto> menus;
+    private MealType type;
 
+    private List<MenuDto> menus;
     public String getDescription() {
         return this.description;
     }
-
     public int getMealId() {
         return this.mealId;
     }
@@ -31,6 +33,10 @@ public class MealDto {
 
     public int getPrice() {
         return this.price;
+    }
+
+    public MealType getType() {
+        return this.type;
     }
 
     public void setDescription(String description) {
@@ -47,5 +53,9 @@ public class MealDto {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public void setType(MealType type) {
+        this.type = type;
     }
 }

@@ -35,6 +35,8 @@ public class MealEntity {
     @JoinColumn(name = "menu_id")
     private List<MenuEntity> menus;
 
+    private MealType type;
+
     /**
      * Adds the menu.
      *
@@ -60,11 +62,9 @@ public class MealEntity {
     public int getMealId() {
         return this.mealId;
     }
-
     public List<MenuEntity> getMenus() {
         return this.menus;
     }
-
     /**
      * Gets the price.
      *
@@ -72,6 +72,10 @@ public class MealEntity {
      */
     public int getPrice() {
         return this.price;
+    }
+
+    public MealType getType() {
+        return this.type;
     }
 
     /**
@@ -100,6 +104,10 @@ public class MealEntity {
      */
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public void setType(MealType type) {
+        this.type = type;
     }
 
 }

@@ -32,7 +32,7 @@ public class MealManagingController {
      */
     @RequestMapping("/meal/add")
     public void addMeal(@RequestBody MealDto meal) {
-        this.manager.addMeal(DtoConverter.toEntity(meal));
+        this.manager.addMeal(DtoConverter.mealDtoToEntity(meal));
     }
 
     /**
@@ -63,15 +63,59 @@ public class MealManagingController {
     /**
      * Gets the menus of day.
      *
+     * @param id
+     *            the id
+     * @return the menus of day
+     */
+    @RequestMapping("/menu/{id}/find")
+    public MenuDto getMenusOfDay(@PathVariable int id) {
+
+        return DtoConverter.menuEntitytoDto(this.manager.getMenu(id));
+    }
+
+    /**
+     * Gets the menus of day.
+     *
      * @param date
      *            the date
      * @return the menus of day
      */
-    @RequestMapping("/menu/{date}/find")
+    @RequestMapping("/menu/day/{date}/find")
     public List<MenuDto> getMenusOfDay(@PathVariable String date) {
 
         return DtoConverter
                 .menuEntitytoDtoList(this.manager.getMenuByDate(date));
+    }
+
+    /**
+     * Update meal.
+     *
+     * @param id
+     *            the id
+     * @param toUpdate
+     *            the to update
+     * @return the meal dto
+     */
+    @RequestMapping("/meal/{id}/update")
+    public MealDto updateMeal(@PathVariable int id,
+            @RequestBody MealDto toUpdate) {
+        MealEntity mealEntity = DtoConverter.mealDtoToEntity(toUpdate);
+        return DtoConverter
+                .mealEntitytoDto(this.manager.updateMeal(mealEntity));
+    }
+    /**
+     * Update menu.
+     *
+     * @param toUpdate
+     *            the to update
+     * @return the menu dto
+     */
+    @RequestMapping("/menu/{id}/update")
+    public MenuDto updateMenu(@PathVariable int id,
+            @RequestBody MenuDto toUpdate) {
+        MenuEntity menuEntity = DtoConverter.menuDtotoEntity(toUpdate);
+        return DtoConverter
+                .menuEntitytoDto(this.manager.updateMenu(menuEntity));
     }
 
 }

@@ -72,8 +72,27 @@ public class MealManagingImpl implements MealManaging {
         return this.menuDao.findOne(menuId);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.extrasys.tesi.tagsystem.meal_service.db.MealManaging#getMenuByDate(
+     * java.lang.String)
+     */
     public List<MenuEntity> getMenuByDate(String date) {
         return this.menuDao.findByDate(date);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * it.extrasys.tesi.tagsystem.meal_service.db.MealManaging#updateMeal(it.
+     * extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity)
+     */
+    public MealEntity updateMeal(MealEntity meal) {
+        this.mealDao.save(meal);
+        return this.mealDao.findOne(meal.getMealId());
     }
 
     /*

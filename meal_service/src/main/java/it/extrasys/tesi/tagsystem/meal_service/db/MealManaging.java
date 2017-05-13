@@ -56,6 +56,15 @@ public interface MealManaging {
     List<MenuEntity> getMenuByDate(String date);
 
     /**
+     * Update meal.
+     *
+     * @param meal
+     *            the meal
+     * @return the meal entity
+     */
+    MealEntity updateMeal(MealEntity meal);
+
+    /**
      * Update menu.
      *
      * @param menu
