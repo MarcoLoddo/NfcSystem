@@ -19,14 +19,21 @@ public interface MealManaging {
      *            the meal
      */
     void addMeal(MealEntity meal);
-
     /**
      * Adds the menu.
      *
      * @param menu
      *            the menu
+     * @return
      */
-    void addMenu(MenuEntity menu);
+    MenuEntity addMenu(MenuEntity menu);
+
+    /**
+     * Gets all the meal.
+     *
+     * @return the all meal
+     */
+    List<MealEntity> getAllMeal();
 
     /**
      * Gets the meal.
@@ -36,7 +43,6 @@ public interface MealManaging {
      * @return the meal
      */
     MealEntity getMeal(int id);
-
     /**
      * Gets the menu.
      *

@@ -2,6 +2,7 @@ package it.extrasys.tesi.tagsystem.meal_service.db;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
 @Component
 public class MealManagingImpl implements MealManaging {
 
+    @Autowired
+    private EntityManager entityManager;
     /** The meal dao. */
     @Autowired
     private MealDao mealDao;
@@ -46,10 +49,15 @@ public class MealManagingImpl implements MealManaging {
      * extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity)
      */
     @Transactional
-    public void addMenu(MenuEntity menu) {
+    public MenuEntity addMenu(MenuEntity menu) {
 
-        this.menuDao.save(menu);
+        return this.menuDao.save(menu);
 
+    }
+
+    @Transactional
+    public List<MealEntity> getAllMeal() {
+        return this.mealDao.findAll();
     }
 
     /*
@@ -74,7 +82,7 @@ public class MealManagingImpl implements MealManaging {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * it.extrasys.tesi.tagsystem.meal_service.db.MealManaging#getMenuByDate(
      * java.lang.String)
@@ -85,7 +93,7 @@ public class MealManagingImpl implements MealManaging {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * it.extrasys.tesi.tagsystem.meal_service.db.MealManaging#updateMeal(it.
      * extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity)

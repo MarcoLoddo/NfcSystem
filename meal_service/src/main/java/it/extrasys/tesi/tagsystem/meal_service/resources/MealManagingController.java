@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.extrasys.tesi.tagsystem.meal_service.api.DtoConverter;
@@ -43,7 +44,8 @@ public class MealManagingController {
      * @param mealId
      *            the meal id
      */
-    @RequestMapping("/menu/{menuId}/meal/{mealId}/add")
+    @RequestMapping(value = "/menu/{menuId}/meal/{mealId}/add", method = RequestMethod.GET)
+
     public void addMealtoMenu(@PathVariable int menuId,
             @PathVariable int mealId) {
         MealEntity mealEntity = this.manager.getMeal(mealId);
@@ -54,10 +56,16 @@ public class MealManagingController {
      * Adds the menu.
      */
     @RequestMapping("/menu/add")
-    public void addMenu(@RequestBody MenuDto menu) {
+    public MenuDto addMenu(@RequestBody MenuDto menu) {
         MenuEntity menuEntity = DtoConverter.menuDtotoEntity(menu);
-        this.manager.addMenu(menuEntity);
+        return DtoConverter.menuEntitytoDto(this.manager.addMenu(menuEntity));
 
+    }
+
+    @RequestMapping("/meal/find/all")
+    public List<MealDto> getAllMeals() {
+
+        return DtoConverter.mealEntitytoDtoList(this.manager.getAllMeal());
     }
 
     /**
@@ -72,7 +80,6 @@ public class MealManagingController {
 
         return DtoConverter.menuEntitytoDto(this.manager.getMenu(id));
     }
-
     /**
      * Gets the menus of day.
      *
