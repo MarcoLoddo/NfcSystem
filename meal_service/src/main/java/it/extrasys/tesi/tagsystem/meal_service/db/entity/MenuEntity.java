@@ -1,9 +1,11 @@
 package it.extrasys.tesi.tagsystem.meal_service.db.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,14 +31,22 @@ public class MenuEntity {
     private String type;
 
     /** The meals. */
-    @ManyToMany(mappedBy = "menus")
+    @ManyToMany(mappedBy = "menus", fetch = FetchType.LAZY)
     private List<MealEntity> meals;
 
     public String getDate() {
         return this.date;
     }
 
+    /**
+     * Gets the meals.
+     *
+     * @return the meals
+     */
     public List<MealEntity> getMeals() {
+        if (this.meals == null) {
+            this.meals = new ArrayList<MealEntity>();
+        }
         return this.meals;
     }
 

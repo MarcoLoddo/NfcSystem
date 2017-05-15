@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,8 +27,6 @@ import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity;
 @RunWith(SpringRunner.class)
 public class UserTest {
 
-    @Autowired
-    private EntityManager manager;
     @Autowired
     private UserDao userDao;
     @Autowired
