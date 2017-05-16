@@ -1,0 +1,11 @@
+/home/marco/workspace/meal_app/src/main/java/it/extrasys/tesi/tagsystem/meal_app/client/MealType.java
+/home/marco/workspace/meal_app/src/main/java/it/extrasys/tesi/tagsystem/meal_app/ui/components/EditMeal.java
+/home/marco/workspace/meal_app/src/main/java/it/extrasys/tesi/tagsystem/meal_app/ui/NavigationManager.java
+/home/marco/workspace/meal_app/src/main/java/it/extrasys/tesi/tagsystem/meal_app/MealApp.java
+/home/marco/workspace/meal_app/src/main/java/it/extrasys/tesi/tagsystem/meal_app/ui/components/Externalizer.java
+/home/marco/workspace/meal_app/src/main/java/it/extrasys/tesi/tagsystem/meal_app/client/MenuDto.java
+/home/marco/workspace/meal_app/src/main/java/it/extrasys/tesi/tagsystem/meal_app/ui/view/MenuView.java
+/home/marco/workspace/meal_app/src/main/java/it/extrasys/tesi/tagsystem/meal_app/ui/components/MenuAddForm.java
+/home/marco/workspace/meal_app/src/main/java/it/extrasys/tesi/tagsystem/meal_app/client/MealDto.java
+/home/marco/workspace/meal_app/src/main/java/it/extrasys/tesi/tagsystem/meal_app/ui/components/MenuForm.java
+/home/marco/workspace/meal_app/src/main/java/it/extrasys/tesi/tagsystem/meal_app/ui/components/SearchMealForm.java
