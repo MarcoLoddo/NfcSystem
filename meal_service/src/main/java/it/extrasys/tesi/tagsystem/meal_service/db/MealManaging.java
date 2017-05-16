@@ -18,7 +18,7 @@ public interface MealManaging {
      * @param meal
      *            the meal
      */
-    void addMeal(MealEntity meal);
+    MealEntity addMeal(MealEntity meal);
     /**
      * Adds the menu.
      *

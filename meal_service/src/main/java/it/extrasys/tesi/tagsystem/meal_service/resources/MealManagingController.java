@@ -32,8 +32,9 @@ public class MealManagingController {
      *            the meal
      */
     @RequestMapping("/meal/add")
-    public void addMeal(@RequestBody MealDto meal) {
-        this.manager.addMeal(DtoConverter.mealDtoToEntity(meal));
+    public MealDto addMeal(@RequestBody MealDto meal) {
+        return DtoConverter.mealEntitytoDto(
+                this.manager.addMeal(DtoConverter.mealDtoToEntity(meal)));
     }
 
     /**

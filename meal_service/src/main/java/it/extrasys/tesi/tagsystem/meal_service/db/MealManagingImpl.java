@@ -37,8 +37,8 @@ public class MealManagingImpl implements MealManaging {
      * extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity)
      */
     @Transactional
-    public void addMeal(MealEntity meal) {
-        this.mealDao.save(meal);
+    public MealEntity addMeal(MealEntity meal) {
+        return this.mealDao.save(meal);
 
     }
 
