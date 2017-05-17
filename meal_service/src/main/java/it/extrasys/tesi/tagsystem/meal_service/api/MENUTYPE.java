@@ -4,7 +4,7 @@ package it.extrasys.tesi.tagsystem.meal_service.api;
 /**
  * The Enum MenuType.
  */
-public enum MenuType {
+public enum MENUTYPE {
 
     /** The vegetarian. */
     vegetarian("vegetarian"),
@@ -22,7 +22,7 @@ public enum MenuType {
      * @param name
      *            the name
      */
-    MenuType(String name) {
+    MENUTYPE(String name) {
         this.name = name;
     }
 

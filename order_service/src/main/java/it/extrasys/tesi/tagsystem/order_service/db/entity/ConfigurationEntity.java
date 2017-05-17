@@ -1,5 +1,7 @@
 package it.extrasys.tesi.tagsystem.order_service.db.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,5 +20,7 @@ public class ConfigurationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "configuration_id")
     private int configurationId;
+
+    private List<Integer> mealPk;
 
 }

@@ -1,11 +1,11 @@
 package it.extrasys.tesi.tagsystem.meal_service.db.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,20 +25,18 @@ public class MealEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "meal_id")
-    private int mealId;
+    private Long mealId;
 
     /** The description. */
     private String description;
 
     /** The price. */
-    private int price;
+    private BigDecimal price;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinColumn(name = "menu_id")
-    private List<MenuEntity> menus;
-
-    private MealType type;
-
+    private List<MenuEntity> menus = new ArrayList<MenuEntity>();
+    private MEALTYPE type;
     /**
      * Adds the menu.
      *
@@ -46,11 +44,9 @@ public class MealEntity {
      *            the menu
      */
     public void addToMenu(MenuEntity menu) {
-        if (this.menus == null) {
-            this.menus = new ArrayList<MenuEntity>();
-        }
         this.menus.add(menu);
     }
+
     /**
      * Gets the description.
      *
@@ -59,30 +55,6 @@ public class MealEntity {
     public String getDescription() {
         return this.description;
     }
-    /**
-     * Gets the meal id.
-     *
-     * @return the meal id
-     */
-    public int getMealId() {
-        return this.mealId;
-    }
-    public List<MenuEntity> getMenus() {
-        return this.menus;
-    }
-    /**
-     * Gets the price.
-     *
-     * @return the price
-     */
-    public int getPrice() {
-        return this.price;
-    }
-
-    public MealType getType() {
-        return this.type;
-    }
-
     /**
      * Sets the description.
      *
@@ -93,26 +65,39 @@ public class MealEntity {
         this.description = description;
     }
 
-    public void setMealId(int mealId) {
-        this.mealId = mealId;
-    }
-
-    public void setMenus(List<MenuEntity> menus) {
-        this.menus = menus;
+    public Long getMealId() {
+        return this.mealId;
     }
 
     /**
-     * Sets the price.
+     * Gets the meal id.
      *
-     * @param price
-     *            the new price
+     * @return the meal id
      */
-    public void setPrice(int price) {
+
+    public List<MenuEntity> getMenus() {
+        return this.menus;
+    }
+
+    public BigDecimal getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public void setType(MealType type) {
+    public MEALTYPE getType() {
+        return this.type;
+    }
+
+    public void setType(MEALTYPE type) {
         this.type = type;
+    }
+
+    public void setMealId(Long mealId) {
+        this.mealId = mealId;
+
     }
 
 }

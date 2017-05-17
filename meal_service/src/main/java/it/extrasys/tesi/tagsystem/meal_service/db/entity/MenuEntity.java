@@ -1,16 +1,18 @@
 package it.extrasys.tesi.tagsystem.meal_service.db.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The Class MenuEntity.
@@ -23,20 +25,17 @@ public class MenuEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id")
-    private int menuId;
+    private Long menuId;
 
     /** The date. */
-    private String date;
+    @Temporal(value = TemporalType.DATE)
+    private Date date;
 
     private String type;
 
     /** The meals. */
-    @ManyToMany(mappedBy = "menus", fetch = FetchType.LAZY)
-    private List<MealEntity> meals;
-
-    public String getDate() {
-        return this.date;
-    }
+    @ManyToMany(mappedBy = "menus")
+    private List<MealEntity> meals = new ArrayList<MealEntity>();
 
     /**
      * Gets the meals.
@@ -50,12 +49,7 @@ public class MenuEntity {
         return this.meals;
     }
 
-    /**
-     * Gets the menu id.
-     *
-     * @return the menu id
-     */
-    public int getMenuId() {
+    public Long getMenuId() {
         return this.menuId;
     }
 
@@ -63,12 +57,16 @@ public class MenuEntity {
         return this.type;
     }
 
-    public void setDate(String date) {
+    public Date getDate() {
+        return this.date;
+    }
+
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public void setMeals(List<MealEntity> mealEntityList) {
-        this.meals = mealEntityList;
+    public void setMenuId(Long menuId) {
+        this.menuId = menuId;
     }
 
     public void setType(String menuType) {

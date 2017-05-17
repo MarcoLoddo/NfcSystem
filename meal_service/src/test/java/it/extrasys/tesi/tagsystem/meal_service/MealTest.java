@@ -2,6 +2,9 @@ package it.extrasys.tesi.tagsystem.meal_service;
 
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import it.extrasys.tesi.tagsystem.meal_service.db.dao.MealDao;
 import it.extrasys.tesi.tagsystem.meal_service.db.dao.MenuDao;
+import it.extrasys.tesi.tagsystem.meal_service.db.entity.MEALTYPE;
 import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity;
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealType;
 import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
 
 /**
@@ -37,27 +40,28 @@ public class MealTest {
         addMenu();
         MealEntity mealEntity = new MealEntity();
         mealEntity.setDescription("secondo generico");
-        mealEntity.setPrice(5);
-        mealEntity.setType(MealType.meat);
-        MenuEntity menuEntity = this.menuDao.findByDate("2017-05-10").get(0);
+        mealEntity.setPrice(BigDecimal.valueOf(5));
+        mealEntity.setType(MEALTYPE.meat);
+        MenuEntity menuEntity = this.menuDao.findByDate(new Date(2017, 5, 10))
+                .get(0);
         mealEntity.addToMenu(menuEntity);
         this.mealDao.save(mealEntity);
         menuEntity.getMeals().add(mealEntity);
         this.menuDao.save(menuEntity);
-        assertTrue(this.menuDao.findByDate("2017-05-10").get(0).getMeals()
-                .size() > 1);
+        assertTrue(this.menuDao.findByDate(new Date(2017, 5, 10)).get(0)
+                .getMeals().size() > 1);
 
     }
 
     private void addMenu() {
         MenuEntity menuEntity = new MenuEntity();
         menuEntity.setType("vegetarian");
-        menuEntity.setDate("2017-05-10");
+        menuEntity.setDate(new Date(2017, 5, 10));
 
         MealEntity mealEntity = new MealEntity();
         mealEntity.setDescription("primo generico");
-        mealEntity.setPrice(5);
-        mealEntity.setType(MealType.pasta);
+        mealEntity.setPrice(BigDecimal.valueOf(5));
+        mealEntity.setType(MEALTYPE.pasta);
         menuEntity.getMeals().add(mealEntity);
         this.menuDao.save(menuEntity);
         mealEntity.addToMenu(menuEntity);
@@ -74,7 +78,8 @@ public class MealTest {
         addMenu();
         assertTrue(this.mealDao.count() > 0);
         assertTrue(this.menuDao.count() > 0);
-        MenuEntity menuEntity2 = this.menuDao.findByDate("2017-05-10").get(0);
+        MenuEntity menuEntity2 = this.menuDao.findByDate(new Date(2017, 5, 10))
+                .get(0);
         assertTrue(menuEntity2.getMeals().size() > 0);
     }
     /**

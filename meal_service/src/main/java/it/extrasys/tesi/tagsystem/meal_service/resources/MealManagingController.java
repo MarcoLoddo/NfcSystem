@@ -1,17 +1,21 @@
 package it.extrasys.tesi.tagsystem.meal_service.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.extrasys.tesi.tagsystem.meal_service.api.DtoConverter;
 import it.extrasys.tesi.tagsystem.meal_service.api.MealDto;
+import it.extrasys.tesi.tagsystem.meal_service.api.MealDtoConverter;
 import it.extrasys.tesi.tagsystem.meal_service.api.MenuDto;
+import it.extrasys.tesi.tagsystem.meal_service.api.MenuDtoConverter;
 import it.extrasys.tesi.tagsystem.meal_service.db.MealManaging;
 import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity;
 import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
@@ -31,10 +35,10 @@ public class MealManagingController {
      * @param meal
      *            the meal
      */
-    @RequestMapping("/meal/add")
+    @RequestMapping(value = "/meals", method = RequestMethod.POST)
     public MealDto addMeal(@RequestBody MealDto meal) {
-        return DtoConverter.mealEntitytoDto(
-                this.manager.addMeal(DtoConverter.mealDtoToEntity(meal)));
+        return MealDtoConverter.mealEntitytoDto(
+                this.manager.addMeal(MealDtoConverter.mealDtoToEntity(meal)));
     }
 
     /**
@@ -42,88 +46,78 @@ public class MealManagingController {
      *
      * @param menuId
      *            the menu id
-     * @param mealId
-     *            the meal id
      */
-    @RequestMapping(value = "/menu/{menuId}/meal/{mealId}/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/menus/{menuId}/meals", method = RequestMethod.POST)
 
-    public void addMealtoMenu(@PathVariable int menuId,
-            @PathVariable int mealId) {
-        MealEntity mealEntity = this.manager.getMeal(mealId);
+    public void addMealtoMenu(@PathVariable Long menuId,
+            @RequestBody MealDto mealDto) {
+        MealEntity mealEntity = this.manager.getMeal(mealDto.getMealId());
         mealEntity.addToMenu(this.manager.getMenu(menuId));
         this.manager.addMeal(mealEntity);
     }
     /**
      * Adds the menu.
      */
-    @RequestMapping("/menu/add")
+    @RequestMapping(value = "/menus", method = RequestMethod.POST)
     public MenuDto addMenu(@RequestBody MenuDto menu) {
-        MenuEntity menuEntity = DtoConverter.menuDtotoEntity(menu);
-        return DtoConverter.menuEntitytoDto(this.manager.addMenu(menuEntity));
+        MenuEntity menuEntity = MenuDtoConverter.menuDtotoEntity(menu);
+        return MenuDtoConverter
+                .menuEntitytoDto(this.manager.addMenu(menuEntity));
 
     }
 
-    @RequestMapping("/meal/find/all")
+    @RequestMapping(value = "/meals", method = RequestMethod.GET)
     public List<MealDto> getAllMeals() {
 
-        return DtoConverter.mealEntitytoDtoList(this.manager.getAllMeal());
+        return MealDtoConverter.mealEntitytoDtoList(this.manager.getAllMeal());
     }
 
     /**
-     * Gets the menus of day.
+     * Gets the menu by id.
      *
-     * @param id
+     * @param menuId
      *            the id
      * @return the menus of day
      */
-    @RequestMapping("/menu/{id}/find")
-    public MenuDto getMenusOfDay(@PathVariable int id) {
+    @RequestMapping(value = "/menus/{menuId}", method = RequestMethod.GET)
+    public MenuDto getMenuById(@PathVariable Long menuId) {
 
-        return DtoConverter.menuEntitytoDto(this.manager.getMenu(id));
+        return MenuDtoConverter.menuEntitytoDto(this.manager.getMenu(menuId));
     }
     /**
      * Gets the menus of day.
      *
-     * @param date
-     *            the date
      * @return the menus of day
      */
-    @RequestMapping("/menu/day/{date}/find")
-    public List<MenuDto> getMenusOfDay(@PathVariable String date) {
-
-        return DtoConverter
-                .menuEntitytoDtoList(this.manager.getMenuByDate(date));
+    @RequestMapping(value = "/menus", method = RequestMethod.GET)
+    public List<MenuDto> getMenusOfDay(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date day) {
+        List<MenuDto> dtos = MenuDtoConverter
+                .menuEntitytoDtoList(this.manager.getMenuByDate(day));
+        return dtos;
     }
 
     /**
      * Update meal.
      *
-     * @param id
-     *            the id
      * @param toUpdate
      *            the to update
-     * @return the meal dto
      */
-    @RequestMapping("/meal/{id}/update")
-    public MealDto updateMeal(@PathVariable int id,
-            @RequestBody MealDto toUpdate) {
-        MealEntity mealEntity = DtoConverter.mealDtoToEntity(toUpdate);
-        return DtoConverter
-                .mealEntitytoDto(this.manager.updateMeal(mealEntity));
+    @RequestMapping(value = "/meals", method = RequestMethod.PUT)
+    public void updateMeal(@RequestBody MealDto toUpdate) {
+        MealEntity mealEntity = MealDtoConverter.mealDtoToEntity(toUpdate);
+        this.manager.updateMeal(mealEntity);
     }
     /**
      * Update menu.
      *
      * @param toUpdate
      *            the to update
-     * @return the menu dto
      */
-    @RequestMapping("/menu/{id}/update")
-    public MenuDto updateMenu(@PathVariable int id,
-            @RequestBody MenuDto toUpdate) {
-        MenuEntity menuEntity = DtoConverter.menuDtotoEntity(toUpdate);
-        return DtoConverter
-                .menuEntitytoDto(this.manager.updateMenu(menuEntity));
+    @RequestMapping(value = "/menus", method = RequestMethod.PUT)
+    public void updateMenu(@RequestBody MenuDto toUpdate) {
+        MenuEntity menuEntity = MenuDtoConverter.menuDtotoEntity(toUpdate);
+        this.manager.updateMenu(menuEntity);
     }
 
 }
