@@ -1,5 +1,6 @@
 package it.extrasys.tesi.tagsystem.meal_app.client;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -7,36 +8,39 @@ import java.util.List;
  */
 public class MenuDto {
 
-    private int menuId;
+    private Long menuId;
 
     private String type;
 
     private List<MealDto> meals;
-    private String date;
-    public String getDate() {
+    private Date date;
+
+    public Date getDate() {
         return this.date;
     }
-    public List<MealDto> getMeals() {
-        return this.meals;
+    public void setDate(Date date) {
+        this.date = date;
     }
-    public int getMenuId() {
+
+    public Long getMenuId() {
         return this.menuId;
+    }
+    public void setMenuId(Long menuId) {
+        this.menuId = menuId;
     }
 
     public String getType() {
         return this.type;
     }
-    public void setDate(String date) {
-        this.date = date;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public List<MealDto> getMeals() {
+        return this.meals;
     }
     public void setMeals(List<MealDto> meals) {
         this.meals = meals;
     }
 
-    public void setMenuId(int menuId) {
-        this.menuId = menuId;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
 }

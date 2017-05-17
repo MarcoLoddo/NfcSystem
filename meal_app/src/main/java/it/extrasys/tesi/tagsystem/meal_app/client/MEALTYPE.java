@@ -4,7 +4,7 @@ package it.extrasys.tesi.tagsystem.meal_app.client;
 /**
  * The Enum MealType.
  */
-public enum MealType {
+public enum MEALTYPE {
 
     /** The drink. */
     drink,

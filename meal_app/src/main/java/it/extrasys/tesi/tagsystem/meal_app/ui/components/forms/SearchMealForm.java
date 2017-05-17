@@ -1,7 +1,5 @@
 package it.extrasys.tesi.tagsystem.meal_app.ui.components.forms;
 
-import java.util.List;
-
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.ItemClick;
 import com.vaadin.ui.VerticalLayout;
@@ -9,6 +7,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.components.grid.ItemClickListener;
 
 import it.extrasys.tesi.tagsystem.meal_app.client.MealDto;
+import it.extrasys.tesi.tagsystem.meal_app.client.RestClient;
 
 /**
  * The Class SearchMealForm.
@@ -21,15 +20,14 @@ public class SearchMealForm extends Window {
 
     /**
      * Instantiates a new search meal form.
-     *
-     * @param list
-     *            the as list
      */
-    public SearchMealForm(List<MealDto> list) {
+    public SearchMealForm() {
+        RestClient restClient = new RestClient();
+
         this.form = new VerticalLayout();
 
         Grid<MealDto> grid = new Grid<>(MealDto.class);
-        grid.setItems(list);
+        grid.setItems(restClient.getAllMeals());
         grid.setCaption("Meals in db");
         grid.addItemClickListener(new ItemClickListener<MealDto>() {
 
@@ -51,7 +49,8 @@ public class SearchMealForm extends Window {
      *
      * @return the meal to add
      */
-    public MealDto getMealToAdd() {
+    @Override
+    public MealDto getData() {
         return this.mealToAdd;
     }
 

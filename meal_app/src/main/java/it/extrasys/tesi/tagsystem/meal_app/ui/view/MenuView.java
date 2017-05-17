@@ -1,12 +1,9 @@
 package it.extrasys.tesi.tagsystem.meal_app.ui.view;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.springframework.web.client.RestTemplate;
 
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.data.HasValue.ValueChangeListener;
@@ -26,9 +23,11 @@ import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.ui.themes.ValoTheme;
 
 import it.extrasys.tesi.tagsystem.meal_app.client.MenuDto;
-import it.extrasys.tesi.tagsystem.meal_app.ui.components.Externalizer;
+import it.extrasys.tesi.tagsystem.meal_app.client.Messages;
+import it.extrasys.tesi.tagsystem.meal_app.client.RestClient;
 import it.extrasys.tesi.tagsystem.meal_app.ui.components.events.MealUpdateEventListener;
-import it.extrasys.tesi.tagsystem.meal_app.ui.components.forms.MenuAddForm;
+import it.extrasys.tesi.tagsystem.meal_app.ui.components.forms.MealAddForm;
+import it.extrasys.tesi.tagsystem.meal_app.ui.components.forms.MenuCompilationForm;
 import it.extrasys.tesi.tagsystem.meal_app.ui.components.forms.MenuForm;
 
 /**
@@ -63,7 +62,7 @@ public class MenuView extends VerticalLayout
         this.datapicker.setCaption("Select a date:");
         setSizeFull();
         this.form.addComponent(this.datapicker);
-        this.datapicker.setDateFormat("yyyy-MM-dd");
+        this.datapicker.setDateFormat(Messages.get("date.format"));
         this.form.setSizeUndefined();
         addComponent(this.form);
         setComponentAlignment(this.form, Alignment.MIDDLE_CENTER);
@@ -78,35 +77,60 @@ public class MenuView extends VerticalLayout
      */
     @Override
     public void enter(ViewChangeEvent event) {
+        RestClient restClient = new RestClient();
+        Button addMeal = new Button("Add new Meal");
+        addMeal.addClickListener(new ClickListener() {
 
+            @Override
+            public void buttonClick(ClickEvent event) {
+                MealAddForm mealAddForm = new MealAddForm();
+                UI.getCurrent().addWindow(mealAddForm);
+                mealAddForm.setModal(true);
+            }
+        });
         Button addMenu = new Button("Add new Menu");
         addMenu.addClickListener(new ClickListener() {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                MenuAddForm menuAddForm = new MenuAddForm();
+                MenuCompilationForm menuAddForm = new MenuCompilationForm();
                 UI.getCurrent().addWindow(menuAddForm);
                 menuAddForm.setModal(true);
                 menuAddForm.center();
                 menuAddForm.focus();
+                menuAddForm.getSubmitButton()
+                        .addClickListener(new ClickListener() {
+
+                            @Override
+                            public void buttonClick(ClickEvent event) {
+
+                                MenuDto menuDto = menuAddForm.getData();
+
+                                restClient.addMenu(menuDto);
+
+                                menuAddForm.close();
+
+                            }
+                        });
                 menuAddForm.addCloseListener(new CloseListener() {
 
                     @Override
                     public void windowClose(CloseEvent e) {
-                        refresh(LocalDate.now());
+                        UI.getCurrent().removeWindow(menuAddForm);
 
                     }
                 });
             }
         });
-        addComponent(addMenu);
+        addComponents(addMenu, addMeal);
         addMenu.addStyleName(ValoTheme.BUTTON_LINK);
+        addMeal.addStyleName(ValoTheme.BUTTON_LINK);
         this.datapicker
                 .addValueChangeListener(new ValueChangeListener<LocalDate>() {
 
                     @Override
                     public void valueChange(ValueChangeEvent<LocalDate> event) {
-                        refresh(event.getValue());
+                        refresh(Date.valueOf(event.getValue()));
                     }
                 });
     }
@@ -119,18 +143,12 @@ public class MenuView extends VerticalLayout
         return this.pageName;
     }
 
-    private void refresh(LocalDate date) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        String uri = Externalizer.getString("getMenuByDay");
-        Map<String, LocalDate> map = new HashMap<>();
-        map.put("date", date);
-        MenuDto[] menuDtos = restTemplate
-                .getForEntity(uri, MenuDto[].class, map).getBody();
-
+    private void refresh(Date date) {
+        RestClient restClient = new RestClient();
+        List<MenuDto> menuDtos = restClient.getMenuByDay(date);
         this.menus.forEach(k -> this.form.removeComponent(k));
         this.menus.clear();
-        if (menuDtos.length > 0) {
+        if (menuDtos.size() > 0) {
             for (MenuDto menuDto : menuDtos) {
 
                 MenuForm menuForm = new MenuForm(menuDto);
@@ -153,16 +171,11 @@ public class MenuView extends VerticalLayout
 
     @Override
     public void update() {
+        RestClient restClient = new RestClient();
         for (MenuForm menuForm : this.menus) {
-            RestTemplate restTemplate = new RestTemplate();
 
-            String uri = Externalizer.getString("getMenu");
-            Map<String, Integer> map = new HashMap<>();
-            map.put("id", menuForm.getMenuDto().getMenuId());
-            MenuDto menuDto = restTemplate.getForEntity(uri, MenuDto.class, map)
-                    .getBody();
-
-            menuForm.updateForm(menuDto);
+            menuForm.updateForm(
+                    restClient.getMenu(menuForm.getMenuDto().getMenuId()));
         }
 
     }

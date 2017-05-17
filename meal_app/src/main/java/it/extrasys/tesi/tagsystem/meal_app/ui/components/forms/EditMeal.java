@@ -1,5 +1,7 @@
 package it.extrasys.tesi.tagsystem.meal_app.ui.components.forms;
 
+import java.math.BigDecimal;
+
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.data.HasValue.ValueChangeListener;
 import com.vaadin.ui.Alignment;
@@ -11,8 +13,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import it.extrasys.tesi.tagsystem.meal_app.client.MealDto;
-import it.extrasys.tesi.tagsystem.meal_app.client.MealType;
+import it.extrasys.tesi.tagsystem.meal_app.client.MEALTYPE;
+import it.extrasys.tesi.tagsystem.meal_app.client.MealDto;;
 
 /**
  * The Class EditMeal.
@@ -42,7 +44,7 @@ public class EditMeal extends Window {
         TextField description = new TextField();
         description.setValue(meal.getDescription());
         TextField price = new TextField();
-        price.setValue(Integer.toString(meal.getPrice()));
+        price.setValue(String.valueOf(meal.getPrice()));
         price.setSizeUndefined();
 
         price.addValueChangeListener(new ValueChangeListener<String>() {
@@ -56,8 +58,8 @@ public class EditMeal extends Window {
                 }
             }
         });
-        ComboBox<MealType> comboBox = new ComboBox<>();
-        comboBox.setItems(MealType.values());
+        ComboBox<MEALTYPE> comboBox = new ComboBox<>();
+        comboBox.setItems(MEALTYPE.values());
         comboBox.setValue(meal.getType());
         this.submit = new Button("Submit");
         this.form.addComponents(description, price, comboBox, this.submit);
@@ -71,8 +73,8 @@ public class EditMeal extends Window {
 
                 EditMeal.this.updatedMeal
                         .setDescription(description.getValue());
-                EditMeal.this.updatedMeal
-                        .setPrice(Integer.parseInt(price.getValue()));
+                EditMeal.this.updatedMeal.setPrice(
+                        BigDecimal.valueOf(Long.parseLong(price.getValue())));
                 EditMeal.this.updatedMeal.setType(comboBox.getValue());
                 close();
             }

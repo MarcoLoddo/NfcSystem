@@ -2,17 +2,14 @@ package it.extrasys.tesi.tagsystem.meal_app.ui.components.forms;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.springframework.web.client.RestTemplate;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
@@ -20,7 +17,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import it.extrasys.tesi.tagsystem.meal_app.client.MealDto;
 import it.extrasys.tesi.tagsystem.meal_app.client.MenuDto;
-import it.extrasys.tesi.tagsystem.meal_app.ui.components.Externalizer;
+import it.extrasys.tesi.tagsystem.meal_app.client.RestClient;
 import it.extrasys.tesi.tagsystem.meal_app.ui.components.events.MealUpdateEventListener;
 import it.extrasys.tesi.tagsystem.meal_app.ui.components.events.MealUpdatePublisher;
 
@@ -29,7 +26,9 @@ import it.extrasys.tesi.tagsystem.meal_app.ui.components.events.MealUpdatePublis
  */
 public class MenuForm extends VerticalLayout implements MealUpdatePublisher {
 
+    private MenuCompilationForm menuEdit;
     private List<MealUpdateEventListener> listeners;
+    private Button editMenuButton;
     /**
      * Instantiates a new menu form.
      *
@@ -47,7 +46,9 @@ public class MenuForm extends VerticalLayout implements MealUpdatePublisher {
     public MenuForm(MenuDto menu) {
 
         setSizeFull();
-        setCaption(menu.getType());
+
+        this.editMenuButton = new Button("Edit this menu");
+
         updateForm(menu);
     }
     @Override
@@ -77,7 +78,56 @@ public class MenuForm extends VerticalLayout implements MealUpdatePublisher {
      */
     public void updateForm(MenuDto menu) {
         this.menuDto = menu;
+        this.menuEdit = new MenuCompilationForm(menu);
+
         removeAllComponents();
+
+        HorizontalLayout titleBar = new HorizontalLayout();
+        titleBar.addComponent(new Label(menu.getType()));
+        titleBar.addComponent(this.editMenuButton);
+        this.editMenuButton.addStyleName(ValoTheme.BUTTON_LINK);
+
+        this.editMenuButton.addClickListener(new ClickListener() {
+
+            @Override
+            public void buttonClick(ClickEvent event) {
+                if (UI.getCurrent().getWindows()
+                        .contains(MenuForm.this.menuEdit)) {
+                    UI.getCurrent().removeWindow(MenuForm.this.menuEdit);
+                    MenuForm.this.menuEdit = new MenuCompilationForm(menu);
+                }
+                UI.getCurrent().addWindow(MenuForm.this.menuEdit);
+                MenuForm.this.menuEdit.setModal(true);
+                MenuForm.this.menuEdit.center();
+                MenuForm.this.menuEdit.focus();
+                MenuForm.this.menuEdit.getSubmitButton()
+                        .addClickListener(new ClickListener() {
+
+                            @Override
+                            public void buttonClick(ClickEvent event) {
+                                MenuDto menuToAdd = MenuForm.this.menuEdit
+                                        .getData();
+                                menuToAdd.getMeals().removeAll(
+                                        MenuForm.this.menuDto.getMeals());
+                                RestClient restClient = new RestClient();
+                                restClient.updateMenu(menuToAdd);
+                                MenuForm.this.menuEdit.close();
+
+                            }
+                        });
+                MenuForm.this.menuEdit.addCloseListener(new CloseListener() {
+
+                    @Override
+                    public void windowClose(CloseEvent e) {
+
+                        fireMealUpdateEvent();
+                    }
+                });
+            }
+
+        });
+        addComponent(titleBar);
+        titleBar.setSpacing(true);
         menu.getMeals().sort(new Comparator<MealDto>() {
 
             @Override
@@ -105,11 +155,11 @@ public class MenuForm extends VerticalLayout implements MealUpdatePublisher {
 
             }
             line.addComponent(new Label(mealDto.getDescription()));
-            Button editButton = new Button("edit");
+            Button edtiMealButton = new Button("edit");
             line.addComponent(new Label("€" + mealDto.getPrice()));
-            line.addComponent(editButton);
-            editButton.addStyleName(ValoTheme.BUTTON_LINK);
-            editButton.addClickListener(new ClickListener() {
+            line.addComponent(edtiMealButton);
+            edtiMealButton.addStyleName(ValoTheme.BUTTON_LINK);
+            edtiMealButton.addClickListener(new ClickListener() {
 
                 @Override
                 public void buttonClick(ClickEvent event) {
@@ -122,27 +172,9 @@ public class MenuForm extends VerticalLayout implements MealUpdatePublisher {
                         @Override
                         public void windowClose(CloseEvent e) {
                             if (formEdit.getUpdatedMeal() != null) {
-                                String uri = Externalizer
-                                        .getString("updateMeal");
-                                RestTemplate restTemplate = new RestTemplate();
-
-                                Map<String, Integer> map = new HashMap<>();
-                                map.put("id",
-                                        formEdit.getUpdatedMeal().getMealId());
-                                restTemplate.postForEntity(uri,
-                                        formEdit.getUpdatedMeal(),
-                                        MealDto.class, map);
-                                map = new HashMap<>();
-                                map.put("mealId", mealDto.getMealId());
-                                map.put("menuId", menu.getMenuId());
-                                restTemplate.getForEntity(
-                                        Externalizer.getString("addMealtoMenu"),
-                                        null, map);
-                                map = new HashMap<>();
-                                map.put("id", menu.getMenuId());
-                                MenuDto update = restTemplate.getForEntity(
-                                        Externalizer.getString("getMenu"),
-                                        MenuDto.class, map).getBody();
+                                RestClient restClient = new RestClient();
+                                restClient
+                                        .updateMeal(formEdit.getUpdatedMeal());
                                 fireMealUpdateEvent();
                             }
                             getUI().removeWindow(formEdit);
