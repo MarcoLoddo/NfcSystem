@@ -10,6 +10,10 @@ import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
  * The Class MenuDtoConverter.
  */
 public final class MenuDtoConverter {
+
+    private MenuDtoConverter() {
+
+    }
     /**
      * To entity.
      *

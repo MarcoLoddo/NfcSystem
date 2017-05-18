@@ -10,6 +10,9 @@ import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity;
  */
 public final class MealDtoConverter {
 
+    private MealDtoConverter() {
+
+    }
     /**
      * To entity.
      *
