@@ -1,5 +1,6 @@
 package it.extrasys.tesi.tagsystem.meal_service.db.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,5 +19,5 @@ public interface MealDao extends JpaRepository<MealEntity, Long> {
      *            the price
      * @return the list
      */
-    List<MealEntity> findByPrice(int price);
+    List<MealEntity> findByPrice(BigDecimal price);
 }

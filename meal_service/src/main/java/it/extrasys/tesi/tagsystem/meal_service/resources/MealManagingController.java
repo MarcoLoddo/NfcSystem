@@ -52,8 +52,12 @@ public class MealManagingController {
     public void addMealtoMenu(@PathVariable Long menuId,
             @RequestBody MealDto mealDto) {
         MealEntity mealEntity = this.manager.getMeal(mealDto.getMealId());
-        mealEntity.addToMenu(this.manager.getMenu(menuId));
-        this.manager.addMeal(mealEntity);
+        MenuEntity menuEntity = this.manager.getMenu(menuId);
+        if (!menuEntity.getMeals().stream()
+                .anyMatch(e -> e.getMealId() == mealDto.getMealId())) {
+            mealEntity.addToMenu(menuEntity);
+            this.manager.updateMeal(mealEntity);
+        }
     }
     /**
      * Adds the menu.
@@ -105,7 +109,10 @@ public class MealManagingController {
      */
     @RequestMapping(value = "/meals", method = RequestMethod.PUT)
     public void updateMeal(@RequestBody MealDto toUpdate) {
-        MealEntity mealEntity = MealDtoConverter.mealDtoToEntity(toUpdate);
+        MealEntity mealEntity = this.manager.getMeal(toUpdate.getMealId());
+        mealEntity.setDescription(toUpdate.getDescription());
+        mealEntity.setPrice(toUpdate.getPrice());
+        mealEntity.setType(toUpdate.getType());
         this.manager.updateMeal(mealEntity);
     }
     /**
@@ -116,7 +123,9 @@ public class MealManagingController {
      */
     @RequestMapping(value = "/menus", method = RequestMethod.PUT)
     public void updateMenu(@RequestBody MenuDto toUpdate) {
-        MenuEntity menuEntity = MenuDtoConverter.menuDtotoEntity(toUpdate);
+        MenuEntity menuEntity = this.manager.getMenu(toUpdate.getMenuId());
+        menuEntity.setDate(toUpdate.getDate());
+        menuEntity.setType(toUpdate.getType());
         this.manager.updateMenu(menuEntity);
     }
 

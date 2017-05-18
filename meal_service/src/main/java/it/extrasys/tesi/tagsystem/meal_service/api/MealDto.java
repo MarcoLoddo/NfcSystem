@@ -1,6 +1,7 @@
 package it.extrasys.tesi.tagsystem.meal_service.api;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import it.extrasys.tesi.tagsystem.meal_service.db.entity.MEALTYPE;
@@ -20,7 +21,7 @@ public class MealDto {
 
     private MEALTYPE type;
 
-    private List<MenuDto> menus;
+    private List<MenuDto> menus = new ArrayList<>();
 
     public Long getMealId() {
         return this.mealId;

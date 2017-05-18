@@ -1,5 +1,9 @@
 package it.extrasys.tesi.tagsystem.meal_app.ui.components.forms;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.ItemClick;
 import com.vaadin.ui.VerticalLayout;
@@ -17,19 +21,21 @@ public class SearchMealForm extends Window {
     /** The meal to add. */
     private MealDto mealToAdd;
     private VerticalLayout form;
-
+    private List<MealDto> meals;
+    private Grid<MealDto> grid;
     /**
      * Instantiates a new search meal form.
      */
     public SearchMealForm() {
         RestClient restClient = new RestClient();
-
+        this.meals = new ArrayList<>();
+        this.meals.addAll(Arrays.asList(restClient.getAllMeals()));
         this.form = new VerticalLayout();
 
-        Grid<MealDto> grid = new Grid<>(MealDto.class);
-        grid.setItems(restClient.getAllMeals());
-        grid.setCaption("Meals in db");
-        grid.addItemClickListener(new ItemClickListener<MealDto>() {
+        this.grid = new Grid<>(MealDto.class);
+        this.grid.setItems(this.meals);
+        this.grid.setCaption("Meals in db");
+        this.grid.addItemClickListener(new ItemClickListener<MealDto>() {
 
             @Override
             public void itemClick(ItemClick<MealDto> event) {
@@ -40,10 +46,23 @@ public class SearchMealForm extends Window {
 
             }
         });
-        this.form.addComponent(grid);
+        this.form.addComponent(this.grid);
         setContent(this.form);
     }
 
+    /**
+     * Instantiates a new search meal form.
+     *
+     * @param mealPresent
+     *            the meal present
+     */
+    public SearchMealForm(List<MealDto> mealPresent) {
+        this();
+
+        mealPresent.forEach(meal -> this.meals
+                .removeIf(meal2 -> meal.getMealId() == meal2.getMealId()));
+        this.grid.getDataProvider().refreshAll();
+    }
     /**
      * Gets the meal to add.
      *

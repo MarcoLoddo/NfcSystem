@@ -1,10 +1,12 @@
 package it.extrasys.tesi.tagsystem.meal_app.client;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The Class MealDto.
+ *
  */
 public class MealDto {
 
@@ -18,7 +20,7 @@ public class MealDto {
 
     private MEALTYPE type;
 
-    private List<MenuDto> menus;
+    private List<MenuDto> menus = new ArrayList<>();
 
     public Long getMealId() {
         return this.mealId;

@@ -33,6 +33,10 @@ public class MenuCompilationForm extends Window {
     /** The submit. */
     private Button submit;
 
+    public Button getSubmit() {
+        return this.submit;
+    }
+
     /** The data. */
     private MenuDto data;
 
@@ -92,7 +96,8 @@ public class MenuCompilationForm extends Window {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                SearchMealForm mealAddForm = new SearchMealForm();
+                SearchMealForm mealAddForm = new SearchMealForm(
+                        MenuCompilationForm.this.mealsInGrid);
                 UI.getCurrent().addWindow(mealAddForm);
                 mealAddForm.setModal(true);
                 mealAddForm.addCloseListener(new CloseListener() {

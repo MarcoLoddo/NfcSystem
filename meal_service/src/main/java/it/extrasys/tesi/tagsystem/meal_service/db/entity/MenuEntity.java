@@ -43,9 +43,6 @@ public class MenuEntity {
      * @return the meals
      */
     public List<MealEntity> getMeals() {
-        if (this.meals == null) {
-            this.meals = new ArrayList<MealEntity>();
-        }
         return this.meals;
     }
 

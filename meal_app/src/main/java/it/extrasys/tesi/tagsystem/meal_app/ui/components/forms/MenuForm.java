@@ -107,11 +107,10 @@ public class MenuForm extends VerticalLayout implements MealUpdatePublisher {
                             public void buttonClick(ClickEvent event) {
                                 MenuDto menuToAdd = MenuForm.this.menuEdit
                                         .getData();
-                                menuToAdd.getMeals().removeAll(
-                                        MenuForm.this.menuDto.getMeals());
                                 RestClient restClient = new RestClient();
                                 restClient.updateMenu(menuToAdd);
                                 MenuForm.this.menuEdit.close();
+                                fireMealUpdateEvent();
 
                             }
                         });
@@ -163,23 +162,26 @@ public class MenuForm extends VerticalLayout implements MealUpdatePublisher {
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    EditMeal formEdit = new EditMeal(mealDto);
+                    MealCompilationForm formEdit = new MealCompilationForm(
+                            mealDto);
                     getUI().addWindow(formEdit);
                     formEdit.focus();
                     formEdit.center();
-                    formEdit.addCloseListener(new CloseListener() {
+                    formEdit.getSubmitButton()
+                            .addClickListener(new ClickListener() {
 
-                        @Override
-                        public void windowClose(CloseEvent e) {
-                            if (formEdit.getUpdatedMeal() != null) {
-                                RestClient restClient = new RestClient();
-                                restClient
-                                        .updateMeal(formEdit.getUpdatedMeal());
-                                fireMealUpdateEvent();
-                            }
-                            getUI().removeWindow(formEdit);
-                        }
-                    });
+                                @Override
+                                public void buttonClick(ClickEvent event) {
+                                    formEdit.setData();
+                                    if (formEdit.getMealDto() != null) {
+                                        RestClient restClient = new RestClient();
+                                        restClient.updateMeal(
+                                                formEdit.getMealDto());
+                                        formEdit.close();
+                                        fireMealUpdateEvent();
+                                    }
+                                }
+                            });
 
                 }
             });

@@ -36,15 +36,9 @@ public class RestClient {
         MenuDto menuPersisted = this.restTemplate
                 .postForEntity(uri, menuDto, MenuDto.class).getBody();
 
-        uri = Messages.get("add.meal.to.menu");
-        Map<String, Long> map = new HashMap<>();
-        for (MealDto mealDto : menuDto.getMeals()) {
-            map.clear();
-            map.put("menuId", menuPersisted.getMenuId());
-            map.put("mealId", mealDto.getMealId());
-            this.restTemplate.getForEntity(uri, null, map);
-        }
-        return menuPersisted;
+        menuDto.setMenuId(menuPersisted.getMenuId());
+        addMealsToMenu(menuDto);
+        return getMenu(menuDto.getMenuId());
     }
 
     /**
@@ -102,7 +96,7 @@ public class RestClient {
         String uri = Messages.get("update.menu");
         this.restTemplate.put(uri, menu);
         addMealsToMenu(menu);
-        return menu;
+        return getMenu(menu.getMenuId());
     }
 
     /**
@@ -112,16 +106,27 @@ public class RestClient {
      *            the menu
      */
     public void addMealsToMenu(MenuDto menu) {
-        Map<String, Long> map = new HashMap<>();
-        String uri = Messages.get("add.meal.to.menu");
 
         for (MealDto mealDto : menu.getMeals()) {
-            map.clear();
-            map.put("menuId", menu.getMenuId());
-            this.restTemplate.postForEntity(uri, mealDto, null, map);
+            addMealToMenu(mealDto, menu);
+
         }
     }
 
+    /**
+     * Adds the meal to menu.
+     *
+     * @param mealDto
+     *            the meal dto
+     * @param menuDto
+     *            the menu dto
+     */
+    public void addMealToMenu(MealDto mealDto, MenuDto menuDto) {
+        Map<String, Long> map = new HashMap<>();
+        String uri = Messages.get("add.meal.to.menu");
+        map.put("menuId", menuDto.getMenuId());
+        this.restTemplate.postForEntity(uri, mealDto, null, map);
+    }
     /**
      * Update meal.
      *
@@ -134,6 +139,19 @@ public class RestClient {
 
         this.restTemplate.put(uri, updatedMeal);
 
+    }
+
+    /**
+     * Adds the meal.
+     *
+     * @param mealDto
+     *            the meal dto
+     * @return the meal dto
+     */
+    public MealDto addMeal(MealDto mealDto) {
+        String uri = Messages.get("add.meal");
+        return this.restTemplate.postForEntity(uri, mealDto, MealDto.class)
+                .getBody();
     }
 
 }

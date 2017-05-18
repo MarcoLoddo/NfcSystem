@@ -26,7 +26,7 @@ import it.extrasys.tesi.tagsystem.meal_app.client.MenuDto;
 import it.extrasys.tesi.tagsystem.meal_app.client.Messages;
 import it.extrasys.tesi.tagsystem.meal_app.client.RestClient;
 import it.extrasys.tesi.tagsystem.meal_app.ui.components.events.MealUpdateEventListener;
-import it.extrasys.tesi.tagsystem.meal_app.ui.components.forms.MealAddForm;
+import it.extrasys.tesi.tagsystem.meal_app.ui.components.forms.MealCompilationForm;
 import it.extrasys.tesi.tagsystem.meal_app.ui.components.forms.MenuCompilationForm;
 import it.extrasys.tesi.tagsystem.meal_app.ui.components.forms.MenuForm;
 
@@ -83,9 +83,20 @@ public class MenuView extends VerticalLayout
 
             @Override
             public void buttonClick(ClickEvent event) {
-                MealAddForm mealAddForm = new MealAddForm();
+                MealCompilationForm mealAddForm = new MealCompilationForm();
                 UI.getCurrent().addWindow(mealAddForm);
                 mealAddForm.setModal(true);
+                mealAddForm.getSubmitButton()
+                        .addClickListener(new ClickListener() {
+
+                            @Override
+                            public void buttonClick(ClickEvent event) {
+                                mealAddForm.setData();
+                                RestClient restClient = new RestClient();
+                                restClient.addMeal(mealAddForm.getMealDto());
+
+                            }
+                        });
             }
         });
         Button addMenu = new Button("Add new Menu");

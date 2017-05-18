@@ -1,5 +1,6 @@
 package it.extrasys.tesi.tagsystem.meal_app.client;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class MenuDto {
 
     private String type;
 
-    private List<MealDto> meals;
+    private List<MealDto> meals = new ArrayList<>();
     private Date date;
 
     public Date getDate() {
