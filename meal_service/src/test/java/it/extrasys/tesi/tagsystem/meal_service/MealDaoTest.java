@@ -24,8 +24,8 @@ import org.springframework.test.context.transaction.AfterTransaction;
 
 import it.extrasys.tesi.tagsystem.meal_service.db.dao.MealDao;
 import it.extrasys.tesi.tagsystem.meal_service.db.dao.MenuDao;
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MEALTYPE;
 import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealType;
 import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
 
 /**
@@ -209,7 +209,7 @@ public class MealDaoTest {
 
         mealEntity.setDescription("primo generico");
         mealEntity.setPrice(new BigDecimal("5"));
-        mealEntity.setType(MEALTYPE.pasta);
+        mealEntity.setType(MealType.PASTA);
 
         return mealEntity;
     }

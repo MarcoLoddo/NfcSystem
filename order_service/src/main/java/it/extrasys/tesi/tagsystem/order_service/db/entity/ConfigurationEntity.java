@@ -2,6 +2,7 @@ package it.extrasys.tesi.tagsystem.order_service.db.entity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The Class ConfigurationEntity.
@@ -28,7 +31,27 @@ public class ConfigurationEntity {
     @Enumerated
     @ElementCollection
     private List<MealType> mealTypes = new ArrayList<>();
+
     private BigDecimal specialPrice;
+
+    @Temporal(value = TemporalType.DATE)
+    private Date startDate, endDate;
+
+    public Date getStartDate() {
+        return this.startDate;
+    }
+
+    public void setStarDate(Date starDate) {
+        this.startDate = starDate;
+    }
+
+    public Date getEndDate() {
+        return this.endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
     public List<MealType> getMealtypes() {
         return this.mealTypes;

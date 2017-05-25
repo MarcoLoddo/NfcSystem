@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.meal_app.client;
+package it.extrasys.tesi.tagsystem.meal_app.ui.i18n;
 
 import javax.annotation.PostConstruct;
 

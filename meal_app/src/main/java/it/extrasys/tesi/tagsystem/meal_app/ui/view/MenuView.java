@@ -23,12 +23,12 @@ import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.ui.themes.ValoTheme;
 
 import it.extrasys.tesi.tagsystem.meal_app.client.MenuDto;
-import it.extrasys.tesi.tagsystem.meal_app.client.Messages;
 import it.extrasys.tesi.tagsystem.meal_app.client.RestClient;
 import it.extrasys.tesi.tagsystem.meal_app.ui.components.events.MealUpdateEventListener;
 import it.extrasys.tesi.tagsystem.meal_app.ui.components.forms.MealCompilationForm;
 import it.extrasys.tesi.tagsystem.meal_app.ui.components.forms.MenuCompilationForm;
 import it.extrasys.tesi.tagsystem.meal_app.ui.components.forms.MenuForm;
+import it.extrasys.tesi.tagsystem.meal_app.ui.i18n.Messages;
 
 /**
  * The Class MenuView.

@@ -67,6 +67,10 @@ public class ConfigDaoTest {
         assertThat(entities.get(0).getConfigurationId(),
                 is(equalTo(new Long("1"))));
     }
+
+    /**
+     * Clear.
+     */
     @AfterTransaction
     public void clear() {
         this.configDao.deleteAll();

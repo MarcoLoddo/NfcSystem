@@ -1,6 +1,8 @@
 package it.extrasys.tesi.tagsystem.order_service.resources;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import it.extrasys.tesi.tagsystem.order_service.api.ConfigurationDto;
 import it.extrasys.tesi.tagsystem.order_service.api.ConfigurationDtoConverter;
-import it.extrasys.tesi.tagsystem.order_service.api.ListMealType;
+import it.extrasys.tesi.tagsystem.order_service.api.ListMealTypeDto;
 import it.extrasys.tesi.tagsystem.order_service.db.entity.ConfigurationEntity;
 import it.extrasys.tesi.tagsystem.order_service.db.manager.ConfigurationManaging;
 
@@ -71,13 +73,24 @@ public class OrderController {
      */
     @RequestMapping(value = "/matching", method = RequestMethod.POST)
     public List<ConfigurationDto> matchConfiguration(
-            @RequestBody ListMealType listMealType) {
-        List<ConfigurationEntity> entities = this.manager
-                .matchConfiguration(listMealType.getMealtypes());
+            @RequestBody ListMealTypeDto listMealType) {
+
+        if (listMealType.getDate() == null) {
+            listMealType.setDate(Date.from(Instant.now()));
+        }
+
+        List<ConfigurationEntity> entities = this.manager.matchConfiguration(
+                listMealType.getMealtypes(), listMealType.getDate());
         List<ConfigurationDto> dtos = new ArrayList<>();
+
         for (ConfigurationEntity configurationEntity : entities) {
-            dtos.add(
-                    ConfigurationDtoConverter.entityToDto(configurationEntity));
+            ConfigurationDto dto = ConfigurationDtoConverter
+                    .entityToDto(configurationEntity);
+            if (configurationEntity.getMealtypes().size() == listMealType
+                    .getMealtypes().size()) {
+                dto.setPreciseMatch(true);
+            }
+            dtos.add(dto);
         }
         return dtos;
     }

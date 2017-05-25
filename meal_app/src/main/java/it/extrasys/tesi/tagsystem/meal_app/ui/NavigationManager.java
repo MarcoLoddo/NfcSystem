@@ -8,7 +8,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
 
-import it.extrasys.tesi.tagsystem.meal_app.client.Messages;
+import it.extrasys.tesi.tagsystem.meal_app.ui.i18n.Messages;
 import it.extrasys.tesi.tagsystem.meal_app.ui.view.MenuView;
 
 // TODO: Auto-generated Javadoc

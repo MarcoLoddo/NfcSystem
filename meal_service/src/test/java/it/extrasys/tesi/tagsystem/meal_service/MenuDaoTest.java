@@ -1,14 +1,12 @@
 package it.extrasys.tesi.tagsystem.meal_service;
 
+import static org.assertj.core.api.Assertions.not;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,8 +21,8 @@ import org.springframework.test.context.transaction.AfterTransaction;
 
 import it.extrasys.tesi.tagsystem.meal_service.db.dao.MealDao;
 import it.extrasys.tesi.tagsystem.meal_service.db.dao.MenuDao;
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MEALTYPE;
 import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealType;
 import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
 
 // TODO: Auto-generated Javadoc
@@ -93,18 +91,14 @@ public class MenuDaoTest {
         this.menuDao.save(testMenuEntity);
         this.menuDao.flush();
 
-        this.testMealEntity.addToMenu(testMenuEntity);
         this.mealDao.save(this.testMealEntity);
-        this.mealDao.flush();
 
         testMenuEntity = createTestMenuEntity();
         this.menuDao.save(testMenuEntity);
         this.menuDao.flush();
 
         // Esecuzione
-        this.testMealEntity.addToMenu(testMenuEntity);
         this.mealDao.save(this.testMealEntity);
-        this.mealDao.flush();
 
         // Verifica
         List<MenuEntity> menuEntities = this.menuDao
@@ -129,22 +123,18 @@ public class MenuDaoTest {
         this.menuDao.save(testMenuEntity);
         this.menuDao.flush();
 
-        this.testMealEntity.addToMenu(testMenuEntity);
         this.mealDao.save(this.testMealEntity);
-        this.mealDao.flush();
 
         MenuEntity testMenuEntity2 = createTestMenuEntity();
         this.menuDao.save(testMenuEntity2);
         this.menuDao.flush();
 
         // Esecuzione
-        List<Long> ids = new ArrayList<>();
-        ids.add(testMenuEntity.getMenuId());
-        ids.add(testMenuEntity2.getMenuId());
-        List<MenuEntity> menuEntities = this.menuDao.findAll(ids);
+        MenuEntity menuEntities = this.menuDao
+                .findOne(testMenuEntity2.getMenuId());
 
         // Verifica
-        assertThat(menuEntities.size(), is(2));
+        assertThat(menuEntities, is(not(null)));
     }
 
     /**
@@ -167,9 +157,6 @@ public class MenuDaoTest {
     @AfterTransaction
     void verifyFinalDatabaseState() {
         switch (this.verifyDatabase) {
-            case SINGLE_MENU_ENTITY_SAVED :
-                verifySingleMenuEntitySaved();
-                break;
             case MENU_EDITED :
                 assertThat(this.menuDao.findAll().get(0).getType(),
                         is(equalTo("vegan")));
@@ -177,21 +164,7 @@ public class MenuDaoTest {
             default :
         }
     }
-    /**
-     * Metodo di verifica post-transazione.
-     */
-    private void verifySingleMenuEntitySaved() {
-        List<MealEntity> meals = this.mealDao.findAll();
 
-        assertThat(meals.size(), is(1));
-        assertThat(
-                meals.get(
-                        0),
-                allOf(hasProperty("description",
-                        is(this.testMealEntity.getDescription())),
-                        hasProperty("type",
-                                is(this.testMealEntity.getType()))));
-    }
     /**
      * Creates the test meal entity.
      *
@@ -202,7 +175,7 @@ public class MenuDaoTest {
 
         mealEntity.setDescription("primo generico");
         mealEntity.setPrice(new BigDecimal("5"));
-        mealEntity.setType(MEALTYPE.pasta);
+        mealEntity.setType(MealType.PASTA);
 
         return mealEntity;
     }

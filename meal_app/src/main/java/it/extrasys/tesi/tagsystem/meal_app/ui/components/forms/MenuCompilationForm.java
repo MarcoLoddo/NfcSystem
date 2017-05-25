@@ -19,7 +19,7 @@ import com.vaadin.ui.Window;
 
 import it.extrasys.tesi.tagsystem.meal_app.client.MealDto;
 import it.extrasys.tesi.tagsystem.meal_app.client.MenuDto;
-import it.extrasys.tesi.tagsystem.meal_app.client.Messages;
+import it.extrasys.tesi.tagsystem.meal_app.ui.i18n.Messages;
 
 // TODO: Auto-generated Javadoc
 /**

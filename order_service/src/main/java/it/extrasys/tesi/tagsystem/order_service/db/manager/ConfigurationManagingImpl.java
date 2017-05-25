@@ -1,5 +1,6 @@
 package it.extrasys.tesi.tagsystem.order_service.db.manager;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +22,10 @@ public class ConfigurationManagingImpl implements ConfigurationManaging {
     @Override
     public ConfigurationEntity addConfiguration(
             ConfigurationEntity configurationEntity) {
-        // TODO Auto-generated method stub
         return this.configDao.save(configurationEntity);
     }
     @Override
     public ConfigurationEntity getConfiguration(Long id) {
-        // TODO Auto-generated method stub
         return this.configDao.findOne(id);
     }
 
@@ -39,8 +38,8 @@ public class ConfigurationManagingImpl implements ConfigurationManaging {
      */
     @Override
     public List<ConfigurationEntity> matchConfiguration(
-            List<MealType> mealtypes) {
-        List<ConfigurationEntity> entities = this.configDao.findAll();
+            List<MealType> mealtypes, Date date) {
+        List<ConfigurationEntity> entities = this.configDao.findByDate(date);
 
         return entities.stream()
                 .filter(e -> e.getMealtypes().containsAll(mealtypes))

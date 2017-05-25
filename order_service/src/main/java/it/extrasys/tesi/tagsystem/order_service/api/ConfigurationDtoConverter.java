@@ -26,6 +26,8 @@ public final class ConfigurationDtoConverter {
         configurationDto.setSpecialPrice(configurationEntity.getSpecialPrice());
         configurationDto.getMealtypes()
                 .addAll(configurationEntity.getMealtypes());
+        configurationDto.setStartDate(configurationEntity.getStartDate());
+        configurationDto.setEndDate(configurationEntity.getEndDate());
         return configurationDto;
 
     }

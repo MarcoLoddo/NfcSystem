@@ -1,5 +1,6 @@
 package it.extrasys.tesi.tagsystem.order_service.db.manager;
 
+import java.util.Date;
 import java.util.List;
 
 import it.extrasys.tesi.tagsystem.order_service.db.entity.ConfigurationEntity;
@@ -36,5 +37,7 @@ public interface ConfigurationManaging {
      *            the mealtypes
      * @return the list
      */
-    List<ConfigurationEntity> matchConfiguration(List<MealType> mealtypes);
+    List<ConfigurationEntity> matchConfiguration(List<MealType> mealtypes,
+            Date date);
+
 }

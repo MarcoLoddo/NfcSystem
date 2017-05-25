@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.springframework.web.client.RestTemplate;
 
+import it.extrasys.tesi.tagsystem.meal_app.ui.i18n.Messages;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class RestClient.
