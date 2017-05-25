@@ -43,8 +43,7 @@ public class ConfigurationManagingImpl implements ConfigurationManaging {
         List<ConfigurationEntity> entities = this.configDao.findAll();
 
         return entities.stream()
-                .filter(e -> e.getMealtypes().size() == mealtypes.size()
-                        && e.getMealtypes().containsAll(mealtypes))
+                .filter(e -> e.getMealtypes().containsAll(mealtypes))
                 .collect(Collectors.toList());
     }
 
