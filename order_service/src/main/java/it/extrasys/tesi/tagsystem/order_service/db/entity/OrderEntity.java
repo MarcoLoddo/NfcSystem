@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 /**
  * The Class OrderEntity.
  */
@@ -20,8 +22,9 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
-    private int orderId;
+    private Long orderId;
 
+    @Temporal(value = TemporalType.DATE)
     private Date data;
 
     @ManyToOne
@@ -36,16 +39,16 @@ public class OrderEntity {
         return this.data;
     }
 
-    public int getOrderId() {
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    public Long getOrderId() {
         return this.orderId;
     }
 
-    public void setConfiguration(ConfigurationEntity configuration) {
-        this.configuration = configuration;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
 }

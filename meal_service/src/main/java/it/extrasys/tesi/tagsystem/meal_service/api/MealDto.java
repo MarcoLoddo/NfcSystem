@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MEALTYPE;
+import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealType;
 
 /**
  * The Class MealDto.
@@ -19,7 +19,7 @@ public class MealDto {
     /** The price. */
     private BigDecimal price;
 
-    private MEALTYPE type;
+    private MealType type;
 
     private List<MenuDto> menus = new ArrayList<>();
 
@@ -47,11 +47,11 @@ public class MealDto {
         this.price = price;
     }
 
-    public MEALTYPE getType() {
+    public MealType getType() {
         return this.type;
     }
 
-    public void setType(MEALTYPE type) {
+    public void setType(MealType type) {
         this.type = type;
     }
 

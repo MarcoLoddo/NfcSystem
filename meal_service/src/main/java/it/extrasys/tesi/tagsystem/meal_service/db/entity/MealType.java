@@ -4,18 +4,19 @@ package it.extrasys.tesi.tagsystem.meal_service.db.entity;
 /**
  * The Enum MealType.
  */
-public enum MEALTYPE {
+public enum MealType {
 
     /** The drink. */
-    drink,
+    DRINK,
     /** The pasta. */
-    pasta,
+    PASTA,
     /** The soup. */
-    soup,
+    SOUP,
     /** The meat. */
-    meat,
+    MEAT,
     /** The fish. */
-    fish,
+    FISH,
     /** The dessert. */
-    dessert;
+    DESSERT;
+
 }

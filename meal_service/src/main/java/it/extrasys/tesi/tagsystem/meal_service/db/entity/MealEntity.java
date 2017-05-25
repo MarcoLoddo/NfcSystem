@@ -36,7 +36,7 @@ public class MealEntity {
     @ManyToMany
     @JoinColumn(name = "menu_id")
     private List<MenuEntity> menus = new ArrayList<MenuEntity>();
-    private MEALTYPE type;
+    private MealType type;
     /**
      * Adds the menu.
      *
@@ -87,11 +87,11 @@ public class MealEntity {
         this.price = price;
     }
 
-    public MEALTYPE getType() {
+    public MealType getType() {
         return this.type;
     }
 
-    public void setType(MEALTYPE type) {
+    public void setType(MealType type) {
         this.type = type;
     }
 

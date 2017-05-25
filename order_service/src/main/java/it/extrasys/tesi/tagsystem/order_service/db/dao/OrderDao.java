@@ -7,6 +7,6 @@ import it.extrasys.tesi.tagsystem.order_service.db.entity.OrderEntity;
 /**
  * The Class OrderDao.
  */
-public interface OrderDao extends JpaRepository<OrderEntity, Integer> {
+public interface OrderDao extends JpaRepository<OrderEntity, Long> {
 
 }

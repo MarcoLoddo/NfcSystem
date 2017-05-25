@@ -11,7 +11,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import it.extrasys.tesi.tagsystem.meal_app.client.MEALTYPE;
+import it.extrasys.tesi.tagsystem.meal_app.client.MealType;
 import it.extrasys.tesi.tagsystem.meal_app.client.MealDto;;
 
 // TODO: Auto-generated Javadoc
@@ -27,7 +27,7 @@ public class MealCompilationForm extends Window {
     private Button submit;
 
     private TextField description, price;
-    private ComboBox<MEALTYPE> type;
+    private ComboBox<MealType> type;
     /**
      * Gets the submit.
      *
@@ -78,7 +78,7 @@ public class MealCompilationForm extends Window {
             }
         });
         this.type = new ComboBox<>();
-        this.type.setItems(MEALTYPE.values());
+        this.type.setItems(MealType.values());
         this.submit = new Button("Submit");
         this.form.addComponents(this.description, this.price, this.type,
                 this.submit);

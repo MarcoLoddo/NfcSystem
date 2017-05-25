@@ -9,6 +9,6 @@ import it.extrasys.tesi.tagsystem.order_service.db.entity.ConfigurationEntity;
  */
 public interface ConfigurationDao
         extends
-            JpaRepository<ConfigurationEntity, Integer> {
+            JpaRepository<ConfigurationEntity, Long> {
 
 }
