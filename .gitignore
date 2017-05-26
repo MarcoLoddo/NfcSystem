@@ -1,2 +1,6 @@
-
-README\.md
+/target/
+/bin/
+.directory
+.settings
+.classpath
+.project

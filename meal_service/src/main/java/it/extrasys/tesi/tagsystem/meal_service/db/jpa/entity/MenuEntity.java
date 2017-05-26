@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.meal_service.db.entity;
+package it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,25 +49,22 @@ public class MenuEntity {
     public Long getMenuId() {
         return this.menuId;
     }
+    public void setMenuId(Long menuId) {
+        this.menuId = menuId;
+    }
 
     public String getType() {
         return this.type;
     }
-
+    public void setType(String menuType) {
+        this.type = menuType;
+    }
     public Date getDate() {
         return this.date;
     }
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public void setMenuId(Long menuId) {
-        this.menuId = menuId;
-    }
-
-    public void setType(String menuType) {
-        this.type = menuType;
     }
 
 }

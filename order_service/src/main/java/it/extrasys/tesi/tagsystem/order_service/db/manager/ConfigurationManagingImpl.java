@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import it.extrasys.tesi.tagsystem.order_service.db.dao.ConfigurationDao;
-import it.extrasys.tesi.tagsystem.order_service.db.entity.ConfigurationEntity;
-import it.extrasys.tesi.tagsystem.order_service.db.entity.MealType;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.dao.ConfigurationDao;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.MealType;
 
 /**
  * The Class OrderManagingImpl.

@@ -15,9 +15,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.AfterTransaction;
 
-import it.extrasys.tesi.tagsystem.order_service.db.dao.ConfigurationDao;
-import it.extrasys.tesi.tagsystem.order_service.db.entity.ConfigurationEntity;
-import it.extrasys.tesi.tagsystem.order_service.db.entity.MealType;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.dao.ConfigurationDao;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.MealType;
 
 // TODO: Auto-generated Javadoc
 /**

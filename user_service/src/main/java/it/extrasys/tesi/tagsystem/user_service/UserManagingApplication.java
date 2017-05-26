@@ -1,5 +1,6 @@
 package it.extrasys.tesi.tagsystem.user_service;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * The Class for starting the spring boot application.
  */
 @SpringBootApplication
-public class UserManagingApplication {
+public class UserManagingApplication implements CommandLineRunner {
 
     /**
      * The main method.
@@ -18,5 +19,11 @@ public class UserManagingApplication {
      */
     public static void main(String[] args) {
         SpringApplication.run(UserManagingApplication.class, args);
+    }
+
+    @Override
+    public void run(String... arg0) throws Exception {
+        // TODO Auto-generated method stub
+
     }
 }

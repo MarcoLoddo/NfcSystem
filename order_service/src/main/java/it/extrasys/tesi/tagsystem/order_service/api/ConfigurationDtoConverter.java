@@ -1,6 +1,6 @@
 package it.extrasys.tesi.tagsystem.order_service.api;
 
-import it.extrasys.tesi.tagsystem.order_service.db.entity.ConfigurationEntity;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
 
 // TODO: Auto-generated Javadoc
 /**

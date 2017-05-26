@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.meal_service.db.entity;
+package it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -68,12 +68,10 @@ public class MealEntity {
     public Long getMealId() {
         return this.mealId;
     }
+    public void setMealId(Long mealId) {
+        this.mealId = mealId;
 
-    /**
-     * Gets the meal id.
-     *
-     * @return the meal id
-     */
+    }
 
     public List<MenuEntity> getMenus() {
         return this.menus;
@@ -93,11 +91,6 @@ public class MealEntity {
 
     public void setType(MealType type) {
         this.type = type;
-    }
-
-    public void setMealId(Long mealId) {
-        this.mealId = mealId;
-
     }
 
 }

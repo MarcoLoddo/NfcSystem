@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.order_service.db.dao;
+package it.extrasys.tesi.tagsystem.order_service.db.jpa.dao;
 
 import java.util.Date;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import it.extrasys.tesi.tagsystem.order_service.db.entity.ConfigurationEntity;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
 
 /**
  * The Class ConfigurationDao.

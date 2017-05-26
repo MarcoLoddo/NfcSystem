@@ -19,11 +19,11 @@ import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.AfterTransaction;
 
-import it.extrasys.tesi.tagsystem.meal_service.db.dao.MealDao;
-import it.extrasys.tesi.tagsystem.meal_service.db.dao.MenuDao;
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity;
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealType;
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.dao.MealDao;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.dao.MenuDao;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MealEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MealType;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MenuEntity;
 
 // TODO: Auto-generated Javadoc
 /**

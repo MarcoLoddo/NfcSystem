@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealType;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MealType;
 
 /**
  * The Class MealDto.

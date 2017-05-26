@@ -3,8 +3,8 @@ package it.extrasys.tesi.tagsystem.order_service.db.manager;
 import java.util.Date;
 import java.util.List;
 
-import it.extrasys.tesi.tagsystem.order_service.db.entity.ConfigurationEntity;
-import it.extrasys.tesi.tagsystem.order_service.db.entity.MealType;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.MealType;
 
 /**
  * The Interface OrderManaging.

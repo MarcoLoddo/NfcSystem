@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import it.extrasys.tesi.tagsystem.order_service.db.entity.MealType;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.MealType;
 
 /**
  * The Class ListMealType.

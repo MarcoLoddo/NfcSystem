@@ -3,8 +3,8 @@ package it.extrasys.tesi.tagsystem.meal_service.db;
 import java.util.Date;
 import java.util.List;
 
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity;
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MealEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MenuEntity;
 
 // TODO: Auto-generated Javadoc
 /**

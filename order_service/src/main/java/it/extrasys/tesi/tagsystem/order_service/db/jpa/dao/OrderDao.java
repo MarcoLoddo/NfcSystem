@@ -1,8 +1,8 @@
-package it.extrasys.tesi.tagsystem.order_service.db.dao;
+package it.extrasys.tesi.tagsystem.order_service.db.jpa.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import it.extrasys.tesi.tagsystem.order_service.db.entity.OrderEntity;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
 
 /**
  * The Class OrderDao.

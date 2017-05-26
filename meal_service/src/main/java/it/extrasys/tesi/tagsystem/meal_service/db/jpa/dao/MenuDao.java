@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.meal_service.db.dao;
+package it.extrasys.tesi.tagsystem.meal_service.db.jpa.dao;
 
 import java.util.Date;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MenuEntity;
 
 /**
  * The Interface MenuDao.

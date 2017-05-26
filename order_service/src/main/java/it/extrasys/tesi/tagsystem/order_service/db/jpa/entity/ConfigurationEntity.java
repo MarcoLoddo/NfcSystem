@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.order_service.db.entity;
+package it.extrasys.tesi.tagsystem.order_service.db.jpa.entity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

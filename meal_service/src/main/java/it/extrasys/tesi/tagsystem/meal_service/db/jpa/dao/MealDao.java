@@ -1,11 +1,11 @@
-package it.extrasys.tesi.tagsystem.meal_service.db.dao;
+package it.extrasys.tesi.tagsystem.meal_service.db.jpa.dao;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MealEntity;
 
 /**
  * The Interface MealDao.

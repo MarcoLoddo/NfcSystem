@@ -9,10 +9,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import it.extrasys.tesi.tagsystem.meal_service.db.dao.MealDao;
-import it.extrasys.tesi.tagsystem.meal_service.db.dao.MenuDao;
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity;
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.dao.MealDao;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.dao.MenuDao;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MealEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MenuEntity;
 
 // TODO: Auto-generated Javadoc
 /**

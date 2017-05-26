@@ -1,5 +1,6 @@
 package it.extrasys.tesi.tagsystem.meal_app;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
-public class MealApp {
+public class MealApp implements CommandLineRunner {
 
     /**
      * Main method to start the app.
@@ -19,6 +20,12 @@ public class MealApp {
      */
     public static void main(String[] args) {
         SpringApplication.run(MealApp.class, args);
+
+    }
+
+    @Override
+    public void run(String... arg0) throws Exception {
+        // TODO Auto-generated method stub
 
     }
 }

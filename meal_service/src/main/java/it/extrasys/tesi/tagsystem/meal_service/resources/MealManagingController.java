@@ -17,8 +17,8 @@ import it.extrasys.tesi.tagsystem.meal_service.api.MealDtoConverter;
 import it.extrasys.tesi.tagsystem.meal_service.api.MenuDto;
 import it.extrasys.tesi.tagsystem.meal_service.api.MenuDtoConverter;
 import it.extrasys.tesi.tagsystem.meal_service.db.MealManaging;
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MealEntity;
-import it.extrasys.tesi.tagsystem.meal_service.db.entity.MenuEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MealEntity;
+import it.extrasys.tesi.tagsystem.meal_service.db.jpa.entity.MenuEntity;
 
 /**
  * The Class MealManagingController.

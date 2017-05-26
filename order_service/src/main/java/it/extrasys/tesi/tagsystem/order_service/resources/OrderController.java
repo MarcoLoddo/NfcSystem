@@ -17,7 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import it.extrasys.tesi.tagsystem.order_service.api.ConfigurationDto;
 import it.extrasys.tesi.tagsystem.order_service.api.ConfigurationDtoConverter;
 import it.extrasys.tesi.tagsystem.order_service.api.ListMealTypeDto;
-import it.extrasys.tesi.tagsystem.order_service.db.entity.ConfigurationEntity;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
 import it.extrasys.tesi.tagsystem.order_service.db.manager.ConfigurationManaging;
 
 // TODO: Auto-generated Javadoc
