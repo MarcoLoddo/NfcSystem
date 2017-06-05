@@ -19,6 +19,7 @@ import it.extrasys.tesi.tagsystem.order_service.api.ConfigurationDtoConverter;
 import it.extrasys.tesi.tagsystem.order_service.api.ListMealTypeDto;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
 import it.extrasys.tesi.tagsystem.order_service.db.manager.ConfigurationManaging;
+import it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -29,8 +30,10 @@ public class OrderController {
 
     /** The manager. */
     @Autowired
-    private ConfigurationManaging manager;
+    private ConfigurationManaging configManager;
 
+    @Autowired
+    private OrderManaging orderManager;
     /**
      * Adds the configuration.
      *
@@ -43,7 +46,7 @@ public class OrderController {
             @RequestBody ConfigurationDto configurationDto) {
         ConfigurationEntity entity = ConfigurationDtoConverter
                 .dtoToEntity(configurationDto);
-        entity = this.manager.addConfiguration(entity);
+        entity = this.configManager.addConfiguration(entity);
         configurationDto.setConfigurationId(entity.getConfigurationId());
         return configurationDto;
     }
@@ -59,7 +62,7 @@ public class OrderController {
      */
     @RequestMapping(value = "/configuration/{id}", method = RequestMethod.GET)
     public ConfigurationDto getConfigurationById(@PathVariable Long id) {
-        ConfigurationEntity entity = this.manager.getConfiguration(id);
+        ConfigurationEntity entity = this.configManager.getConfiguration(id);
 
         return ConfigurationDtoConverter.entityToDto(entity);
     }
@@ -79,8 +82,9 @@ public class OrderController {
             listMealType.setDate(Date.from(Instant.now()));
         }
 
-        List<ConfigurationEntity> entities = this.manager.matchConfiguration(
-                listMealType.getMealtypes(), listMealType.getDate());
+        List<ConfigurationEntity> entities = this.orderManager
+                .matchConfiguration(listMealType.getMealtypes(),
+                        listMealType.getDate());
         List<ConfigurationDto> dtos = new ArrayList<>();
 
         for (ConfigurationEntity configurationEntity : entities) {

@@ -9,4 +9,6 @@ import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
  */
 public interface OrderDao extends JpaRepository<OrderEntity, Long> {
 
+    public OrderEntity findByNfcId(String nfc);
+
 }
