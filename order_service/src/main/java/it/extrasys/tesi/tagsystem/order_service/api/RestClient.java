@@ -5,9 +5,24 @@ import java.util.Map;
 
 import org.springframework.web.client.RestTemplate;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RestClient.
+ */
 public class RestClient {
+
+    /** The rest template. */
     private RestTemplate restTemplate = new RestTemplate();
 
+    /**
+     * Gets the meal.
+     *
+     * @param messages
+     *            the messages
+     * @param id
+     *            the id
+     * @return the meal
+     */
     public MealDto getMeal(Messages messages, Long id) {
         Map<String, Long> map = new HashMap<String, Long>();
         map.put("id", id);

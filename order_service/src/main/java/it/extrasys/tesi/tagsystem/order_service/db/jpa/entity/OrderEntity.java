@@ -37,7 +37,6 @@ public class OrderEntity {
     private String nfcId;
 
     @OneToMany
-    @JoinColumn(name = "order_id")
     private List<ConfigurationEntity> configuration = new ArrayList<>();
 
     @ElementCollection

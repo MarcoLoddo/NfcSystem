@@ -20,29 +20,52 @@ import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntit
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.MealType;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OrderManagingImpl.
+ */
 @Component
 public class OrderManagingImpl implements OrderManaging {
 
+    /** The order dao. */
     @Autowired
     private OrderDao orderDao;
 
+    /** The config dao. */
     @Autowired
     private ConfigurationDao configDao;
 
+    /** The messages. */
     @Autowired
     private Messages messages;
 
+    /** The rest client. */
     private RestClient restClient = new RestClient();
 
+    /** The price calc. */
     @Autowired
     private PriceCalculator priceCalc;
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
+     * addOrder(it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.
+     * OrderEntity)
+     */
     @Override
     @Transactional
     public OrderEntity addOrder(OrderEntity order) {
         return this.orderDao.save(order);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
+     * calculatePrice(it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.
+     * OrderEntity)
+     */
     @Override
     @Transactional
     public BigDecimal calculatePrice(OrderEntity orderEntity) {
@@ -54,31 +77,45 @@ public class OrderManagingImpl implements OrderManaging {
         // ne derivo i mealtypes
         List<MealType> mealTypes = meals.stream().map(meal -> meal.getType())
                 .collect(Collectors.toList());
-
-        // cerco se c'è una configurazione in database ESATTAMENTE
-        // corrispondente
-        List<ConfigurationEntity> configurationEntities = matchConfiguration(
-                mealTypes, orderEntity.getData());
-
         // passo al calcolo del prezzo e lo restituisco
-        return this.priceCalc.calculatePrice(orderEntity, configurationEntities,
-                meals);
+        return this.priceCalc.calculatePrice(orderEntity, meals);
     }
+
     /**
      * Match configuration.
      *
      * @param mealtypes
      *            the mealtypes
+     * @param date
+     *            the date
      * @return the list
      */
-    @Override
-    @Transactional
-    public List<ConfigurationEntity> matchConfiguration(
+    private List<ConfigurationEntity> matchConfiguration(
             List<MealType> mealtypes, Date date) {
         List<ConfigurationEntity> entities = this.configDao.findByDate(date);
 
         return entities.stream()
                 .filter(e -> e.getMealtypes().containsAll(mealtypes))
                 .collect(Collectors.toList());
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
+     * matchConfiguration(java.util.List, java.util.Date, boolean)
+     */
+    @Override
+    @Transactional
+    public List<ConfigurationEntity> matchConfiguration(
+            List<MealType> mealtypes, Date date, boolean precise) {
+        if (precise) {
+            List<ConfigurationEntity> configs = matchConfiguration(mealtypes,
+                    date);
+            return configs.stream().filter(
+                    config -> config.getMealtypes().size() == mealtypes.size())
+                    .collect(Collectors.toList());
+        }
+        return matchConfiguration(mealtypes, date);
     }
 }

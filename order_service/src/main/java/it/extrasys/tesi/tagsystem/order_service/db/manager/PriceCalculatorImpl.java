@@ -12,38 +12,24 @@ import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntit
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.MealType;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PriceCalculatorImpl.
+ */
 @Component
 public class PriceCalculatorImpl implements PriceCalculator {
+
+    /**
+     * Split meals.
+     *
+     * @param orderEntity
+     *            the order entity
+     * @param meals
+     *            the meals
+     * @return the list
+     */
     private List<MealDto> splitMeals(OrderEntity orderEntity,
-            List<ConfigurationEntity> configurationEntities,
             List<MealDto> meals) {
-
-        orderEntity.getConfiguration().clear();
-        List<ConfigurationEntity> conf = new ArrayList<>();
-
-        conf.add(configurationEntities.stream()
-                .max(new Comparator<ConfigurationEntity>() {
-
-                    @Override
-                    public int compare(ConfigurationEntity o1,
-                            ConfigurationEntity o2) {
-                        if (o1.getMealtypes().size() < o2.getMealtypes()
-                                .size()) {
-                            return -1;
-                        }
-                        if (o1.getMealtypes().size() > o2.getMealtypes()
-                                .size()) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                }).get());
-
-        // aggiungo i riferimenti alle configurazioni
-        orderEntity.getConfiguration().addAll(conf);
-
-        // split
-
         // controllo ogni configurazione
         List<MealDto> mealInConfiguration = new ArrayList<>();
         for (ConfigurationEntity configurationEntity : orderEntity
@@ -83,19 +69,26 @@ public class PriceCalculatorImpl implements PriceCalculator {
                     }
                 }
             }
+            meals.removeAll(mealInConfiguration);
         }
         // una volta trovati tutti i meals nelle configurazioni dell'ordine,
         // vengono rimossi e si passa i restanti al calcolo del prezzo totale
-        meals.removeAll(mealInConfiguration);
+
         return meals;
     }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.PriceCalculator#
+     * calculatePrice(it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.
+     * OrderEntity, java.util.List)
+     */
     @Override
     public BigDecimal calculatePrice(OrderEntity orderEntity,
-            List<ConfigurationEntity> configurationEntities,
             List<MealDto> meals) {
         BigDecimal total = new BigDecimal(0);
-        List<MealDto> splittedMeals = splitMeals(orderEntity,
-                configurationEntities, meals);
+        List<MealDto> splittedMeals = splitMeals(orderEntity, meals);
 
         for (ConfigurationEntity conf : orderEntity.getConfiguration()) {
             total = total.add(conf.getSpecialPrice());

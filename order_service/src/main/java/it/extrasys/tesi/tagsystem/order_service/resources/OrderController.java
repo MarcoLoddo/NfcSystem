@@ -84,7 +84,7 @@ public class OrderController {
 
         List<ConfigurationEntity> entities = this.orderManager
                 .matchConfiguration(listMealType.getMealtypes(),
-                        listMealType.getDate());
+                        listMealType.getDate(), false);
         List<ConfigurationDto> dtos = new ArrayList<>();
 
         for (ConfigurationEntity configurationEntity : entities) {
