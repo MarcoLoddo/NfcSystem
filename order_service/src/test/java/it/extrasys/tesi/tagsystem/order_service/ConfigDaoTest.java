@@ -5,6 +5,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.junit.Before;
@@ -33,14 +35,19 @@ public class ConfigDaoTest {
 
     /**
      * Setup.
+     *
+     * @throws ParseException
      */
     @Before
-    public void setup() {
+    public void setup() throws ParseException {
         ConfigurationEntity config = new ConfigurationEntity();
         config.setSpecialPrice(new BigDecimal("2.0"));
         config.getMealtypes().add(MealType.DESSERT);
         config.getMealtypes().add(MealType.PASTA);
         config.getMealtypes().add(MealType.DESSERT);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        config.setStarDate(dateFormat.parse("05/06/2017"));
+        config.setEndDate(dateFormat.parse("30/06/2017"));
         this.configDao.save(config);
         this.configDao.flush();
     }
@@ -54,6 +61,18 @@ public class ConfigDaoTest {
         assertTrue(this.configDao.findAll().get(0).getMealtypes().size() == 3);
     }
 
+    /**
+     * Find config by date test.
+     *
+     * @throws ParseException
+     */
+    @Test
+    public void findConfigByDateTest() throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        assertThat(this.configDao.findByDate(dateFormat.parse("14/06/2017"))
+                .size(), is(1));
+
+    }
     /**
      * Match config test.
      */

@@ -33,7 +33,7 @@ public class PriceCalculatorImpl implements PriceCalculator {
         // controllo ogni configurazione
         List<MealDto> mealInConfiguration = new ArrayList<>();
         for (ConfigurationEntity configurationEntity : orderEntity
-                .getConfiguration()) {
+                .getConfigurations()) {
 
             MealType lastType = null;
             for (MealDto mealDto : meals) {
@@ -90,7 +90,7 @@ public class PriceCalculatorImpl implements PriceCalculator {
         BigDecimal total = new BigDecimal(0);
         List<MealDto> splittedMeals = splitMeals(orderEntity, meals);
 
-        for (ConfigurationEntity conf : orderEntity.getConfiguration()) {
+        for (ConfigurationEntity conf : orderEntity.getConfigurations()) {
             total = total.add(conf.getSpecialPrice());
         }
 

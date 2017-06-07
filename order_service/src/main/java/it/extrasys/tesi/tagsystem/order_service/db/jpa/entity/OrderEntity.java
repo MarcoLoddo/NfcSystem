@@ -37,12 +37,14 @@ public class OrderEntity {
     private String nfcId;
 
     @OneToMany
-    private List<ConfigurationEntity> configuration = new ArrayList<>();
+    private List<ConfigurationEntity> configurations = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "mealId", joinColumns = @JoinColumn(name = "order_id"))
     @Column(name = "mealId")
     private List<Long> mealId = new ArrayList<>();
+
+    private boolean closed;
 
     public List<Long> getMealId() {
         return this.mealId;
@@ -64,8 +66,8 @@ public class OrderEntity {
         this.nfcId = nfcId;
     }
 
-    public List<ConfigurationEntity> getConfiguration() {
-        return this.configuration;
+    public List<ConfigurationEntity> getConfigurations() {
+        return this.configurations;
     }
 
     public Date getData() {
@@ -82,6 +84,14 @@ public class OrderEntity {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 
 }

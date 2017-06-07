@@ -9,7 +9,6 @@ import java.time.Instant;
 import java.util.Date;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +26,7 @@ import it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class OrderManagerTest {
+public class OrderManagerIntegrationTest {
 
     /** The order manager. */
     @Autowired
@@ -48,32 +47,31 @@ public class OrderManagerTest {
     /**
      * Calculate price test.
      */
-    @Test
     public void calculatePriceTest() {
         OrderEntity orderEntity = new OrderEntity();
 
-        orderEntity.setData(new Date().from(Instant.now()));
+        orderEntity.setData(Date.from(Instant.now()));
         ConfigurationEntity configurationEntity = new ConfigurationEntity();
 
         configurationEntity.getMealtypes().add(MealType.PASTA);
         configurationEntity.getMealtypes().add(MealType.MEAT);
         configurationEntity.getMealtypes().add(MealType.DRINK);
         configurationEntity.setSpecialPrice(new BigDecimal(4.50));
-        configurationEntity.setStarDate(new Date().from(Instant.now()));
-        configurationEntity.setEndDate(new Date().from(Instant.now()));
+        configurationEntity.setStarDate(Date.from(Instant.now()));
+        configurationEntity.setEndDate(Date.from(Instant.now()));
 
         ConfigurationEntity configurationEntity2 = new ConfigurationEntity();
 
         configurationEntity2.getMealtypes().add(MealType.PASTA);
         configurationEntity2.setSpecialPrice(new BigDecimal(2.00));
-        configurationEntity2.setStarDate(new Date().from(Instant.now()));
-        configurationEntity2.setEndDate(new Date().from(Instant.now()));
+        configurationEntity2.setStarDate(Date.from(Instant.now()));
+        configurationEntity2.setEndDate(Date.from(Instant.now()));
 
         this.configManager.addConfiguration(configurationEntity);
         this.configManager.addConfiguration(configurationEntity2);
 
-        orderEntity.getConfiguration().add(configurationEntity);
-        orderEntity.getConfiguration().add(configurationEntity2);
+        orderEntity.getConfigurations().add(configurationEntity);
+        orderEntity.getConfigurations().add(configurationEntity2);
 
         this.orderManager.addOrder(orderEntity);
         orderEntity.getMealId().add(new Long(4)); // 2

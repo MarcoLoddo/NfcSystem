@@ -119,11 +119,6 @@ public class MenuDaoTest {
         System.out.println("\n testFindMenyByDate \n");
 
         // Precondizione
-        MenuEntity testMenuEntity = createTestMenuEntity();
-        this.menuDao.save(testMenuEntity);
-        this.menuDao.flush();
-
-        this.mealDao.save(this.testMealEntity);
 
         MenuEntity testMenuEntity2 = createTestMenuEntity();
         this.menuDao.save(testMenuEntity2);
@@ -189,7 +184,8 @@ public class MenuDaoTest {
         MenuEntity menuEntity = new MenuEntity();
 
         menuEntity.setType("vegetarian");
-        menuEntity.setDate(Date.from(Instant.now()));
+        menuEntity.setDate(Date.from(Instant.now()));// sostiture con date
+                                                     // fissate
 
         return menuEntity;
     }
