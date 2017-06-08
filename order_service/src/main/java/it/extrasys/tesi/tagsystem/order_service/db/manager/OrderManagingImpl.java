@@ -48,7 +48,7 @@ public class OrderManagingImpl implements OrderManaging {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
      * addOrder(it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.
      * OrderEntity)
@@ -61,7 +61,7 @@ public class OrderManagingImpl implements OrderManaging {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
      * calculatePrice(it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.
      * OrderEntity)
@@ -117,5 +117,29 @@ public class OrderManagingImpl implements OrderManaging {
                     .collect(Collectors.toList());
         }
         return matchConfiguration(mealtypes, date);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
+     * getByDate(java.util.Date)
+     */
+    @Override
+    @Transactional
+    public List<OrderEntity> getByDate(Date date) {
+        return this.orderDao.findByData(date);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
+     * getByNfc(java.lang.String)
+     */
+    @Override
+    public List<OrderEntity> getByNfc(String nfc) {
+        // TODO Auto-generated method stub
+        return this.orderDao.findByNfcId(nfc);
     }
 }

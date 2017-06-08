@@ -1,9 +1,11 @@
-@import "addons.scss";
 @import "orderapptheme.scss";
+@import "addons.scss";
 
-/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
-/* The actual styles should be defined in userapptheme.scss */
-.userapptheme {
+// This file prefixes all rules with the theme name to avoid causing conflicts with other themes.
+// The actual styles should be defined in orderapptheme.scss
+
+.orderapptheme {
   @include addons;
   @include orderapptheme;
+
 }

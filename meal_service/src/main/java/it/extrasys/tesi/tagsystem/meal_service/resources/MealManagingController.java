@@ -75,6 +75,7 @@ public class MealManagingController {
 
         return MealDtoConverter.mealEntitytoDtoList(this.manager.getAllMeal());
     }
+
     @RequestMapping(value = "/meals/{id}", method = RequestMethod.GET)
     public MealDto getAllMeals(@PathVariable Long id) {
 

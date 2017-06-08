@@ -9,6 +9,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
 
 import it.extrasys.tesi.tagsystem.order_app.ui.i18n.Messages;
+import it.extrasys.tesi.tagsystem.order_app.ui.view.RegisterOrderView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -36,7 +37,7 @@ public class NavigationManager extends UI {
         getPage().setTitle("Nfc tag system Test");
         this.navigator = new Navigator(this, this);
 
-        OrderView orderView = new OrderView();
+        RegisterOrderView orderView = new RegisterOrderView();
         this.navigator.addView("", orderView);
 
     }

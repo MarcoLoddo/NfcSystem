@@ -1,5 +1,8 @@
 package it.extrasys.tesi.tagsystem.order_service.db.jpa.dao;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
@@ -17,6 +20,14 @@ public interface OrderDao extends JpaRepository<OrderEntity, Long> {
      *            the nfc
      * @return the order entity
      */
-    OrderEntity findByNfcId(String nfc);
+    List<OrderEntity> findByNfcId(String nfc);
 
+    /**
+     * Find by data.
+     *
+     * @param date
+     *            the date
+     * @return the list
+     */
+    List<OrderEntity> findByData(Date date);
 }

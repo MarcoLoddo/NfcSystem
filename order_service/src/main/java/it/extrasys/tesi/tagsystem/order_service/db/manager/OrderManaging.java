@@ -46,4 +46,22 @@ public interface OrderManaging {
      */
     BigDecimal calculatePrice(OrderEntity orderEntity);
 
+    /**
+     * Gets the orders by date.
+     *
+     * @param date
+     *            the date
+     * @return the by date
+     */
+    List<OrderEntity> getByDate(Date date);
+
+    /**
+     * Gets the by nfc.
+     *
+     * @param nfc
+     *            the nfc
+     * @return the by nfc
+     */
+    List<OrderEntity> getByNfc(String nfc);
+
 }

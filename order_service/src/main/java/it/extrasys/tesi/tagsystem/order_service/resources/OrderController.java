@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import it.extrasys.tesi.tagsystem.order_service.api.ConfigurationDto;
 import it.extrasys.tesi.tagsystem.order_service.api.ConfigurationDtoConverter;
 import it.extrasys.tesi.tagsystem.order_service.api.ListMealTypeDto;
+import it.extrasys.tesi.tagsystem.order_service.api.OrderDto;
+import it.extrasys.tesi.tagsystem.order_service.api.OrderDtoConverter;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
 import it.extrasys.tesi.tagsystem.order_service.db.manager.ConfigurationManaging;
 import it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging;
 
@@ -96,6 +100,40 @@ public class OrderController {
             }
             dtos.add(dto);
         }
+        return dtos;
+    }
+
+    /**
+     * Gets the order by date.
+     *
+     * @param date
+     *            the date
+     * @return the order by date
+     */
+    @RequestMapping(value = "/orders/{date}", method = RequestMethod.GET)
+    public List<OrderDto> getOrderByDate(
+            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+
+        List<OrderEntity> orders = this.orderManager.getByDate(date);
+        List<OrderDto> dtos = new ArrayList<>();
+
+        orders.forEach(order -> dtos.add(OrderDtoConverter.entityToDto(order)));
+        return dtos;
+    }
+    /**
+     * Gets the orders by nfc.
+     *
+     * @param nfc
+     *            the date
+     * @return the orders by nfc
+     */
+    @RequestMapping(value = "/orders/{nfc}", method = RequestMethod.GET)
+    public List<OrderDto> getOrderByDate(@PathVariable String nfc) {
+
+        List<OrderEntity> orders = this.orderManager.getByNfc(nfc);
+        List<OrderDto> dtos = new ArrayList<>();
+
+        orders.forEach(order -> dtos.add(OrderDtoConverter.entityToDto(order)));
         return dtos;
     }
 
