@@ -1,9 +1,9 @@
-package it.extrasys.tesi.tagsystem.order_app.client;
+package it.extrasys.tesi.tagsystem.common.client;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.List;;
 
 /**
  * The Class ConfigurationDto.
@@ -17,6 +17,16 @@ public class ConfigurationDto {
     private Date starDate, endDate;
 
     private boolean preciseMatch;
+
+    private String name;
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public boolean isPreciseMatch() {
         return this.preciseMatch;

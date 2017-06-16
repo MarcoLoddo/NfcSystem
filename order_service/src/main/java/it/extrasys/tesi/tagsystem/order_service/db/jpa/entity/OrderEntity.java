@@ -87,11 +87,15 @@ public class OrderEntity {
     }
 
     public boolean isClosed() {
-        return closed;
+        return this.closed;
     }
 
     public void setClosed(boolean closed) {
         this.closed = closed;
+    }
+
+    public void setMealId(List<Long> mealId) {
+        this.mealId = mealId;
     }
 
 }

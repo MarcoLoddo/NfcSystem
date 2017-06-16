@@ -20,6 +20,16 @@ public class ConfigurationDto {
 
     private boolean preciseMatch;
 
+    private String name;
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public boolean isPreciseMatch() {
         return this.preciseMatch;
     }

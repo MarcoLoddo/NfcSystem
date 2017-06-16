@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.order_app.client;
+package it.extrasys.tesi.tagsystem.common.client;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -133,13 +133,22 @@ public class OrderManagingImpl implements OrderManaging {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
      * getByNfc(java.lang.String)
      */
     @Override
     public List<OrderEntity> getByNfc(String nfc) {
-        // TODO Auto-generated method stub
         return this.orderDao.findByNfcId(nfc);
+    }
+
+    @Override
+    public OrderEntity getById(Long id) {
+        return this.orderDao.getOne(id);
+    }
+
+    @Override
+    public OrderEntity updateOrder(OrderEntity order) {
+        return this.orderDao.save(order);
     }
 }

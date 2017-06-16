@@ -33,10 +33,18 @@ public class ConfigurationEntity {
     private List<MealType> mealTypes = new ArrayList<>();
 
     private BigDecimal specialPrice;
+    private String name;
 
     @Temporal(value = TemporalType.DATE)
     private Date startDate, endDate;
 
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     public Date getStartDate() {
         return this.startDate;
     }

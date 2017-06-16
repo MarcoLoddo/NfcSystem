@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.order_app.client;
+package it.extrasys.tesi.tagsystem.common.client;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

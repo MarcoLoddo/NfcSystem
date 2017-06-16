@@ -21,6 +21,7 @@ public final class ConfigurationDtoConverter {
     public static ConfigurationDto entityToDto(
             ConfigurationEntity configurationEntity) {
         ConfigurationDto configurationDto = new ConfigurationDto();
+        configurationDto.setName(configurationEntity.getName());
         configurationDto
                 .setConfigurationId(configurationEntity.getConfigurationId());
         configurationDto.setSpecialPrice(configurationEntity.getSpecialPrice());
@@ -45,6 +46,7 @@ public final class ConfigurationDtoConverter {
         entity.setConfigurationId(configurationDto.getConfigurationId());
         entity.setSpecialPrice(configurationDto.getSpecialPrice());
         entity.getMealtypes().addAll(configurationDto.getMealtypes());
+        entity.setName(configurationDto.getName());
         return entity;
 
     }

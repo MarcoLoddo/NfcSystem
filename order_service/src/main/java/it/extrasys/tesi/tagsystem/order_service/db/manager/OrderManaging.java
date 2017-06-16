@@ -64,4 +64,22 @@ public interface OrderManaging {
      */
     List<OrderEntity> getByNfc(String nfc);
 
+    /**
+     * Gets the order by id.
+     *
+     * @param id
+     *            the id
+     * @return the order by id
+     */
+    OrderEntity getById(Long id);
+
+    /**
+     * Update order.
+     *
+     * @param order
+     *            the order
+     * @return the order entity
+     */
+    OrderEntity updateOrder(OrderEntity order);
+
 }

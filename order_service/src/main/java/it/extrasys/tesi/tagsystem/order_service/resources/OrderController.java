@@ -1,5 +1,6 @@
 package it.extrasys.tesi.tagsystem.order_service.resources;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,6 +26,7 @@ import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntit
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
 import it.extrasys.tesi.tagsystem.order_service.db.manager.ConfigurationManaging;
 import it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging;
+import it.extrasys.tesi.tagsystem.order_service.db.manager.PriceCalculator;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -38,6 +41,9 @@ public class OrderController {
 
     @Autowired
     private OrderManaging orderManager;
+
+    @Autowired
+    private PriceCalculator priceCalculator;
     /**
      * Adds the configuration.
      *
@@ -45,7 +51,7 @@ public class OrderController {
      *            the configuration dto
      * @return the configuration dto
      */
-    @RequestMapping(value = "/configuration", method = RequestMethod.POST)
+    @RequestMapping(value = "/configurations", method = RequestMethod.POST)
     public ConfigurationDto addConfiguration(
             @RequestBody ConfigurationDto configurationDto) {
         ConfigurationEntity entity = ConfigurationDtoConverter
@@ -64,7 +70,7 @@ public class OrderController {
      * @throws JsonProcessingException
      *             the json processing exception
      */
-    @RequestMapping(value = "/configuration/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/configurations/{id}", method = RequestMethod.GET)
     public ConfigurationDto getConfigurationById(@PathVariable Long id) {
         ConfigurationEntity entity = this.configManager.getConfiguration(id);
 
@@ -127,14 +133,56 @@ public class OrderController {
      *            the date
      * @return the orders by nfc
      */
-    @RequestMapping(value = "/orders/{nfc}", method = RequestMethod.GET)
-    public List<OrderDto> getOrderByDate(@PathVariable String nfc) {
+    @RequestMapping(value = "/orders/", method = RequestMethod.GET)
+    public OrderDto[] getOrderByNfc(@RequestParam String nfc) {
 
         List<OrderEntity> orders = this.orderManager.getByNfc(nfc);
         List<OrderDto> dtos = new ArrayList<>();
 
         orders.forEach(order -> dtos.add(OrderDtoConverter.entityToDto(order)));
-        return dtos;
+
+        return dtos.toArray(new OrderDto[dtos.size()]);
     }
 
+    /**
+     * Adds the order.
+     *
+     * @param order
+     *            the order
+     * @return the order dto
+     */
+    @RequestMapping(value = "/orders/", method = RequestMethod.POST)
+    public OrderDto addOrder(@RequestBody OrderDto order) {
+        OrderEntity orderEntity = OrderDtoConverter.dtoToEntity(order);
+
+        return OrderDtoConverter
+                .entityToDto(this.orderManager.addOrder(orderEntity));
+    }
+
+    /**
+     * Gets the total price.
+     *
+     * @param id
+     *            the order id
+     * @return the total price
+     */
+    @RequestMapping(value = "/prices/{id}", method = RequestMethod.GET)
+    public BigDecimal getTotalPrice(@PathVariable Long id) {
+
+        return this.orderManager.calculatePrice(this.orderManager.getById(id));
+    }
+
+    /**
+     * Sets the closed.
+     *
+     * @param id
+     *            the id
+     * @return the order entity
+     */
+    @RequestMapping(value = "/close/{id}", method = RequestMethod.GET)
+    public OrderEntity closeOrder(@PathVariable Long id) {
+        OrderEntity order = this.orderManager.getById(id);
+        order.setClosed(true);
+        return this.orderManager.updateOrder(order);
+    }
 }
