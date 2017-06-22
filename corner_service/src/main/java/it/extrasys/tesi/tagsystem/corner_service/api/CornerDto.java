@@ -1,13 +1,11 @@
 package it.extrasys.tesi.tagsystem.corner_service.api;
 
-import it.extrasys.tesi.tagsystem.corner_service.db.jpa.entity.NfcReaderEntity;
-
 public class CornerDto {
     private Long cornerId;
 
     private Long mealId;
 
-    private NfcReaderEntity reader;
+    private NfcReaderDto reader;
 
     public Long getCornerId() {
         return this.cornerId;
@@ -25,11 +23,11 @@ public class CornerDto {
         this.mealId = mealId;
     }
 
-    public NfcReaderEntity getReader() {
+    public NfcReaderDto getReader() {
         return this.reader;
     }
 
-    public void setReader(NfcReaderEntity reader) {
+    public void setReader(NfcReaderDto reader) {
         this.reader = reader;
     }
 
