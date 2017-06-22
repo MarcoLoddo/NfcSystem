@@ -36,8 +36,7 @@ public abstract class OrderForm extends VerticalLayout {
     private void setForm() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String orderDate = dateFormat.format(this.order.getData());
-        Label title = new Label();
-        title = new Label("Date: " + orderDate + " Order number #"
+        Label title = new Label("Date: " + orderDate + " Order number #"
                 + this.order.getOrderId());
 
         addComponent(title);
@@ -56,7 +55,8 @@ public abstract class OrderForm extends VerticalLayout {
             line.addComponent(new Label(mealDto.getPrice() + "€"));
             addComponent(line);
         }
-        Label total = new Label(this.order.getTotalPrice().toString());
+        Label total = new Label(
+                "Total: " + this.order.getTotalPrice().toString());
         addComponent(total);
         setComponentAlignment(total, Alignment.BOTTOM_RIGHT);
     }

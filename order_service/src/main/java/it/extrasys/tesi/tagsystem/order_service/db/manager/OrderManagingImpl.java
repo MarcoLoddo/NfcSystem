@@ -148,6 +148,7 @@ public class OrderManagingImpl implements OrderManaging {
     }
 
     @Override
+    @Transactional
     public OrderEntity updateOrder(OrderEntity order) {
         return this.orderDao.save(order);
     }

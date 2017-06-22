@@ -168,8 +168,11 @@ public class OrderController {
      */
     @RequestMapping(value = "/prices/{id}", method = RequestMethod.GET)
     public BigDecimal getTotalPrice(@PathVariable Long id) {
-
-        return this.orderManager.calculatePrice(this.orderManager.getById(id));
+        OrderEntity orderEntity = this.orderManager.getById(id);
+        orderEntity
+                .setTotalPrice(this.orderManager.calculatePrice(orderEntity));
+        this.orderManager.updateOrder(orderEntity);
+        return orderEntity.getTotalPrice();
     }
 
     /**
