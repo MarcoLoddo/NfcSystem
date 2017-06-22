@@ -64,4 +64,11 @@ public class CornerController {
         return NfcReaderDtoConverter
                 .toDto(this.readerManager.add(readerEntity));
     }
+    @RequestMapping(value = "/readers", method = RequestMethod.PUT)
+    public NfcReaderDto updateNfcReader(@RequestBody NfcReaderDto readerDto) {
+        NfcReaderEntity readerEntity = NfcReaderDtoConverter
+                .toEntity(readerDto);
+        return NfcReaderDtoConverter
+                .toDto(this.readerManager.update(readerEntity));
+    }
 }
