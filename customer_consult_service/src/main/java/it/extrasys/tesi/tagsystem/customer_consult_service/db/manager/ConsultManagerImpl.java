@@ -29,7 +29,7 @@ public class ConsultManagerImpl implements ConsultManager {
     }
     @Override
     @Transactional
-    public OrderDetailDto getOrderCompleteById(Long id) {
+    public OrderDetailDto getOrderDetailById(Long id) {
         OrderDto orderDto = this.restClient.getOrderById(id);
         OrderDetailDto orderDetail = new OrderDetailDto();
         orderDetail.setNfcId(orderDto.getNfcId());

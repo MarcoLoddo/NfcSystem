@@ -12,6 +12,6 @@ public interface ConsultManager {
 
     List<OrderDto> getOrdersByNfc(String userNfc, Date date);
 
-    OrderDetailDto getOrderCompleteById(Long id);
+    OrderDetailDto getOrderDetailById(Long id);
 
 }
