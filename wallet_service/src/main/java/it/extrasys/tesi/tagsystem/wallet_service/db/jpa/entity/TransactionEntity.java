@@ -27,7 +27,7 @@ import it.extrasys.tesi.tagsystem.wallet_service.api.TransactionType;
 @Entity(name = "Transactions")
 @Table(name = "transactions")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.INTEGER)
+@DiscriminatorColumn(name = "transaction_type", discriminatorType = DiscriminatorType.INTEGER)
 public class TransactionEntity {
 
     /** The transaction id. */

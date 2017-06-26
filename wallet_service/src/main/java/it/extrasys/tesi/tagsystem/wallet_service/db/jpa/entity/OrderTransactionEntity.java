@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 @Entity(name = "TransactionOrders")
 @Table(name = "transactionorders")
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.INTEGER)
+@DiscriminatorColumn(name = "transaction_type", discriminatorType = DiscriminatorType.INTEGER)
 @DiscriminatorValue("1")
 @PrimaryKeyJoinColumn(name = "transaction_id")
 public class OrderTransactionEntity extends TransactionEntity {
