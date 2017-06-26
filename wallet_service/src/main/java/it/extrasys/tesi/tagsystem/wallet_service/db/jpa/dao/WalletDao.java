@@ -9,4 +9,12 @@ import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.WalletEntity;
  */
 public interface WalletDao extends JpaRepository<WalletEntity, Long> {
 
+    /**
+     * Find by user id.
+     *
+     * @param userid
+     *            the userid
+     * @return the list
+     */
+    WalletEntity findByUserId(Long userid);
 }

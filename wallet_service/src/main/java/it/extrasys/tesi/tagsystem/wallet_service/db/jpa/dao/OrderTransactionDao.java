@@ -9,7 +9,7 @@ import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.OrderTransactionE
 /**
  * The Interface TransactionOrderDao.
  */
-public interface TransactionOrderDao
+public interface OrderTransactionDao
         extends
             JpaRepository<OrderTransactionEntity, Long> {
 

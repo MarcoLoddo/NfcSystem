@@ -1,24 +1,19 @@
-package it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity;
+package it.extrasys.tesi.tagsystem.wallet_service.api;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class WalletEntity.
  */
-@Entity(name = "Wallets")
-@Table(name = "wallets")
-public class WalletEntity {
+public class WalletDto {
 
     /** The wallet id. */
     @Id
@@ -32,9 +27,7 @@ public class WalletEntity {
     /** The funds. */
     private BigDecimal funds;
 
-    /** The transactions. */
-    @OneToMany(mappedBy = "wallet")
-    private List<TransactionEntity> transactions = new ArrayList<TransactionEntity>();
+    private List<TransactionDto> transactions = new ArrayList<TransactionDto>();
 
     public Long getWalletId() {
         return this.walletId;
@@ -60,7 +53,7 @@ public class WalletEntity {
         this.funds = funds;
     }
 
-    public List<TransactionEntity> getTransactions() {
+    public List<TransactionDto> getTransactions() {
         return this.transactions;
     }
 

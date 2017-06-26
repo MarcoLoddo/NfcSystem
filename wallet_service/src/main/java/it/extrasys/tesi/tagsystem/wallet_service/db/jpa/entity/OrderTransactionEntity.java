@@ -11,7 +11,7 @@ import javax.persistence.Table;
 /**
  * The Class TransactionOrderEntity.
  */
-@Entity
+@Entity(name = "TransactionOrders")
 @Table(name = "transactionorders")
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.INTEGER)
 @DiscriminatorValue("1")
