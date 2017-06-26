@@ -19,9 +19,12 @@ public abstract class OrderFormGenerator {
     private List<OrderForm> orderForms;
     public List<OrderForm> getOrderFormByNfc(String nfc) {
         this.orders = restCallGetOrders(nfc);
-        for (OrderDto order : this.orders) {
-            order.setTotalPrice(restCallGetTotal(order.getOrderId()));
-        }
+        this.orders.forEach(order -> {
+            if (order.getTotalPrice() == null) {
+                order.setTotalPrice(restCallGetTotal(order.getOrderId()));
+            }
+        });
+
         this.orderForms = new ArrayList<>();
         for (OrderDto orderDto : this.orders) {
             orderDto.setTotalPrice(restCallGetTotal(orderDto.getOrderId()));

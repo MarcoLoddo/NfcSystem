@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.user_service.db;
+package it.extrasys.tesi.tagsystem.user_service.db.manager;
 
 import java.util.List;
 

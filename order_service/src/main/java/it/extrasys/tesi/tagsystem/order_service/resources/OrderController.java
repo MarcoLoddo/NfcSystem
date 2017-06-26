@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -137,11 +138,11 @@ public class OrderController {
     public OrderDto[] getOrderByNfc(@RequestParam String nfc) {
 
         List<OrderEntity> orders = this.orderManager.getByNfc(nfc);
-        List<OrderDto> dtos = new ArrayList<>();
 
-        orders.forEach(order -> dtos.add(OrderDtoConverter.entityToDto(order)));
-
-        return dtos.toArray(new OrderDto[dtos.size()]);
+        return orders.stream()
+                .map(order -> OrderDtoConverter.entityToDto(order))
+                .collect(Collectors.toList())
+                .toArray(new OrderDto[orders.size()]);
     }
 
     /**
@@ -160,6 +161,18 @@ public class OrderController {
     }
 
     /**
+     * Adds the order.
+     *
+     * @param id
+     *            the id
+     * @return the order dto
+     */
+    @RequestMapping(value = "/orders/{id}", method = RequestMethod.GET)
+    public OrderDto addOrder(@PathVariable Long id) {
+        return OrderDtoConverter.entityToDto(this.orderManager.getById(id));
+    }
+
+    /**
      * Gets the total price.
      *
      * @param id
@@ -168,8 +181,11 @@ public class OrderController {
      */
     @RequestMapping(value = "/prices/{id}", method = RequestMethod.GET)
     public BigDecimal getTotalPrice(@PathVariable Long id) {
-
-        return this.orderManager.calculatePrice(this.orderManager.getById(id));
+        OrderEntity orderEntity = this.orderManager.getById(id);
+        orderEntity
+                .setTotalPrice(this.orderManager.calculatePrice(orderEntity));
+        this.orderManager.updateOrder(orderEntity);
+        return orderEntity.getTotalPrice();
     }
 
     /**
@@ -179,7 +195,7 @@ public class OrderController {
      *            the id
      * @return the order entity
      */
-    @RequestMapping(value = "/close/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/close/{id}", method = RequestMethod.PUT)
     public OrderEntity closeOrder(@PathVariable Long id) {
         OrderEntity order = this.orderManager.getById(id);
         order.setClosed(true);

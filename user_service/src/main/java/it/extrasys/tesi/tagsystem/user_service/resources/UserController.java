@@ -14,9 +14,9 @@ import it.extrasys.tesi.tagsystem.user_service.api.LoginDto;
 import it.extrasys.tesi.tagsystem.user_service.api.NfcTagDto;
 import it.extrasys.tesi.tagsystem.user_service.api.NfcUpdateDto;
 import it.extrasys.tesi.tagsystem.user_service.api.UserDto;
-import it.extrasys.tesi.tagsystem.user_service.db.UserManager;
 import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.NfcTagEntity;
 import it.extrasys.tesi.tagsystem.user_service.db.jpa.entity.UserEntity;
+import it.extrasys.tesi.tagsystem.user_service.db.manager.UserManager;
 
 // TODO: Auto-generated Javadoc
 /**
