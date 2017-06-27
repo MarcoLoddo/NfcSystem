@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.extrasys.tesi.tagsystem.wallet_service.api.OrderTransactionDto;
 import it.extrasys.tesi.tagsystem.wallet_service.api.TransactionDto;
 import it.extrasys.tesi.tagsystem.wallet_service.api.TransactionDtoConverter;
+import it.extrasys.tesi.tagsystem.wallet_service.api.TransactionType;
 import it.extrasys.tesi.tagsystem.wallet_service.api.WalletDto;
 import it.extrasys.tesi.tagsystem.wallet_service.api.WalletDtoConverter;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.OrderTransactionEntity;
@@ -64,23 +65,40 @@ public class WalletController {
     }
 
     /**
-     * Gets the transaction order.
+     * Gets the transaction.
      *
      * @param id
      *            the id
-     * @return the transaction order
+     * @return the transaction
      */
     @RequestMapping(value = "/transactions/{id}", method = RequestMethod.GET)
-    public OrderTransactionDto getTransaction(@PathVariable Long id) {
+    public TransactionDto getTransaction(@PathVariable Long id) {
 
-        OrderTransactionEntity entity = this.walletManager
-                .getOrderTransactionById(id);
+        TransactionEntity entity = this.walletManager.getTransactionById(id);
         if (entity == null) {
             return null;
         }
         return TransactionDtoConverter.toDto(entity);
     }
 
+    /**
+     * Gets the order transaction.
+     *
+     * @param order
+     *            the order
+     * @return the order transaction
+     */
+    @RequestMapping(value = "/transactions/", method = RequestMethod.GET)
+    public OrderTransactionDto getOrderTransaction(
+            @RequestParam(name = "order") Long order) {
+
+        OrderTransactionEntity entity = this.walletManager
+                .getOrderTransactionById(order);
+        if (entity == null) {
+            return null;
+        }
+        return TransactionDtoConverter.toDto(entity);
+    }
     /**
      * Adds the transaction to wallet.
      *
@@ -91,47 +109,22 @@ public class WalletController {
      */
     @RequestMapping(value = "/wallets/{userId}", method = RequestMethod.POST)
     public BigDecimal addTransactionToWallet(@PathVariable Long userId,
-            @RequestBody TransactionDto transaction) {
+            @RequestBody OrderTransactionDto transaction) {
 
-        TransactionEntity entity = TransactionDtoConverter
-                .toEntity(transaction);
+        TransactionEntity entity = new TransactionEntity();
+        if (transaction.getType() == TransactionType.ADD_FUNDS) {
+            entity = TransactionDtoConverter.toEntity(transaction);
+            this.walletManager.addTransaction(entity);
+        } else {
+            OrderTransactionEntity orderTransactionEntity = TransactionDtoConverter
+                    .toEntity(transaction);
+            this.walletManager.addOrderTransaction(orderTransactionEntity);
+            entity = orderTransactionEntity;
+        }
         Long walletId = this.walletManager.getWalletFromUserId(userId)
                 .getWalletId();
         this.walletManager.addTransactionToWallet(walletId, entity);
         return this.walletManager.updateFunds(walletId, entity);
     }
 
-    /**
-     * Adds the transaction.
-     *
-     * @param transaction
-     *            the transaction
-     * @return the transaction dto
-     */
-    @RequestMapping(value = "/transactions/", method = RequestMethod.POST)
-    public TransactionDto addTransaction(
-            @RequestBody TransactionDto transaction) {
-
-        TransactionEntity entity = TransactionDtoConverter
-                .toEntity(transaction);
-        return TransactionDtoConverter
-                .toDto(this.walletManager.addTransaction(entity));
-    }
-
-    /**
-     * Adds the order transaction.
-     *
-     * @param transaction
-     *            the transaction
-     * @return the transaction dto
-     */
-    @RequestMapping(value = "/transactions/order", method = RequestMethod.POST)
-    public TransactionDto addOrderTransaction(
-            @RequestBody OrderTransactionDto transaction) {
-
-        OrderTransactionEntity entity = TransactionDtoConverter
-                .toEntity(transaction);
-        return TransactionDtoConverter
-                .toDto(this.walletManager.addOrderTransaction(entity));
-    }
 }

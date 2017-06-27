@@ -11,8 +11,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.dao.TransactionDao;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.dao.OrderTransactionDao;
+import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.dao.TransactionDao;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.dao.WalletDao;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.OrderTransactionEntity;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.TransactionEntity;
@@ -175,6 +175,9 @@ public class WalletManagerImpl implements WalletManager {
         TransactionEntity transactionSaved = addTransaction(transaction);
         WalletEntity wallet = this.walletDao.findOne(walletId);
         wallet.getTransactions().add(transactionSaved);
+        this.walletDao.save(wallet);
+        transactionSaved.setWallet(wallet);
+        this.transactionDao.save(transactionSaved);
     }
 
     /**
