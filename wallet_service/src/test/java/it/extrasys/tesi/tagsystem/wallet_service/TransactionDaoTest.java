@@ -1,5 +1,10 @@
 package it.extrasys.tesi.tagsystem.wallet_service;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,7 +55,6 @@ public class TransactionDaoTest {
         try {
             entity.setDate(dFormat.parse("2017-10-02"));
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         entity.setPrice(new BigDecimal("5.00"));
@@ -64,7 +68,6 @@ public class TransactionDaoTest {
         try {
             entity.setDate(dFormat.parse("2017-10-12"));
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         entity.setPrice(new BigDecimal("5.00"));
@@ -87,12 +90,30 @@ public class TransactionDaoTest {
     @Test
     public void testAddOrderTransaction() throws Exception {
 
+        System.out.println("\n\n\n\n testAddOrderTransaction \n\n\n\n");
+        clear();
+        OrderTransactionEntity saved = this.orderTransactionDao
+                .save(this.testOrderTransactionEntity);
+
+        this.orderTransactionDao.flush();
+        assertThat(saved.getTransactionId(), is(not(equalTo(0))));
+    }
+
+    /**
+     * Test add transaction.
+     *
+     * @throws Exception
+     *             the exception
+     */
+    @Test
+    public void testAddTransaction() throws Exception {
+        System.out.println("\n\n\n\n testAddTransaction \n\n\n\n");
         clear();
         TransactionEntity saved = this.transactionDao
                 .save(this.testTransactionEntity);
 
         this.transactionDao.flush();
-        System.out.println(saved.getTransactionId());
+        assertThat(saved.getTransactionId(), is(not(equalTo(0))));
     }
 
 }

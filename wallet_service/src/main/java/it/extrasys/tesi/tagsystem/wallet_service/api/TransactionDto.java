@@ -20,13 +20,21 @@ public class TransactionDto {
     private BigDecimal price;
 
     /** The wallet id. */
-    private WalletDto walletDto;
+    private Long walletId;
 
     /** The date. */
     private Date date;
 
     /** The type. */
     private TransactionType type;
+
+    public Long getWalletId() {
+        return this.walletId;
+    }
+
+    public void setWalletId(Long walletId) {
+        this.walletId = walletId;
+    }
 
     /**
      * Gets the transaction id.
@@ -92,13 +100,6 @@ public class TransactionDto {
      */
     public TransactionType getType() {
         return this.type;
-    }
-    public WalletDto getWalletDto() {
-        return this.walletDto;
-    }
-
-    public void setWalletDto(WalletDto walletDto) {
-        this.walletDto = walletDto;
     }
     /**
      * Sets the type.

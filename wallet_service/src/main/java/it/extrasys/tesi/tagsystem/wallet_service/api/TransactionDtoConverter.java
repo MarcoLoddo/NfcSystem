@@ -30,6 +30,7 @@ public final class TransactionDtoConverter {
         dto.setTransactionId(entity.getTransactionId());
         dto.setType(entity.getType());
         dto.setUserNfc(entity.getUserNfc());
+        dto.setWalletId(entity.getWallet().getWalletId());
         return dto;
     }
 
@@ -48,6 +49,7 @@ public final class TransactionDtoConverter {
         dto.setType(entity.getType());
         dto.setUserNfc(entity.getUserNfc());
         dto.setOrderId(entity.getOrderId());
+        dto.setWalletId(entity.getWallet().getWalletId());
         return dto;
     }
 

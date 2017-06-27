@@ -65,38 +65,27 @@ public class WalletController {
     }
 
     /**
-     * Gets the transaction.
+     * Gets the order transaction.
      *
-     * @param id
-     *            the id
-     * @return the transaction
+     * @return the order transaction
      */
     @RequestMapping(value = "/transactions/{id}", method = RequestMethod.GET)
     public TransactionDto getTransaction(@PathVariable Long id) {
 
-        TransactionEntity entity = this.walletManager.getTransactionById(id);
-        if (entity == null) {
-            return null;
-        }
+        TransactionEntity entity = this.walletManager
+                .getOrderTransactionById(id);
         return TransactionDtoConverter.toDto(entity);
     }
-
     /**
      * Gets the order transaction.
      *
-     * @param order
-     *            the order
      * @return the order transaction
      */
-    @RequestMapping(value = "/transactions/", method = RequestMethod.GET)
-    public OrderTransactionDto getOrderTransaction(
-            @RequestParam(name = "order") Long order) {
+    @RequestMapping(value = "/orders/transactions/{id}", method = RequestMethod.GET)
+    public OrderTransactionDto getOrderTransaction(@PathVariable Long id) {
 
         OrderTransactionEntity entity = this.walletManager
-                .getOrderTransactionById(order);
-        if (entity == null) {
-            return null;
-        }
+                .getOrderTransactionById(id);
         return TransactionDtoConverter.toDto(entity);
     }
     /**
