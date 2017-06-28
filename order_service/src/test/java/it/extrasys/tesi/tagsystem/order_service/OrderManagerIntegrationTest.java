@@ -57,14 +57,14 @@ public class OrderManagerIntegrationTest {
         configurationEntity.getMealtypes().add(MealType.MEAT);
         configurationEntity.getMealtypes().add(MealType.DRINK);
         configurationEntity.setSpecialPrice(new BigDecimal(4.50));
-        configurationEntity.setStarDate(Date.from(Instant.now()));
+        configurationEntity.setStartDate(Date.from(Instant.now()));
         configurationEntity.setEndDate(Date.from(Instant.now()));
 
         ConfigurationEntity configurationEntity2 = new ConfigurationEntity();
 
         configurationEntity2.getMealtypes().add(MealType.PASTA);
         configurationEntity2.setSpecialPrice(new BigDecimal(2.00));
-        configurationEntity2.setStarDate(Date.from(Instant.now()));
+        configurationEntity2.setStartDate(Date.from(Instant.now()));
         configurationEntity2.setEndDate(Date.from(Instant.now()));
 
         this.configManager.addConfiguration(configurationEntity);

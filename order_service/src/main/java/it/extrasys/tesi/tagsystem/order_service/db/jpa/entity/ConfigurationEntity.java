@@ -49,7 +49,7 @@ public class ConfigurationEntity {
         return this.startDate;
     }
 
-    public void setStarDate(Date starDate) {
+    public void setStartDate(Date starDate) {
         this.startDate = starDate;
     }
 

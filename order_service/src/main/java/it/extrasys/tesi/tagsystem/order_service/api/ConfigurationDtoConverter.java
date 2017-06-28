@@ -1,16 +1,16 @@
 package it.extrasys.tesi.tagsystem.order_service.api;
 
+import org.springframework.stereotype.Component;
+
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ConfigurationDtoConverter.
  */
-public final class ConfigurationDtoConverter {
+@Component
+public class ConfigurationDtoConverter implements IConfDtoConverter {
 
-    private ConfigurationDtoConverter() {
-
-    }
     /**
      * Entity to dto.
      *
@@ -18,8 +18,8 @@ public final class ConfigurationDtoConverter {
      *            the configuration entity
      * @return the configuration dto
      */
-    public static ConfigurationDto entityToDto(
-            ConfigurationEntity configurationEntity) {
+    @Override
+    public ConfigurationDto toDto(ConfigurationEntity configurationEntity) {
         ConfigurationDto configurationDto = new ConfigurationDto();
         configurationDto.setName(configurationEntity.getName());
         configurationDto
@@ -40,12 +40,14 @@ public final class ConfigurationDtoConverter {
      *            the configuration dto
      * @return the configuration entity
      */
-    public static ConfigurationEntity dtoToEntity(
-            ConfigurationDto configurationDto) {
+    @Override
+    public ConfigurationEntity toEntity(ConfigurationDto configurationDto) {
         ConfigurationEntity entity = new ConfigurationEntity();
         entity.setConfigurationId(configurationDto.getConfigurationId());
         entity.setSpecialPrice(configurationDto.getSpecialPrice());
         entity.getMealtypes().addAll(configurationDto.getMealtypes());
+        entity.setStartDate(configurationDto.getStarDate());
+        entity.setEndDate(configurationDto.getEndDate());
         entity.setName(configurationDto.getName());
         return entity;
 

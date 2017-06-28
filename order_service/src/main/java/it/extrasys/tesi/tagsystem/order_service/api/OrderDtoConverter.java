@@ -3,17 +3,22 @@ package it.extrasys.tesi.tagsystem.order_service.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
 
 /**
  * The Class OrderDtoConverter.
  */
-public final class OrderDtoConverter {
+@Component
+public class OrderDtoConverter implements IOrderDtoConverter {
 
-    private OrderDtoConverter() {
+    /** The configuration dto converter. */
+    @Autowired
+    private ConfigurationDtoConverter configurationDtoConverter;
 
-    }
     /**
      * Entity to dto.
      *
@@ -21,11 +26,12 @@ public final class OrderDtoConverter {
      *            the entity
      * @return the order dto
      */
-    public static OrderDto entityToDto(OrderEntity entity) {
+    @Override
+    public OrderDto entityToDto(OrderEntity entity) {
         OrderDto dto = new OrderDto();
         List<ConfigurationDto> configurationDtos = new ArrayList<>();
         entity.getConfigurations().forEach(conf -> configurationDtos
-                .add(ConfigurationDtoConverter.entityToDto(conf)));
+                .add(this.configurationDtoConverter.toDto(conf)));
         dto.getConfigurations().addAll(configurationDtos);
         dto.setClosed(entity.isClosed());
         dto.setData(entity.getData());
@@ -43,11 +49,14 @@ public final class OrderDtoConverter {
      *            the order dto
      * @return the order entity
      */
-    public static OrderEntity dtoToEntity(OrderDto orderDto) {
+    @Override
+    public OrderEntity dtoToEntity(
+
+            OrderDto orderDto) {
         OrderEntity orderEntity = new OrderEntity();
         List<ConfigurationEntity> configurationEntities = new ArrayList<>();
         orderDto.getConfigurations().forEach(conf -> configurationEntities
-                .add(ConfigurationDtoConverter.dtoToEntity(conf)));
+                .add(this.configurationDtoConverter.toEntity(conf)));
         orderEntity.getConfigurations().addAll(configurationEntities);
         orderEntity.setClosed(orderDto.isClosed());
         orderEntity.setData(orderDto.getData());

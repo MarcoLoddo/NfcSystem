@@ -17,10 +17,10 @@ public interface WalletDao extends JpaRepository<WalletEntity, Long> {
      *            the userid
      * @return the list
      */
-    @Query("Select w from Wallets w JOIN FETCH w.transactions where w.userId=?1")
+    @Query("Select w from Wallets w LEFT JOIN FETCH w.transactions where w.userId=?1")
     WalletEntity findByUserId(Long userid);
 
     @Override
-    @Query("Select w from Wallets w JOIN FETCH w.transactions where w.walletId=?1")
+    @Query("Select w from Wallets w LEFT JOIN FETCH w.transactions where w.walletId=?1")
     WalletEntity findOne(Long id);
 }
