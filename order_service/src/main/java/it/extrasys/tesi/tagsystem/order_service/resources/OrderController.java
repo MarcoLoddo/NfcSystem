@@ -63,8 +63,8 @@ public class OrderController {
             @RequestBody ConfigurationDto configurationDto) {
         ConfigurationEntity entity = this.confDtoConverter
                 .toEntity(configurationDto);
-        entity = this.configManager.addConfiguration(entity);
-        configurationDto.setConfigurationId(entity.getConfigurationId());
+        ConfigurationEntity saved = this.configManager.addConfiguration(entity);
+        configurationDto.setConfigurationId(saved.getConfigurationId());
         return configurationDto;
     }
 
@@ -174,8 +174,8 @@ public class OrderController {
      *            the id
      * @return the order dto
      */
-    @RequestMapping(value = "/orders/{id}", method = RequestMethod.GET)
-    public OrderDto addOrder(@PathVariable Long id) {
+    @RequestMapping(value = "/orders/id/{id}", method = RequestMethod.GET)
+    public OrderDto getOrderById(@PathVariable Long id) {
         return this.orderDtoConverter
                 .entityToDto(this.orderManager.getById(id));
     }
@@ -188,12 +188,13 @@ public class OrderController {
      * @return the total price
      */
     @RequestMapping(value = "/prices/{id}", method = RequestMethod.GET)
+
     public BigDecimal getTotalPrice(@PathVariable Long id) {
         OrderEntity orderEntity = this.orderManager.getById(id);
-        orderEntity
-                .setTotalPrice(this.orderManager.calculatePrice(orderEntity));
+        BigDecimal price = this.orderManager.calculatePrice(orderEntity);
+        orderEntity.setTotalPrice(price);
         this.orderManager.updateOrder(orderEntity);
-        return orderEntity.getTotalPrice();
+        return price;
     }
 
     /**

@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.order_service;
+package it.extrasys.tesi.tagsystem.order_service.test.integration;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
