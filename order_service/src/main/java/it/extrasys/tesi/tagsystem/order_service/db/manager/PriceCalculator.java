@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import it.extrasys.tesi.tagsystem.order_service.api.MealDto;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.MealType;
@@ -16,8 +14,7 @@ import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
 /**
  * The Class PriceCalculatorImpl.
  */
-@Component
-public class PriceCalculatorImpl implements PriceCalculator {
+public class PriceCalculator {
 
     /**
      * Split meals.
@@ -77,14 +74,15 @@ public class PriceCalculatorImpl implements PriceCalculator {
         return meals;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Calculate price.
      *
-     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.PriceCalculator#
-     * calculatePrice(it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.
-     * OrderEntity, java.util.List)
+     * @param orderEntity
+     *            the order entity
+     * @param meals
+     *            the meals
+     * @return the big decimal
      */
-    @Override
     public BigDecimal calculatePrice(OrderEntity orderEntity,
             List<MealDto> meals) {
         BigDecimal total = new BigDecimal(0);
