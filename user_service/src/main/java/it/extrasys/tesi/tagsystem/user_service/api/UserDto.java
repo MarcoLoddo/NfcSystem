@@ -9,7 +9,7 @@ import java.util.List;
  *
  */
 public class UserDto {
-    private int userId;
+    private Long userId;
     private String name;
     private String email;
     private String password;
@@ -31,7 +31,7 @@ public class UserDto {
         return this.password;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return this.userId;
     }
 
@@ -63,7 +63,7 @@ public class UserDto {
         this.password = password;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

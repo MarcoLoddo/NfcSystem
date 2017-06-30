@@ -34,7 +34,7 @@ public interface UserDao extends JpaRepository<UserEntity, Long> {
      * @return the user entity
      */
     @Query("SELECT u FROM Users u LEFT JOIN FETCH u.nfcTags n WHERE u.userId = ?1")
-    UserEntity findById(int id);
+    UserEntity findById(Long id);
 
     /**
      * Find user by name.

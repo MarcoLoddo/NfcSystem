@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.extrasys.tesi.tagsystem.user_service.api.LoginDto;
@@ -23,7 +24,7 @@ import it.extrasys.tesi.tagsystem.user_service.db.manager.UserManager;
  * The Class UserController.
  */
 @RestController
-@RequestMapping("/user")
+
 public class UserController {
 
     /** The manager. */
@@ -39,8 +40,8 @@ public class UserController {
      *            the nfc tag dto to be added
      * @return the user dto updated
      */
-    @RequestMapping(path = "/{id}/nfc/add")
-    public UserDto addNfc(@PathVariable int id,
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
+    public UserDto addNfc(@PathVariable Long id,
             @RequestBody NfcTagDto nfcTagDto) {
         NfcTagEntity newNfc = new NfcTagEntity(nfcTagDto,
                 this.manager.findById(id));
@@ -55,11 +56,11 @@ public class UserController {
      * @param userDto
      *            the user dto
      */
-    @RequestMapping(path = "/add")
-    public void addNfc(@RequestBody UserDto userDto) {
+    @RequestMapping(value = "/users/", method = RequestMethod.POST)
+    public UserDto addUser(@RequestBody UserDto userDto) {
 
-        this.manager.addUser(new UserEntity(userDto));
-
+        UserEntity userEntity = this.manager.addUser(new UserEntity(userDto));
+        return userEntity.convertToDto();
     }
 
     /**
@@ -69,8 +70,8 @@ public class UserController {
      *            the id
      * @return the user dto
      */
-    @RequestMapping(path = "/{id}/findById", method = RequestMethod.GET)
-    public UserDto findUserById(@PathVariable int id) {
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    public UserDto getUserById(@PathVariable Long id) {
         UserEntity userEntity = this.manager.findById(id);
 
         return userEntity.convertToDto();
@@ -82,8 +83,8 @@ public class UserController {
      *            the name
      * @return the list
      */
-    @RequestMapping(path = "/{name}/findByName", method = RequestMethod.GET)
-    public List<UserDto> findUserByName(@PathVariable String name) {
+    @RequestMapping(value = "/users/", method = RequestMethod.GET)
+    public List<UserDto> getUserByName(@RequestParam String name) {
         List<UserEntity> entities = this.manager.findByName(name);
         List<UserDto> dtos = new ArrayList<>();
         for (UserEntity entity : entities) {
@@ -118,8 +119,8 @@ public class UserController {
      *            the nfc tag dto
      * @return the user updated
      */
-    @RequestMapping(path = "/{id}/nfc/update")
-    public UserDto update(@PathVariable int id,
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+    public UserDto userNfcUpdate(@PathVariable Long id,
             @RequestBody NfcUpdateDto nfcTagDto) {
         NfcTagEntity oldNfc = new NfcTagEntity(nfcTagDto.getOlNfcTagDto(),
                 this.manager.findById(id));
@@ -136,8 +137,8 @@ public class UserController {
      *            the user
      * @return the user dto
      */
-    @RequestMapping(path = "/update")
-    public UserDto update(@RequestBody UserDto user) {
+    @RequestMapping(value = "/users/", method = RequestMethod.PUT)
+    public UserDto userUpdate(@RequestBody UserDto user) {
         UserEntity userEntity = new UserEntity(user);
         this.manager.updateUser(userEntity);
         UserEntity updated = this.manager.findById(userEntity.getUserId());
