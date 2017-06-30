@@ -46,7 +46,7 @@ public class ConfigDaoTest {
         config.getMealtypes().add(MealType.PASTA);
         config.getMealtypes().add(MealType.DESSERT);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        config.setStarDate(dateFormat.parse("05/06/2017"));
+        config.setStartDate(dateFormat.parse("05/06/2017"));
         config.setEndDate(dateFormat.parse("30/06/2017"));
         this.configDao.save(config);
         this.configDao.flush();

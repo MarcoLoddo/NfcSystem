@@ -5,22 +5,24 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import it.extrasys.tesi.tagsystem.wallet_service.api.TransactionType;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.TransactionEntity;
-import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.TransactionEntity.TransactionType;
+import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.WalletEntity;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface TransactionDao.
  */
 public interface TransactionDao extends JpaRepository<TransactionEntity, Long> {
 
     /**
-     * Find by wallet id.
+     * Find by wallet.
      *
-     * @param walletId
-     *            the wallet id
-     * @return the transaction entity
+     * @param wallet
+     *            the wallet
+     * @return the list
      */
-    TransactionEntity findByWalletId(Long walletId);
+    List<TransactionEntity> findByWallet(WalletEntity wallet);
 
     /**
      * Find by date.
@@ -41,15 +43,38 @@ public interface TransactionDao extends JpaRepository<TransactionEntity, Long> {
     List<TransactionEntity> findByType(TransactionType type);
 
     /**
-     * Find by type and wallet id.
+     * Find by type and wallet.
      *
      * @param type
      *            the type
-     * @param walletId
-     *            the wallet id
+     * @param wallet
+     *            the wallet
      * @return the list
      */
-    List<TransactionEntity> findByTypeAndWalletId(TransactionType type,
-            Long walletId);
+    List<TransactionEntity> findByTypeAndWallet(TransactionType type,
+            WalletEntity wallet);
+
+    /**
+     * Find by date and wallet.
+     *
+     * @param date
+     *            the date
+     * @param wallet
+     *            the wallet
+     * @return the list
+     */
+    List<TransactionEntity> findByDateAndWallet(Date date, WalletEntity wallet);
+
+    /**
+     * Find by transaction id and wallet.
+     *
+     * @param transactionid
+     *            the transactionid
+     * @param wallet
+     *            the wallet
+     * @return the transaction entity
+     */
+    TransactionEntity findByTransactionIdAndWallet(Long transactionid,
+            WalletEntity wallet);
 
 }

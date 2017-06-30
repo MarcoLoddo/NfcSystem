@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.extrasys.tesi.tagsystem.order_service.api.MealDto;
-import it.extrasys.tesi.tagsystem.order_service.api.Messages;
 import it.extrasys.tesi.tagsystem.order_service.api.RestClient;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.dao.ConfigurationDao;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.dao.OrderDao;
@@ -35,16 +34,12 @@ public class OrderManagingImpl implements OrderManaging {
     @Autowired
     private ConfigurationDao configDao;
 
-    /** The messages. */
-    @Autowired
-    private Messages messages;
-
     /** The rest client. */
-    private RestClient restClient = new RestClient();
+    @Autowired
+    private RestClient restClient;
 
     /** The price calc. */
-    @Autowired
-    private PriceCalculator priceCalc;
+    private PriceCalculator priceCalc = new PriceCalculator();
 
     /*
      * (non-Javadoc)
@@ -56,6 +51,7 @@ public class OrderManagingImpl implements OrderManaging {
     @Override
     @Transactional
     public OrderEntity addOrder(OrderEntity order) {
+        order.setTotalPrice(calculatePrice(order));
         return this.orderDao.save(order);
     }
 
@@ -67,12 +63,11 @@ public class OrderManagingImpl implements OrderManaging {
      * OrderEntity)
      */
     @Override
-    @Transactional
     public BigDecimal calculatePrice(OrderEntity orderEntity) {
         List<MealDto> meals = new ArrayList<>();
         // recupero i meal dal servizio esposto
         for (Long id : orderEntity.getMealId()) {
-            meals.add(this.restClient.getMeal(this.messages, id));
+            meals.add(this.restClient.getMeal(id));
         }
         // ne derivo i mealtypes
         List<MealType> mealTypes = meals.stream().map(meal -> meal.getType())
@@ -138,11 +133,13 @@ public class OrderManagingImpl implements OrderManaging {
      * getByNfc(java.lang.String)
      */
     @Override
+    @Transactional
     public List<OrderEntity> getByNfc(String nfc) {
         return this.orderDao.findByNfcId(nfc);
     }
 
     @Override
+    @Transactional
     public OrderEntity getById(Long id) {
         return this.orderDao.getOne(id);
     }

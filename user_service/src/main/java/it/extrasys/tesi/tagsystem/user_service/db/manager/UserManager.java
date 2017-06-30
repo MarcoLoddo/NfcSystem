@@ -25,7 +25,7 @@ public interface UserManager {
      * @param user
      *            the user
      */
-    void addUser(UserEntity user);
+    UserEntity addUser(UserEntity user);
 
     /**
      * Find by id.
@@ -34,7 +34,7 @@ public interface UserManager {
      *            the id
      * @return the user entity
      */
-    UserEntity findById(int id);
+    UserEntity findById(Long id);
 
     /**
      * Find by name.

@@ -33,15 +33,19 @@ public class UserManagerImpl implements UserManager {
      * .tesi.tagsystem.user_service.db.jpa.entity.NfcTagEntity)
      */
     @Override
+    @Transactional
     public UserEntity addNfc(NfcTagEntity nfcTagEntity) {
         this.nfcDao.save(nfcTagEntity);
+        UserEntity userEntity = this.userDao
+                .findById(nfcTagEntity.getUser().getUserId());
 
-        return this.userDao.findById(nfcTagEntity.getUser().getUserId());
+        return userEntity;
     }
 
     @Override
-    public void addUser(UserEntity user) {
-        this.userDao.save(user);
+    @Transactional
+    public UserEntity addUser(UserEntity user) {
+        return this.userDao.save(user);
 
     }
 
@@ -52,7 +56,7 @@ public class UserManagerImpl implements UserManager {
      */
     @Override
     @Transactional
-    public UserEntity findById(int id) {
+    public UserEntity findById(Long id) {
         UserEntity userEntity = this.userDao.findById(id);
         return userEntity;
     }

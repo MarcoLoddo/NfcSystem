@@ -28,7 +28,11 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     private String name;
     private String surname;
@@ -36,7 +40,7 @@ public class UserEntity {
     private String password;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<NfcTagEntity> nfcTags;
+    private List<NfcTagEntity> nfcTags = new ArrayList<>();
 
     /**
      * Constructor.
@@ -70,19 +74,6 @@ public class UserEntity {
             this.nfcTags = nfcs;
         }
 
-    }
-
-    /**
-     * Adds the new nfc.
-     *
-     * @param nfcTagEntity
-     *            the nfc tag entity
-     */
-    public void addNewNfc(NfcTagEntity nfcTagEntity) {
-        List<NfcTagEntity> list = new ArrayList<>();
-        list.addAll(this.nfcTags);
-        list.add(nfcTagEntity);
-        setNfcTags(list);
     }
     /**
      * Conversion of nfc tag entity list to dto list.
@@ -135,7 +126,7 @@ public class UserEntity {
         return this.password;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return this.userId;
     }
 
@@ -149,10 +140,6 @@ public class UserEntity {
 
     public void setLastName(String lastName) {
         this.surname = lastName;
-    }
-
-    public void setNfcTags(List<NfcTagEntity> nfcTags) {
-        this.nfcTags = nfcTags;
     }
 
     public void setPassword(String password) {

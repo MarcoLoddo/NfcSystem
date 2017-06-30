@@ -44,7 +44,6 @@ public class UserTest {
         NfcTagEntity nfcTagEntity = new NfcTagEntity();
         nfcTagEntity.setNfcId("prova1");
         nfcTagEntity.setUser(userEntity);
-        userEntity.addNewNfc(nfcTagEntity);
         this.nfcDao.save(nfcTagEntity);
         this.userDao.save(userEntity);
 
@@ -63,7 +62,7 @@ public class UserTest {
         List<NfcTagEntity> list = new ArrayList<>();
         list.add(nfcTagEntity);
 
-        userEntity.setNfcTags(list);
+        userEntity.getNfcTags().addAll(list);
 
         this.userDao.save(userEntity);
 

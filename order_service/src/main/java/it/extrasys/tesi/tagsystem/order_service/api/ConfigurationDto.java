@@ -42,16 +42,16 @@ public class ConfigurationDto {
         return this.starDate;
     }
 
-    public void setStartDate(Date starDate) {
-        this.starDate = starDate;
+    public void setStartDate(Date date) {
+        this.starDate = date;
     }
 
     public Date getEndDate() {
         return this.endDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndDate(Date date) {
+        this.endDate = date;
     }
 
     public BigDecimal getSpecialPrice() {
@@ -66,9 +66,6 @@ public class ConfigurationDto {
         return this.mealTypes;
     }
 
-    public void setMealtypes(List<MealType> types) {
-        this.mealTypes = types;
-    }
     public Long getConfigurationId() {
         return this.configurationId;
     }

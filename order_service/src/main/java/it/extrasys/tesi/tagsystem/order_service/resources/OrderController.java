@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import it.extrasys.tesi.tagsystem.order_service.api.ConfigurationDto;
-import it.extrasys.tesi.tagsystem.order_service.api.ConfigurationDtoConverter;
+import it.extrasys.tesi.tagsystem.order_service.api.IConfDtoConverter;
+import it.extrasys.tesi.tagsystem.order_service.api.IOrderDtoConverter;
 import it.extrasys.tesi.tagsystem.order_service.api.ListMealTypeDto;
 import it.extrasys.tesi.tagsystem.order_service.api.OrderDto;
-import it.extrasys.tesi.tagsystem.order_service.api.OrderDtoConverter;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
 import it.extrasys.tesi.tagsystem.order_service.db.manager.ConfigurationManaging;
@@ -45,6 +45,12 @@ public class OrderController {
 
     @Autowired
     private PriceCalculator priceCalculator;
+
+    @Autowired
+    private IConfDtoConverter confDtoConverter;
+
+    @Autowired
+    private IOrderDtoConverter orderDtoConverter;
     /**
      * Adds the configuration.
      *
@@ -55,10 +61,10 @@ public class OrderController {
     @RequestMapping(value = "/configurations", method = RequestMethod.POST)
     public ConfigurationDto addConfiguration(
             @RequestBody ConfigurationDto configurationDto) {
-        ConfigurationEntity entity = ConfigurationDtoConverter
-                .dtoToEntity(configurationDto);
-        entity = this.configManager.addConfiguration(entity);
-        configurationDto.setConfigurationId(entity.getConfigurationId());
+        ConfigurationEntity entity = this.confDtoConverter
+                .toEntity(configurationDto);
+        ConfigurationEntity saved = this.configManager.addConfiguration(entity);
+        configurationDto.setConfigurationId(saved.getConfigurationId());
         return configurationDto;
     }
 
@@ -75,7 +81,7 @@ public class OrderController {
     public ConfigurationDto getConfigurationById(@PathVariable Long id) {
         ConfigurationEntity entity = this.configManager.getConfiguration(id);
 
-        return ConfigurationDtoConverter.entityToDto(entity);
+        return this.confDtoConverter.toDto(entity);
     }
 
     /**
@@ -99,8 +105,8 @@ public class OrderController {
         List<ConfigurationDto> dtos = new ArrayList<>();
 
         for (ConfigurationEntity configurationEntity : entities) {
-            ConfigurationDto dto = ConfigurationDtoConverter
-                    .entityToDto(configurationEntity);
+            ConfigurationDto dto = this.confDtoConverter
+                    .toDto(configurationEntity);
             if (configurationEntity.getMealtypes().size() == listMealType
                     .getMealtypes().size()) {
                 dto.setPreciseMatch(true);
@@ -124,7 +130,8 @@ public class OrderController {
         List<OrderEntity> orders = this.orderManager.getByDate(date);
         List<OrderDto> dtos = new ArrayList<>();
 
-        orders.forEach(order -> dtos.add(OrderDtoConverter.entityToDto(order)));
+        orders.forEach(
+                order -> dtos.add(this.orderDtoConverter.entityToDto(order)));
         return dtos;
     }
     /**
@@ -140,7 +147,7 @@ public class OrderController {
         List<OrderEntity> orders = this.orderManager.getByNfc(nfc);
 
         return orders.stream()
-                .map(order -> OrderDtoConverter.entityToDto(order))
+                .map(order -> this.orderDtoConverter.entityToDto(order))
                 .collect(Collectors.toList())
                 .toArray(new OrderDto[orders.size()]);
     }
@@ -154,9 +161,9 @@ public class OrderController {
      */
     @RequestMapping(value = "/orders/", method = RequestMethod.POST)
     public OrderDto addOrder(@RequestBody OrderDto order) {
-        OrderEntity orderEntity = OrderDtoConverter.dtoToEntity(order);
+        OrderEntity orderEntity = this.orderDtoConverter.dtoToEntity(order);
 
-        return OrderDtoConverter
+        return this.orderDtoConverter
                 .entityToDto(this.orderManager.addOrder(orderEntity));
     }
 
@@ -167,9 +174,10 @@ public class OrderController {
      *            the id
      * @return the order dto
      */
-    @RequestMapping(value = "/orders/{id}", method = RequestMethod.GET)
-    public OrderDto addOrder(@PathVariable Long id) {
-        return OrderDtoConverter.entityToDto(this.orderManager.getById(id));
+    @RequestMapping(value = "/orders/id/{id}", method = RequestMethod.GET)
+    public OrderDto getOrderById(@PathVariable Long id) {
+        return this.orderDtoConverter
+                .entityToDto(this.orderManager.getById(id));
     }
 
     /**
@@ -180,12 +188,13 @@ public class OrderController {
      * @return the total price
      */
     @RequestMapping(value = "/prices/{id}", method = RequestMethod.GET)
+
     public BigDecimal getTotalPrice(@PathVariable Long id) {
         OrderEntity orderEntity = this.orderManager.getById(id);
-        orderEntity
-                .setTotalPrice(this.orderManager.calculatePrice(orderEntity));
+        BigDecimal price = this.orderManager.calculatePrice(orderEntity);
+        orderEntity.setTotalPrice(price);
         this.orderManager.updateOrder(orderEntity);
-        return orderEntity.getTotalPrice();
+        return price;
     }
 
     /**

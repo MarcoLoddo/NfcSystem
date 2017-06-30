@@ -11,8 +11,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.dao.OrderTransactionDao;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.dao.TransactionDao;
-import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.dao.TransactionOrderDao;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.dao.WalletDao;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.OrderTransactionEntity;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.TransactionEntity;
@@ -23,14 +23,14 @@ import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.WalletEntity;
  * The Class TransactionManagerImpl.
  */
 @Component
-public class WalletManagerImpl {
+public class WalletManagerImpl implements WalletManager {
 
     /** The transaction dao. */
     @Autowired
     private TransactionDao transactionDao;
 
     @Autowired
-    private TransactionOrderDao transactionOrderDao;
+    private OrderTransactionDao transactionOrderDao;
 
     @Autowired
     private WalletDao walletDao;
@@ -41,8 +41,9 @@ public class WalletManagerImpl {
      *            the transaction
      * @return the transaction entity
      */
-
-    private TransactionEntity addTransaction(TransactionEntity transaction) {
+    @Override
+    @Transactional
+    public TransactionEntity addTransaction(TransactionEntity transaction) {
         return this.transactionDao.save(transaction);
     }
 
@@ -53,7 +54,9 @@ public class WalletManagerImpl {
      *            the transaction
      * @return the order transaction entity
      */
-    private OrderTransactionEntity addOrderTransaction(
+    @Override
+    @Transactional
+    public OrderTransactionEntity addOrderTransaction(
             OrderTransactionEntity transaction) {
         return this.transactionOrderDao.save(transaction);
     }
@@ -64,8 +67,8 @@ public class WalletManagerImpl {
      *            the transaction
      * @return the transaction entity
      */
-    @Transactional
-    public TransactionEntity updateTransaction(TransactionEntity transaction) {
+
+    private TransactionEntity updateTransaction(TransactionEntity transaction) {
         return this.transactionDao.save(transaction);
     }
 
@@ -76,6 +79,8 @@ public class WalletManagerImpl {
      *            the id
      * @return the by id
      */
+
+    @Override
     @Transactional
     public TransactionEntity getTransactionById(Long id) {
         return this.transactionDao.findOne(id);
@@ -88,6 +93,7 @@ public class WalletManagerImpl {
      *            the id
      * @return the order transaction by id
      */
+    @Override
     @Transactional
     public OrderTransactionEntity getOrderTransactionById(Long id) {
         return this.transactionOrderDao.findOne(id);
@@ -100,8 +106,8 @@ public class WalletManagerImpl {
      *            the order id
      * @return the order transactions by order id
      */
-    @Transactional
-    public List<OrderTransactionEntity> getOrderTransactionsByOrderId(
+
+    private List<OrderTransactionEntity> getOrderTransactionsByOrderId(
             Long orderId) {
 
         return this.transactionOrderDao.findByOrderId(orderId);
@@ -116,8 +122,8 @@ public class WalletManagerImpl {
      * @throws ParseException
      *             the parse exception
      */
-    @Transactional
-    public List<TransactionEntity> findTransactionsByDate(Date date)
+
+    private List<TransactionEntity> findTransactionsByDate(Date date)
             throws ParseException {
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
         return this.transactionDao
@@ -134,6 +140,8 @@ public class WalletManagerImpl {
      *            the transaction
      * @return the big decimal
      */
+    @Override
+    @Transactional
     public BigDecimal updateFunds(Long walletId,
             TransactionEntity transaction) {
         WalletEntity wallet = this.walletDao.findOne(walletId);
@@ -160,12 +168,16 @@ public class WalletManagerImpl {
      * @param transaction
      *            the transaction
      */
+    @Override
     @Transactional
     public void addTransactionToWallet(Long walletId,
             TransactionEntity transaction) {
         TransactionEntity transactionSaved = addTransaction(transaction);
         WalletEntity wallet = this.walletDao.findOne(walletId);
         wallet.getTransactions().add(transactionSaved);
+        this.walletDao.save(wallet);
+        transactionSaved.setWallet(wallet);
+        this.transactionDao.save(transactionSaved);
     }
 
     /**
@@ -176,6 +188,7 @@ public class WalletManagerImpl {
      * @param transaction
      *            the transaction
      */
+    @Override
     @Transactional
     public void addOrderTransactionToWallet(Long walletId,
             OrderTransactionEntity transaction) {
@@ -183,5 +196,61 @@ public class WalletManagerImpl {
                 transaction);
         WalletEntity wallet = this.walletDao.findOne(walletId);
         wallet.getTransactions().add(transactionSaved);
+    }
+
+    /**
+     * Gets the wallet from transaction id.
+     *
+     * @param transactionId
+     *            the transaction id
+     * @return the wallet from transaction id
+     */
+    @Override
+    @Transactional
+    public WalletEntity getWalletFromTransactionId(Long transactionId) {
+        return this.transactionDao.findOne(transactionId).getWallet();
+    }
+
+    /**
+     * Gets the transactions from wallet.
+     *
+     * @param walletId
+     *            the wallet id
+     * @return the transactions from wallet
+     */
+    @Override
+    @Transactional
+    public List<TransactionEntity> getTransactionsFromWallet(Long walletId) {
+        return this.transactionDao
+                .findByWallet(this.walletDao.findOne(walletId));
+    }
+
+    /**
+     * Gets the transactions from wallet by date.
+     *
+     * @param walletId
+     *            the wallet id
+     * @param date
+     *            the date
+     * @return the transactions from wallet by date
+     */
+    @Override
+    @Transactional
+    public List<TransactionEntity> getTransactionsFromWalletByDate(
+            Long walletId, Date date) {
+
+        return this.transactionDao.findByDateAndWallet(date,
+                this.walletDao.findOne(walletId));
+    }
+
+    /**
+     * Gets the wallet from user id.
+     *
+     */
+    @Override
+    @Transactional
+    public WalletEntity getWalletFromUserId(Long id) {
+        // TODO Auto-generated method stub
+        return this.walletDao.findByUserId(id);
     }
 }

@@ -1,63 +1,40 @@
-package it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity;
+package it.extrasys.tesi.tagsystem.wallet_service.api;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import it.extrasys.tesi.tagsystem.wallet_service.api.TransactionType;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class TransactionEntity.
  */
-@Entity(name = "Transactions")
-@Table(name = "transactions")
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "transaction_type", discriminatorType = DiscriminatorType.INTEGER)
-public class TransactionEntity {
+public class TransactionDto {
 
     /** The transaction id. */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id")
+
     private Long transactionId;
 
     /** The user nfc. */
     private String userNfc;
 
     /** The price. */
-
     private BigDecimal price;
 
     /** The wallet id. */
-    @ManyToOne
-    @JoinColumn(name = "wallet_id")
-    private WalletEntity wallet;
+    private Long walletId;
 
     /** The date. */
-    @Temporal(TemporalType.DATE)
     private Date date;
 
     /** The type. */
     private TransactionType type;
 
-    /**
-     * The Enum TransactionType.
-     */
+    public Long getWalletId() {
+        return this.walletId;
+    }
+
+    public void setWalletId(Long walletId) {
+        this.walletId = walletId;
+    }
 
     /**
      * Gets the transaction id.
@@ -124,7 +101,6 @@ public class TransactionEntity {
     public TransactionType getType() {
         return this.type;
     }
-
     /**
      * Sets the type.
      *
@@ -133,13 +109,6 @@ public class TransactionEntity {
      */
     public void setType(TransactionType type) {
         this.type = type;
-    }
-    public WalletEntity getWallet() {
-        return this.wallet;
-    }
-
-    public void setWallet(WalletEntity walletEntity) {
-        this.wallet = walletEntity;
     }
 
     public Date getDate() {
