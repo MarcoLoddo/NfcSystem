@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.order_service.test.integration;
+package it.extrasys.tesi.tagsystem.order_service.test.unity;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
