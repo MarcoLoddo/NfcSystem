@@ -15,7 +15,9 @@ public final class CornerDtoConverter {
         CornerDto dto = new CornerDto();
         dto.setCornerId(corner.getCornerId());
         dto.setMealId(corner.getMealId());
-        dto.setReader(NfcReaderDtoConverter.toDto(corner.getReader()));
+        if (corner.getReader() != null) {
+            dto.setReader(NfcReaderDtoConverter.toDto(corner.getReader()));
+        }
         return dto;
     }
     public static List<CornerDto> toDtoList(List<CornerEntity> corners) {
@@ -26,7 +28,10 @@ public final class CornerDtoConverter {
         CornerEntity corner = new CornerEntity();
         corner.setCornerId(cornerDto.getCornerId());
         corner.setMealId(cornerDto.getMealId());
-        corner.setReader(NfcReaderDtoConverter.toEntity(cornerDto.getReader()));
+        if (cornerDto.getReader() != null) {
+            corner.setReader(
+                    NfcReaderDtoConverter.toEntity(cornerDto.getReader()));
+        }
         return corner;
     }
 }
