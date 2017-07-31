@@ -120,14 +120,13 @@ public class UserController {
      * @return the user updated
      */
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-    public UserDto userNfcUpdate(@PathVariable Long id,
+    public void userNfcUpdate(@PathVariable Long id,
             @RequestBody NfcUpdateDto nfcTagDto) {
         NfcTagEntity oldNfc = new NfcTagEntity(nfcTagDto.getOlNfcTagDto(),
                 this.manager.findById(id));
         NfcTagEntity newNfc = new NfcTagEntity(nfcTagDto.getNewNfcTagDto(),
                 this.manager.findById(id));
         this.manager.updateNfc(oldNfc, newNfc);
-        return this.manager.findById(id).convertToDto();
 
     }
     /**
@@ -138,11 +137,10 @@ public class UserController {
      * @return the user dto
      */
     @RequestMapping(value = "/users/", method = RequestMethod.PUT)
-    public UserDto userUpdate(@RequestBody UserDto user) {
+    public void userUpdate(@RequestBody UserDto user) {
         UserEntity userEntity = new UserEntity(user);
         this.manager.updateUser(userEntity);
         UserEntity updated = this.manager.findById(userEntity.getUserId());
         UserDto updatedDto = updated.convertToDto();
-        return updatedDto;
     }
 }

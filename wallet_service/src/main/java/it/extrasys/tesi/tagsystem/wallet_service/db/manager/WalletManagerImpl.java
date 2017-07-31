@@ -157,6 +157,7 @@ public class WalletManagerImpl implements WalletManager {
             default :
                 break;
         }
+        this.walletDao.save(wallet);
         return wallet.getFunds();
     }
 

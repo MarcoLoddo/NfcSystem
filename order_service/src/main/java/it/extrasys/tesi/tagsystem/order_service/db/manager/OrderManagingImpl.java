@@ -39,7 +39,7 @@ public class OrderManagingImpl implements OrderManaging {
     private RestClient restClient;
 
     /** The price calc. */
-    private PriceCalculator priceCalc = new PriceCalculator();
+    private PriceCalculator priceCalc = new PriceCalculatorImpl();
 
     /*
      * (non-Javadoc)
@@ -148,5 +148,12 @@ public class OrderManagingImpl implements OrderManaging {
     @Transactional
     public OrderEntity updateOrder(OrderEntity order) {
         return this.orderDao.save(order);
+    }
+
+    @Override
+    @Transactional
+    public List<OrderEntity> getOrderByStatus(Boolean status) {
+        // TODO Auto-generated method stub
+        return this.orderDao.findByClosed(status);
     }
 }

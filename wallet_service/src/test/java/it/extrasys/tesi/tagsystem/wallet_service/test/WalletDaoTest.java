@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.wallet_service;
+package it.extrasys.tesi.tagsystem.wallet_service.test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;

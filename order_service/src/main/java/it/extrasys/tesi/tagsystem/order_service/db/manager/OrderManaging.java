@@ -82,4 +82,13 @@ public interface OrderManaging {
      */
     OrderEntity updateOrder(OrderEntity order);
 
+    /**
+     * Gets the order by status.
+     *
+     * @param status
+     *            the status
+     * @return the order by status
+     */
+    List<OrderEntity> getOrderByStatus(Boolean status);
+
 }

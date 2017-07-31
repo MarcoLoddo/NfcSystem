@@ -43,6 +43,7 @@ public class ConfigurationDtoConverter implements IConfDtoConverter {
     @Override
     public ConfigurationEntity toEntity(ConfigurationDto configurationDto) {
         ConfigurationEntity entity = new ConfigurationEntity();
+        entity.setConfigurationId(configurationDto.getConfigurationId());
         entity.setSpecialPrice(configurationDto.getSpecialPrice());
         entity.getMealtypes().addAll(configurationDto.getMealtypes());
         entity.setStartDate(configurationDto.getStarDate());

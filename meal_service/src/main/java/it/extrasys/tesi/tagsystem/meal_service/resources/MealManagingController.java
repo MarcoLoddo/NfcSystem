@@ -49,7 +49,7 @@ public class MealManagingController {
      */
     @RequestMapping(value = "/menus/{menuId}", method = RequestMethod.PUT)
 
-    public MenuDto addMealtoMenu(@PathVariable Long menuId,
+    public void addMealtoMenu(@PathVariable Long menuId,
             @RequestParam Long mealId) {
         MealEntity mealEntity = this.manager.getMeal(mealId);
         MenuEntity menuEntity = this.manager.getMenu(menuId);
@@ -59,7 +59,6 @@ public class MealManagingController {
             menuEntity.getMeals().add(mealEntity);
             this.manager.updateMeal(mealEntity);
         }
-        return MenuDtoConverter.menuEntitytoDto(menuEntity);
     }
     /**
      * Adds the menu.
@@ -79,8 +78,8 @@ public class MealManagingController {
     }
 
     @RequestMapping(value = "/meals/{id}", method = RequestMethod.GET)
-    public MealDto getAllMeals(@PathVariable Long id) {
-
+    public MealDto getMeal(@PathVariable Long id) {
+        System.out.println("ID:" + id);
         return MealDtoConverter.mealEntitytoDto(this.manager.getMeal(id));
     }
 
