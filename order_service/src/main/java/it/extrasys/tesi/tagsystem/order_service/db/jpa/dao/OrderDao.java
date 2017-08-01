@@ -18,7 +18,7 @@ public interface OrderDao extends JpaRepository<OrderEntity, Long> {
      *
      * @param nfc
      *            the nfc
-     * @return the order entity
+     * @return the list
      */
     List<OrderEntity> findByNfcId(String nfc);
 
@@ -30,4 +30,13 @@ public interface OrderDao extends JpaRepository<OrderEntity, Long> {
      * @return the list
      */
     List<OrderEntity> findByData(Date date);
+
+    /**
+     * Find by closed.
+     *
+     * @param status
+     *            the status
+     * @return the list
+     */
+    List<OrderEntity> findByClosed(Boolean status);
 }

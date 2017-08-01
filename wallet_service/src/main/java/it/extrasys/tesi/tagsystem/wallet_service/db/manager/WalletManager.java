@@ -23,6 +23,14 @@ public interface WalletManager {
     TransactionEntity addTransaction(TransactionEntity transaction);
 
     /**
+     * Adds the wallet.
+     *
+     * @param walletEntity
+     *            the wallet entity
+     * @return the wallet entity
+     */
+    WalletEntity addWallet(WalletEntity walletEntity);
+    /**
      * Adds the order transaction.
      *
      * @param transaction

@@ -69,6 +69,20 @@ public class OrderController {
     }
 
     /**
+     * Update configuration.
+     *
+     * @param configurationDto
+     *            the configuration dto
+     */
+    @RequestMapping(value = "/configurations", method = RequestMethod.PUT)
+    public void updateConfiguration(
+            @RequestBody ConfigurationDto configurationDto) {
+        ConfigurationEntity entity = this.confDtoConverter
+                .toEntity(configurationDto);
+        this.confDtoConverter
+                .toDto(this.configManager.updateConfiguration(entity));
+    }
+    /**
      * Gets the configuration by id.
      *
      * @param id
@@ -202,12 +216,27 @@ public class OrderController {
      *
      * @param id
      *            the id
-     * @return the order entity
      */
     @RequestMapping(value = "/close/{id}", method = RequestMethod.PUT)
-    public OrderEntity closeOrder(@PathVariable Long id) {
+    public void closeOrder(@PathVariable Long id) {
         OrderEntity order = this.orderManager.getById(id);
         order.setClosed(true);
-        return this.orderManager.updateOrder(order);
+        this.orderDtoConverter
+                .entityToDto(this.orderManager.updateOrder(order));
     }
+
+    /**
+     * Close order.
+     *
+     * @param status
+     *            the status
+     * @return the order dto
+     */
+    @RequestMapping(value = "/close/", method = RequestMethod.GET)
+    public List<OrderDto> getOrderByStatus(@RequestParam Boolean status) {
+        return this.orderManager.getOrderByStatus(status).stream()
+                .map(order -> this.orderDtoConverter.entityToDto(order))
+                .collect(Collectors.toList());
+    }
+
 }

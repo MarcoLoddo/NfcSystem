@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.order_service.test.integration;
+package it.extrasys.tesi.tagsystem.corner_service.test;
 
 import static org.junit.Assert.assertNotNull;
 

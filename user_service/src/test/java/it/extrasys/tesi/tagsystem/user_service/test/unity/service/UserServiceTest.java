@@ -47,7 +47,7 @@ import it.extrasys.tesi.tagsystem.user_service.test.unity.JsonConverter;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserManagingApplication.class)
 @WebAppConfiguration
-public class OrderServiceTest {
+public class UserServiceTest {
 
     /** The content type. */
     private MediaType contentType = new MediaType(

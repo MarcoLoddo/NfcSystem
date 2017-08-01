@@ -2,8 +2,9 @@ package it.extrasys.tesi.tagsystem.order_service.db.manager;
 
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
 
+// TODO: Auto-generated Javadoc
 /**
- * The Interface OrderManaging.
+ * The Interface ConfigurationManaging.
  */
 public interface ConfigurationManaging {
 
@@ -26,4 +27,13 @@ public interface ConfigurationManaging {
      */
     ConfigurationEntity getConfiguration(Long id);
 
+    /**
+     * Update configuration.
+     *
+     * @param configurationEntity
+     *            the configuration entity
+     * @return the configuration entity
+     */
+    ConfigurationEntity updateConfiguration(
+            ConfigurationEntity configurationEntity);
 }

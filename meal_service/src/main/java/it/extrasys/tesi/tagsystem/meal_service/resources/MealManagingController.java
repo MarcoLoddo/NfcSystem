@@ -47,15 +47,16 @@ public class MealManagingController {
      * @param menuId
      *            the menu id
      */
-    @RequestMapping(value = "/menus/{menuId}/meals", method = RequestMethod.POST)
+    @RequestMapping(value = "/menus/{menuId}", method = RequestMethod.PUT)
 
     public void addMealtoMenu(@PathVariable Long menuId,
-            @RequestBody MealDto mealDto) {
-        MealEntity mealEntity = this.manager.getMeal(mealDto.getMealId());
+            @RequestParam Long mealId) {
+        MealEntity mealEntity = this.manager.getMeal(mealId);
         MenuEntity menuEntity = this.manager.getMenu(menuId);
         if (!menuEntity.getMeals().stream()
-                .anyMatch(e -> e.getMealId() == mealDto.getMealId())) {
+                .anyMatch(e -> e.getMealId() == mealId)) {
             mealEntity.addToMenu(menuEntity);
+            menuEntity.getMeals().add(mealEntity);
             this.manager.updateMeal(mealEntity);
         }
     }
@@ -77,8 +78,8 @@ public class MealManagingController {
     }
 
     @RequestMapping(value = "/meals/{id}", method = RequestMethod.GET)
-    public MealDto getAllMeals(@PathVariable Long id) {
-
+    public MealDto getMeal(@PathVariable Long id) {
+        System.out.println("ID:" + id);
         return MealDtoConverter.mealEntitytoDto(this.manager.getMeal(id));
     }
 
@@ -101,7 +102,7 @@ public class MealManagingController {
      */
     @RequestMapping(value = "/menus", method = RequestMethod.GET)
     public List<MenuDto> getMenusOfDay(
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date day) {
+            @RequestParam(name = "day") @DateTimeFormat(pattern = "yyyy-MM-dd") Date day) {
         List<MenuDto> dtos = MenuDtoConverter
                 .menuEntitytoDtoList(this.manager.getMenuByDate(day));
         return dtos;
@@ -114,12 +115,13 @@ public class MealManagingController {
      *            the to update
      */
     @RequestMapping(value = "/meals", method = RequestMethod.PUT)
-    public void updateMeal(@RequestBody MealDto toUpdate) {
+    public MealDto updateMeal(@RequestBody MealDto toUpdate) {
         MealEntity mealEntity = this.manager.getMeal(toUpdate.getMealId());
         mealEntity.setDescription(toUpdate.getDescription());
         mealEntity.setPrice(toUpdate.getPrice());
         mealEntity.setType(toUpdate.getType());
-        this.manager.updateMeal(mealEntity);
+        return MealDtoConverter
+                .mealEntitytoDto(this.manager.updateMeal(mealEntity));
     }
     /**
      * Update menu.
@@ -128,11 +130,12 @@ public class MealManagingController {
      *            the to update
      */
     @RequestMapping(value = "/menus", method = RequestMethod.PUT)
-    public void updateMenu(@RequestBody MenuDto toUpdate) {
+    public MenuDto updateMenu(@RequestBody MenuDto toUpdate) {
         MenuEntity menuEntity = this.manager.getMenu(toUpdate.getMenuId());
         menuEntity.setDate(toUpdate.getDate());
         menuEntity.setType(toUpdate.getType());
-        this.manager.updateMenu(menuEntity);
+        return MenuDtoConverter
+                .menuEntitytoDto(this.manager.updateMenu(menuEntity));
     }
 
 }

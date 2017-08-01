@@ -58,6 +58,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+                <dependency>
+         <groupId>it.extrasys.tesi.tagsystem</groupId>
+         <artifactId>common</artifactId>
+         <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

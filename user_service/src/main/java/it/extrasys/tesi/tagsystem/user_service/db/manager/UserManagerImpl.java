@@ -39,6 +39,7 @@ public class UserManagerImpl implements UserManager {
         UserEntity userEntity = this.userDao
                 .findById(nfcTagEntity.getUser().getUserId());
 
+        userEntity.getNfcTags().add(nfcTagEntity);
         return userEntity;
     }
 
