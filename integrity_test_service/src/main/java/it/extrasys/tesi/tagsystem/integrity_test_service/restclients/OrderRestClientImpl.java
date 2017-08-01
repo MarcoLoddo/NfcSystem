@@ -99,7 +99,7 @@ public class OrderRestClientImpl implements OrderRestClient {
         String uri = this.messages.getMessages("close.order");
         Map<String, Long> map = new HashMap<String, Long>();
         map.put("id", orderId);
-        this.restTemplate.getForEntity(uri, null, map);
+        this.restTemplate.put(uri, null, map);
     }
 
     @Override

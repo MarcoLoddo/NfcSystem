@@ -216,13 +216,12 @@ public class OrderController {
      *
      * @param id
      *            the id
-     * @return the order entity
      */
     @RequestMapping(value = "/close/{id}", method = RequestMethod.PUT)
-    public OrderDto closeOrder(@PathVariable Long id) {
+    public void closeOrder(@PathVariable Long id) {
         OrderEntity order = this.orderManager.getById(id);
         order.setClosed(true);
-        return this.orderDtoConverter
+        this.orderDtoConverter
                 .entityToDto(this.orderManager.updateOrder(order));
     }
 

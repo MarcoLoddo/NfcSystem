@@ -145,6 +145,9 @@ public class WalletManagerImpl implements WalletManager {
     public BigDecimal updateFunds(Long walletId,
             TransactionEntity transaction) {
         WalletEntity wallet = this.walletDao.findOne(walletId);
+        if (wallet.getFunds() == null) {
+            wallet.setFunds(new BigDecimal(0));
+        }
         switch (transaction.getType()) {
             case ADD_FUNDS :
                 wallet.setFunds(wallet.getFunds().add(transaction.getPrice()));
@@ -253,5 +256,11 @@ public class WalletManagerImpl implements WalletManager {
     public WalletEntity getWalletFromUserId(Long id) {
         // TODO Auto-generated method stub
         return this.walletDao.findByUserId(id);
+    }
+
+    @Override
+    public WalletEntity addWallet(WalletEntity walletEntity) {
+
+        return this.walletDao.save(walletEntity);
     }
 }

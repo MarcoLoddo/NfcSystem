@@ -20,6 +20,7 @@ import it.extrasys.tesi.tagsystem.wallet_service.api.WalletDto;
 import it.extrasys.tesi.tagsystem.wallet_service.api.WalletDtoConverter;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.OrderTransactionEntity;
 import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.TransactionEntity;
+import it.extrasys.tesi.tagsystem.wallet_service.db.jpa.entity.WalletEntity;
 import it.extrasys.tesi.tagsystem.wallet_service.db.manager.WalletManager;
 
 /**
@@ -45,6 +46,20 @@ public class WalletController {
                 .toDto(this.walletManager.getWalletFromUserId(userId));
     }
 
+    /**
+     * Adds the wallet.
+     *
+     * @param walletDto
+     *            the wallet dto
+     * @return the wallet dto
+     */
+    @RequestMapping(value = "/wallets/", method = RequestMethod.POST)
+    public WalletDto addWallet(@RequestBody WalletDto walletDto) {
+
+        WalletEntity walletEntity = WalletDtoConverter.toEntity(walletDto);
+        return WalletDtoConverter
+                .toDto(this.walletManager.addWallet(walletEntity));
+    }
     /**
      * Gets the user transactions.
      *

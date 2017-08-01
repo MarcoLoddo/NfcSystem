@@ -19,10 +19,14 @@ import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.Configuratio
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.OrderDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.users.NfcTagDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.users.UserDto;
+import it.extrasys.tesi.tagsystem.integrity_test_service.api.wallet.OrderTransactionDto;
+import it.extrasys.tesi.tagsystem.integrity_test_service.api.wallet.TransactionType;
+import it.extrasys.tesi.tagsystem.integrity_test_service.api.wallet.WalletDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.restclients.CornerRestClient;
 import it.extrasys.tesi.tagsystem.integrity_test_service.restclients.MealRestClient;
 import it.extrasys.tesi.tagsystem.integrity_test_service.restclients.OrderRestClient;
 import it.extrasys.tesi.tagsystem.integrity_test_service.restclients.UsersRestClient;
+import it.extrasys.tesi.tagsystem.integrity_test_service.restclients.WalletRestClient;
 
 @Controller
 public class IntegrityTestController {
@@ -38,6 +42,9 @@ public class IntegrityTestController {
 
     @Autowired
     private CornerRestClient cornerRestClient;
+
+    @Autowired
+    private WalletRestClient walletRestClient;
     @RequestMapping("/")
     public String mainTest() throws ParseException {
 
@@ -129,6 +136,30 @@ public class IntegrityTestController {
         System.out.println("Not closed status: "
                 + this.cornerRestClient.getOrdersByStatus(false));
         this.orderRestClient.closeOrder(orderDto.getOrderId());
+
+        WalletDto walletDto = new WalletDto();
+        walletDto.setUserId(userDto.getUserId());
+        walletDto = this.walletRestClient.addWallet(walletDto);
+        System.out.println("ID wallet: " + walletDto.getWalletId());
+
+        OrderTransactionDto transactionDto = new OrderTransactionDto();
+        transactionDto.setPrice(new BigDecimal(10));
+        transactionDto.setType(TransactionType.ADD_FUNDS);
+        transactionDto.setUserNfc(userDto.getNfcTags().get(0).getNfcId());
+        transactionDto.setWalletId(walletDto.getWalletId());
+        transactionDto.setDate(dFormat.parse("2017-08-01"));
+
+        System.out.println("Saldo: " + this.walletRestClient
+                .addTransactionToWallet(userDto.getUserId(), transactionDto));
+
+        transactionDto.setType(TransactionType.LOCAL_PURCHASE);
+        transactionDto.setTransactionId(null);
+        transactionDto.setOrderId(orderDto.getOrderId());
+
+        System.out.println("Saldo: " + this.walletRestClient
+                .addTransactionToWallet(userDto.getUserId(), transactionDto));
+        System.out.println("Transazioni: " + this.walletRestClient
+                .getUserTransactions(userDto.getUserId()));
         return "ok";
     }
 }
