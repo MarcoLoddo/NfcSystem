@@ -21,11 +21,13 @@ public class CornerManagerImpl implements CornerManager {
     @Autowired
     private NfcReaderDao readerDao;
 
+    @Override
     @Transactional
     public CornerEntity add(CornerEntity corner) {
         return this.cornerDao.save(corner);
     }
 
+    @Override
     @Transactional
     public CornerEntity updateMealId(Long cornerId, Long mealId) {
         CornerEntity cornerEntity = this.cornerDao.findOne(cornerId);
@@ -39,6 +41,7 @@ public class CornerManagerImpl implements CornerManager {
         cornerEntity.setMealId(mealId);
         return this.cornerDao.save(cornerEntity);
     }
+    @Override
     @Transactional
     public CornerEntity updateReader(Long cornerId, String readerId) {
         CornerEntity cornerEntity = this.cornerDao.findOne(cornerId);
@@ -52,16 +55,26 @@ public class CornerManagerImpl implements CornerManager {
         cornerEntity.setReader(reader);
         return this.cornerDao.save(cornerEntity);
     }
+    @Override
     @Transactional
     public CornerEntity update(CornerEntity corner) {
         return this.cornerDao.save(corner);
     }
+    @Override
     @Transactional
     public List<CornerEntity> getAll() {
         return this.cornerDao.findAll();
     }
+    @Override
     @Transactional
     public CornerEntity getById(Long id) {
         return this.cornerDao.findOne(id);
     }
+
+    @Override
+    public CornerEntity getByReader(String nfc) {
+        // TODO Auto-generated method stub
+        return this.cornerDao.findByReader(this.readerDao.findOne(nfc));
+    }
+
 }

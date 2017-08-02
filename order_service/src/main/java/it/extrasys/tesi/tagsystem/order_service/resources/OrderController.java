@@ -1,6 +1,8 @@
 package it.extrasys.tesi.tagsystem.order_service.resources;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import it.extrasys.tesi.tagsystem.order_service.api.AddMealDto;
 import it.extrasys.tesi.tagsystem.order_service.api.ConfigurationDto;
 import it.extrasys.tesi.tagsystem.order_service.api.IConfDtoConverter;
 import it.extrasys.tesi.tagsystem.order_service.api.IOrderDtoConverter;
@@ -195,6 +198,32 @@ public class OrderController {
     }
 
     /**
+     * Adds the meal to order.
+     *
+     * @param mealDto
+     *            the meal dto
+     * @throws ParseException
+     *             the parse exception
+     */
+    @RequestMapping(value = "/orders/meals/", method = RequestMethod.POST)
+    public void addMealToOrder(@RequestBody AddMealDto mealDto)
+            throws ParseException {
+        OrderEntity orderOnGoing = this.orderManager
+                .getOrderByStatusAndNfcAndType(false, mealDto.getNfc(),
+                        mealDto.getTypeCaller());
+        if (orderOnGoing != null) {
+            orderOnGoing.getMealId().add(mealDto.getMealId());
+            this.orderManager.updateOrder(orderOnGoing);
+        } else {
+            SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
+            orderOnGoing = new OrderEntity();
+            orderOnGoing.setData(dFormat.parse(Instant.now().toString()));
+            orderOnGoing.setType(mealDto.getTypeCaller());
+            this.orderManager.addOrder(orderOnGoing);
+        }
+    }
+
+    /**
      * Gets the total price.
      *
      * @param id
@@ -221,8 +250,8 @@ public class OrderController {
     public void closeOrder(@PathVariable Long id) {
         OrderEntity order = this.orderManager.getById(id);
         order.setClosed(true);
-        this.orderDtoConverter
-                .entityToDto(this.orderManager.updateOrder(order));
+        // order.setTotalPrice(this.orderManager.calculatePrice(order));
+        this.orderManager.updateOrder(order);
     }
 
     /**

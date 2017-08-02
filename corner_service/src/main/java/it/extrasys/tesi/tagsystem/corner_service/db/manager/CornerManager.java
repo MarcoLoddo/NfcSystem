@@ -2,8 +2,6 @@ package it.extrasys.tesi.tagsystem.corner_service.db.manager;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import it.extrasys.tesi.tagsystem.corner_service.db.jpa.entity.CornerEntity;
 
 public interface CornerManager {
@@ -15,6 +13,7 @@ public interface CornerManager {
     CornerEntity updateReader(Long cornerId, String readerId);
 
     CornerEntity update(CornerEntity corner);
+    CornerEntity getByReader(String nfc);
 
     List<CornerEntity> getAll();
 

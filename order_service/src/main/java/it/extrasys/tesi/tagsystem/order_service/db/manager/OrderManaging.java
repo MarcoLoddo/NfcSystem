@@ -7,6 +7,7 @@ import java.util.List;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.MealType;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderType;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -47,7 +48,7 @@ public interface OrderManaging {
     BigDecimal calculatePrice(OrderEntity orderEntity);
 
     /**
-     * Gets the orders by date.
+     * Gets the by date.
      *
      * @param date
      *            the date
@@ -65,11 +66,11 @@ public interface OrderManaging {
     List<OrderEntity> getByNfc(String nfc);
 
     /**
-     * Gets the order by id.
+     * Gets the by id.
      *
      * @param id
      *            the id
-     * @return the order by id
+     * @return the by id
      */
     OrderEntity getById(Long id);
 
@@ -91,4 +92,28 @@ public interface OrderManaging {
      */
     List<OrderEntity> getOrderByStatus(Boolean status);
 
+    /**
+     * Gets the order by status and nfc.
+     *
+     * @param status
+     *            the status
+     * @param nfc
+     *            the nfc
+     * @return the order by status and nfc
+     */
+    OrderEntity getOrderByStatusAndNfc(Boolean status, String nfc);
+
+    /**
+     * Gets the order by status and nfc and type.
+     *
+     * @param status
+     *            the status
+     * @param nfc
+     *            the nfc
+     * @param type
+     *            the type
+     * @return the order by status and nfc and type
+     */
+    OrderEntity getOrderByStatusAndNfcAndType(Boolean status, String nfc,
+            OrderType type);
 }

@@ -32,7 +32,6 @@ public class CornerController {
     public List<CornerDto> getAllCorners() {
         return CornerDtoConverter.toDtoList(this.cornerManager.getAll());
     }
-
     @RequestMapping(value = "/corners/{id}", method = RequestMethod.GET)
     public CornerDto getCornerById(@PathVariable Long id) {
         return CornerDtoConverter.toDto(this.cornerManager.getById(id));
@@ -43,8 +42,16 @@ public class CornerController {
         CornerEntity cornerEntity = CornerDtoConverter.toEntity(cornerDto);
         return CornerDtoConverter.toDto(this.cornerManager.add(cornerEntity));
     }
+
+    @RequestMapping(value = "/readers", method = RequestMethod.POST)
+    public NfcReaderDto addNfcReader(@RequestBody NfcReaderDto readerDto) {
+        NfcReaderEntity readerEntity = NfcReaderDtoConverter
+                .toEntity(readerDto);
+        return NfcReaderDtoConverter
+                .toDto(this.readerManager.add(readerEntity));
+    }
     @RequestMapping(value = "/corners/{id}", method = RequestMethod.PUT)
-    public CornerDto updateCorner(@PathVariable Long id,
+    public void updateCorner(@PathVariable Long id,
             @RequestParam(required = false) String readerId,
             @RequestParam(required = false) Long mealId) {
         if (readerId != null) {
@@ -54,21 +61,18 @@ public class CornerController {
             this.cornerManager.updateReader(id, readerId);
         }
 
-        return CornerDtoConverter.toDto(this.cornerManager.getById(id));
-
-    }
-    @RequestMapping(value = "/readers", method = RequestMethod.POST)
-    public NfcReaderDto addNfcReader(@RequestBody NfcReaderDto readerDto) {
-        NfcReaderEntity readerEntity = NfcReaderDtoConverter
-                .toEntity(readerDto);
-        return NfcReaderDtoConverter
-                .toDto(this.readerManager.add(readerEntity));
     }
     @RequestMapping(value = "/readers", method = RequestMethod.PUT)
-    public NfcReaderDto updateNfcReader(@RequestBody NfcReaderDto readerDto) {
+    public void updateNfcReader(@RequestBody NfcReaderDto readerDto) {
         NfcReaderEntity readerEntity = NfcReaderDtoConverter
                 .toEntity(readerDto);
-        return NfcReaderDtoConverter
-                .toDto(this.readerManager.update(readerEntity));
+        this.readerManager.update(readerEntity);
+    }
+
+    @RequestMapping(value = "/readers/{readerNfc}", method = RequestMethod.PUT)
+    public void updateNfcReader(@PathVariable String readerNfc,
+            @RequestParam String userNfc) {
+
+        CornerEntity cornerEntity = this.cornerManager.getByReader(readerNfc);
     }
 }

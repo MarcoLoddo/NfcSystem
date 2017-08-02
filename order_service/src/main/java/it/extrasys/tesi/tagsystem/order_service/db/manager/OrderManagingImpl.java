@@ -18,6 +18,7 @@ import it.extrasys.tesi.tagsystem.order_service.db.jpa.dao.OrderDao;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.ConfigurationEntity;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.MealType;
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderType;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -155,5 +156,26 @@ public class OrderManagingImpl implements OrderManaging {
     public List<OrderEntity> getOrderByStatus(Boolean status) {
         // TODO Auto-generated method stub
         return this.orderDao.findByClosed(status);
+    }
+
+    /**
+     * Gets the order by status and nfc.
+     *
+     * @param status
+     *            the status
+     * @param nfc
+     *            the nfc
+     * @return the order by status and nfc
+     */
+    @Override
+    public OrderEntity getOrderByStatusAndNfc(Boolean status, String nfc) {
+        return this.orderDao.findByClosedAndNfcId(status, nfc);
+    }
+
+    @Override
+    public OrderEntity getOrderByStatusAndNfcAndType(Boolean status, String nfc,
+            OrderType type) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
