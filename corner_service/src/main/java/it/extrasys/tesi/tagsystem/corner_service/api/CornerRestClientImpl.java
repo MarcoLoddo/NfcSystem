@@ -19,8 +19,15 @@ public class CornerRestClientImpl implements CornerRestClient {
         this.restTemplate = new RestTemplate();
     }
     @Override
-    public void addMealToOrder(String userNfc, Long mealId) {
-        // TODO Auto-generated method stub
+    public OrderDto addMealToOrder(String userNfc, Long mealId) {
+        String uri = this.messages.getMessages("add.meal.to.order");
+
+        AddMealDto addMealDto = new AddMealDto();
+        addMealDto.setMealId(mealId);
+        addMealDto.setNfc(userNfc);
+        addMealDto.setTypeCaller(OrderType.LOCAL_PURCHASE);
+        return this.restTemplate.postForEntity(uri, addMealDto, OrderDto.class)
+                .getBody();
 
     }
 

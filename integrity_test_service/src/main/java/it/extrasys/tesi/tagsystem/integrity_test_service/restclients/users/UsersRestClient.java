@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.integrity_test_service.restclients;
+package it.extrasys.tesi.tagsystem.integrity_test_service.restclients.users;
 
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.users.NfcTagDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.users.UserDto;

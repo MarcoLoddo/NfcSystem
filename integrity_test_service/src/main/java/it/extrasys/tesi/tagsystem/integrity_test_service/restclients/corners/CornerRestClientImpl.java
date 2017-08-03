@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.integrity_test_service.restclients;
+package it.extrasys.tesi.tagsystem.integrity_test_service.restclients.corners;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import it.extrasys.tesi.tagsystem.integrity_test_service.Messages;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.corners.CornerDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.corners.NfcReaderDto;
+import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.OrderDto;
+import it.extrasys.tesi.tagsystem.integrity_test_service.api.users.NfcTagDto;
 
 @Component
 public class CornerRestClientImpl implements CornerRestClient {
@@ -96,5 +98,14 @@ public class CornerRestClientImpl implements CornerRestClient {
                         (Class<? extends List<CornerDto>>) ArrayList.class, map)
                 .getBody();
     }
-
+    @Override
+    public OrderDto callAddMealFromUser(NfcReaderDto nfcReaderDto,
+            NfcTagDto userTag) {
+        String uri = this.messages.getMessages("add.meal.from.user");
+        Map<String, String> map = new HashMap<>();
+        map.put("readerNfc", nfcReaderDto.getReaderId());
+        map.put("userNfc", userTag.getNfcId());
+        return this.restTemplate.postForEntity(uri, null, OrderDto.class, map)
+                .getBody();
+    }
 }

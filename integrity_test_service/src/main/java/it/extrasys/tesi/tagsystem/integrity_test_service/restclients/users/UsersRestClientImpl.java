@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.integrity_test_service.restclients;
+package it.extrasys.tesi.tagsystem.integrity_test_service.restclients.users;
 
 import java.util.HashMap;
 import java.util.Map;

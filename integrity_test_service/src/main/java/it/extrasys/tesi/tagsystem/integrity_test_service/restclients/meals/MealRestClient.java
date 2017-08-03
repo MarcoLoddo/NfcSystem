@@ -1,4 +1,4 @@
-package it.extrasys.tesi.tagsystem.integrity_test_service.restclients;
+package it.extrasys.tesi.tagsystem.integrity_test_service.restclients.meals;
 
 import java.util.Date;
 import java.util.List;

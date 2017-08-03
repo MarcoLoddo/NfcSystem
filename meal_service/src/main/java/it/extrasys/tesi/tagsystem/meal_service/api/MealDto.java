@@ -62,4 +62,10 @@ public class MealDto {
     public void setMenus(List<MenuDto> menus) {
         this.menus = menus;
     }
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return "Price=" + this.price + "Type=" + this.type + "Description="
+                + this.description + "MealId=" + this.mealId;
+    }
 }

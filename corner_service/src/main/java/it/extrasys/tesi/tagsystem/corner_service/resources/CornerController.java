@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.extrasys.tesi.tagsystem.corner_service.api.CornerDto;
 import it.extrasys.tesi.tagsystem.corner_service.api.CornerDtoConverter;
+import it.extrasys.tesi.tagsystem.corner_service.api.CornerRestClient;
 import it.extrasys.tesi.tagsystem.corner_service.api.NfcReaderDto;
 import it.extrasys.tesi.tagsystem.corner_service.api.NfcReaderDtoConverter;
+import it.extrasys.tesi.tagsystem.corner_service.api.OrderDto;
 import it.extrasys.tesi.tagsystem.corner_service.db.jpa.entity.CornerEntity;
 import it.extrasys.tesi.tagsystem.corner_service.db.jpa.entity.NfcReaderEntity;
 import it.extrasys.tesi.tagsystem.corner_service.db.manager.CornerManager;
@@ -27,6 +29,9 @@ public class CornerController {
 
     @Autowired
     private NfcReaderManager readerManager;
+
+    @Autowired
+    private CornerRestClient restClient;
 
     @RequestMapping(value = "/corners", method = RequestMethod.GET)
     public List<CornerDto> getAllCorners() {
@@ -69,10 +74,12 @@ public class CornerController {
         this.readerManager.update(readerEntity);
     }
 
-    @RequestMapping(value = "/readers/{readerNfc}", method = RequestMethod.PUT)
-    public void updateNfcReader(@PathVariable String readerNfc,
+    @RequestMapping(value = "/readers/{readerNfc}", method = RequestMethod.POST)
+    public OrderDto callAddMealFromUser(@PathVariable String readerNfc,
             @RequestParam String userNfc) {
 
         CornerEntity cornerEntity = this.cornerManager.getByReader(readerNfc);
+        return this.restClient.addMealToOrder(userNfc,
+                cornerEntity.getMealId());
     }
 }

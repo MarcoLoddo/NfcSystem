@@ -206,7 +206,7 @@ public class OrderController {
      *             the parse exception
      */
     @RequestMapping(value = "/orders/meals/", method = RequestMethod.POST)
-    public void addMealToOrder(@RequestBody AddMealDto mealDto)
+    public OrderDto addMealToOrder(@RequestBody AddMealDto mealDto)
             throws ParseException {
         OrderEntity orderOnGoing = this.orderManager
                 .getOrderByStatusAndNfcAndType(false, mealDto.getNfc(),
@@ -219,8 +219,10 @@ public class OrderController {
             orderOnGoing = new OrderEntity();
             orderOnGoing.setData(dFormat.parse(Instant.now().toString()));
             orderOnGoing.setType(mealDto.getTypeCaller());
+            orderOnGoing.getMealId().add(mealDto.getMealId());
             this.orderManager.addOrder(orderOnGoing);
         }
+        return this.orderDtoConverter.entityToDto(orderOnGoing);
     }
 
     /**
