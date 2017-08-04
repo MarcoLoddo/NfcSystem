@@ -22,6 +22,8 @@ public class OrderDto {
 
     private List<Long> mealId = new ArrayList<>();
 
+    private OrderType type;
+
     private boolean closed;
 
     public List<Long> getMealId() {
@@ -74,6 +76,14 @@ public class OrderDto {
 
     public void setClosed(boolean closed) {
         this.closed = closed;
+    }
+
+    public OrderType getType() {
+        return this.type;
+    }
+
+    public void setType(OrderType type) {
+        this.type = type;
     }
 
 }

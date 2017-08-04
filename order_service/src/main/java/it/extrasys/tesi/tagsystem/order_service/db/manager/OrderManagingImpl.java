@@ -52,7 +52,6 @@ public class OrderManagingImpl implements OrderManaging {
     @Override
     @Transactional
     public OrderEntity addOrder(OrderEntity order) {
-        order.setTotalPrice(calculatePrice(order));
         return this.orderDao.save(order);
     }
 
@@ -142,7 +141,7 @@ public class OrderManagingImpl implements OrderManaging {
     @Override
     @Transactional
     public OrderEntity getById(Long id) {
-        return this.orderDao.getOne(id);
+        return this.orderDao.findOne(id);
     }
 
     @Override

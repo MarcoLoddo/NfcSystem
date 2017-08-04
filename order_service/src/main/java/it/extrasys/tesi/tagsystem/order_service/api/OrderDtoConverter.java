@@ -39,6 +39,7 @@ public class OrderDtoConverter implements IOrderDtoConverter {
         dto.setNfcId(entity.getNfcId());
         dto.setOrderId(entity.getOrderId());
         dto.setTotalPrice(entity.getTotalPrice());
+        dto.setType(entity.getType());
         return dto;
     }
 
@@ -64,6 +65,7 @@ public class OrderDtoConverter implements IOrderDtoConverter {
         orderEntity.setNfcId(orderDto.getNfcId());
         orderEntity.setOrderId(orderDto.getOrderId());
         orderEntity.setTotalPrice(orderDto.getTotalPrice());
+        orderEntity.setType(orderDto.getType());
         return orderEntity;
     }
 }

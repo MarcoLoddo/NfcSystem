@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderType;
+
 /**
  * The Class OrderDto.
  */
@@ -21,6 +23,8 @@ public class OrderDto {
     private List<ConfigurationDto> configurations = new ArrayList<>();
 
     private List<Long> mealId = new ArrayList<>();
+
+    private OrderType type;
 
     private boolean closed;
 
@@ -74,6 +78,14 @@ public class OrderDto {
 
     public void setClosed(boolean closed) {
         this.closed = closed;
+    }
+
+    public OrderType getType() {
+        return this.type;
+    }
+
+    public void setType(OrderType type) {
+        this.type = type;
     }
 
 }

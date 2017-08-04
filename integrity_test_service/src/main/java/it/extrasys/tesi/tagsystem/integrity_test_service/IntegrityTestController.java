@@ -18,7 +18,9 @@ import it.extrasys.tesi.tagsystem.integrity_test_service.api.corners.NfcReaderDt
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.meals.MealDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.meals.MenuDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.ConfigurationDto;
+import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.ListMealTypeDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.OrderDto;
+import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.OrderType;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.users.NfcTagDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.users.UserDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.wallet.OrderTransactionDto;
@@ -129,6 +131,12 @@ public class IntegrityTestController {
         mealDto2.setType(MealType.MEAT);
         mealDto2 = this.mealRestClient.addMeal(mealDto2);
 
+        MealDto mealDto3 = new MealDto();
+        mealDto3.setPrice(new BigDecimal(10));
+        mealDto3.setDescription("prova3");
+        mealDto3.setType(MealType.DRINK);
+        mealDto3 = this.mealRestClient.addMeal(mealDto3);
+
         MealDto[] list = this.mealRestClient.getAllMeals();
         System.out.println("Meals in db: " + list);
 
@@ -179,9 +187,34 @@ public class IntegrityTestController {
 
     @RequestMapping("/matchprice")
     public String matchAndPriceTest() throws ParseException {
+
+        List<MealDto> meals = Arrays.asList(this.mealRestClient.getAllMeals());
+        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
+        OrderDto orderDto = new OrderDto();
+        orderDto.setData(dFormat.parse("2017-08-01"));
+        orderDto.setNfcId("prova");
+        List<Long> mealids = new ArrayList<>();
+        mealids.add(meals.get(0).getMealId());
+        mealids.add(meals.get(1).getMealId());
+
+        mealids.add(meals.get(2).getMealId());
+
+        orderDto.setMealId(mealids);
+        orderDto.setType(OrderType.LOCAL_PURCHASE);
+        ListMealTypeDto listMealTypeDto = new ListMealTypeDto();
+        listMealTypeDto.getMealtypes().addAll(meals.stream()
+                .map(meal -> meal.getType()).collect(Collectors.toList()));
+        listMealTypeDto.getMealtypes().remove(2);
+        listMealTypeDto.getMealtypes().remove(1);
+        List<ConfigurationDto> confs = this.orderRestClient
+                .matchConfiguration(listMealTypeDto);
+
+        System.out.println("Conf suggerite: " + confs);
+
         List<OrderDto> orders = this.orderRestClient.getOrdersByNfc("prova");
         System.out.println("Prezzo ordine :"
                 + this.orderRestClient.getTotal(orders.get(0).getOrderId()));
+        this.orderRestClient.closeOrder(orders.get(0).getOrderId());
         return "ok";
     }
     @RequestMapping("/orders")
@@ -189,20 +222,25 @@ public class IntegrityTestController {
 
         List<MealDto> meals = Arrays.asList(this.mealRestClient.getAllMeals());
 
-        MealDto mealDto = meals.get(0);
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
         OrderDto orderDto = new OrderDto();
         orderDto.setData(dFormat.parse("2017-08-01"));
+
         orderDto.setNfcId("prova");
         List<Long> mealids = new ArrayList<>();
-        mealids.add(mealDto.getMealId());
+        mealids.add(meals.get(0).getMealId());
         mealids.add(meals.get(1).getMealId());
+        mealids.add(meals.get(2).getMealId());
         orderDto.setMealId(mealids);
+        orderDto.setType(OrderType.LOCAL_PURCHASE);
+        orderDto.getConfigurations()
+                .add(this.orderRestClient.getConfigurationById(1L));
+
+        System.out.println(orderDto.getType());
 
         orderDto = this.orderRestClient.addOrder(orderDto);
         System.out.println("Not closed status: "
                 + this.cornerRestClient.getOrdersByStatus(false));
-        this.orderRestClient.closeOrder(orderDto.getOrderId());
 
         return "oK";
     }
@@ -219,11 +257,19 @@ public class IntegrityTestController {
         configurationDto.setStartDate(dFormat.parse("2017-07-31"));
         configurationDto.setEndDate(dFormat.parse("2017-08-01"));
 
+        ConfigurationDto configurationDto2 = new ConfigurationDto();
+        configurationDto2.setName("Prova2");
+        configurationDto2.setSpecialPrice(new BigDecimal(6));
+        configurationDto2.setStartDate(dFormat.parse("2017-07-31"));
+        configurationDto2.setEndDate(dFormat.parse("2017-08-01"));
+
         configurationDto.getMealtypes().addAll(mealTypes);
+        configurationDto2.getMealtypes().add(meals.get(0).getType());
 
         configurationDto = this.orderRestClient
                 .addConfiguration(configurationDto);
-
+        configurationDto = this.orderRestClient
+                .addConfiguration(configurationDto2);
         System.out.println(
                 "ID configuration: " + configurationDto.getConfigurationId());
         configurationDto.setName("Prova update");
