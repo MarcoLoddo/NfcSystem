@@ -12,4 +12,5 @@ public interface WalletRestClient {
     BigDecimal addTransactionToWallet(Long userId,
             OrderTransactionDto orderTransactionDto);
     List<OrderTransactionDto> getUserTransactions(Long userId);
+    WalletDto getUserWallet(Long userId);
 }

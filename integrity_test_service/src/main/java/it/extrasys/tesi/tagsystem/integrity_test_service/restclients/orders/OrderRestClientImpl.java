@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import it.extrasys.tesi.tagsystem.integrity_test_service.Messages;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.meals.MealDto;
+import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.AddMealDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.ConfigurationDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.ListMealTypeDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.OrderDto;
@@ -132,5 +133,12 @@ public class OrderRestClientImpl implements OrderRestClient {
         String uri = this.messages.getMessages("update.configuration");
         this.restTemplate.put(uri, conf);
         return getConfigurationById(conf.getConfigurationId());
+    }
+    @Override
+    public OrderDto addMealToOrder(AddMealDto mealDto) {
+        String uri = this.messages.getMessages("add.meal.to.order");
+        return this.restTemplate.postForEntity(uri, mealDto, OrderDto.class)
+                .getBody();
+
     }
 }

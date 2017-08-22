@@ -252,7 +252,6 @@ public class OrderController {
     public void closeOrder(@PathVariable Long id) {
         OrderEntity order = this.orderManager.getById(id);
         order.setClosed(true);
-        // order.setTotalPrice(this.orderManager.calculatePrice(order));
         this.orderManager.updateOrder(order);
     }
 

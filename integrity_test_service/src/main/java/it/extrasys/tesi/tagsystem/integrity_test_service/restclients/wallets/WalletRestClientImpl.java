@@ -53,6 +53,7 @@ public class WalletRestClientImpl implements WalletRestClient {
                 .postForEntity(uri, orderTransactionDto, BigDecimal.class, map)
                 .getBody();
     }
+    @Override
     public List<OrderTransactionDto> getUserTransactions(Long userId) {
         Map<String, Long> map = new HashMap<String, Long>();
         map.put("userId", userId);
@@ -60,5 +61,12 @@ public class WalletRestClientImpl implements WalletRestClient {
         return this.restTemplate.getForEntity(uri,
                 (Class<? extends List<OrderTransactionDto>>) ArrayList.class,
                 map).getBody();
+    }
+    public WalletDto getUserWallet(Long userId) {
+        Map<String, Long> map = new HashMap<String, Long>();
+        map.put("userId", userId);
+        String uri = this.messages.getMessages("get.user.wallet");
+        return this.restTemplate.getForEntity(uri, WalletDto.class, map)
+                .getBody();
     }
 }

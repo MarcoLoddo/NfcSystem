@@ -17,6 +17,7 @@ import it.extrasys.tesi.tagsystem.integrity_test_service.api.corners.CornerDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.corners.NfcReaderDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.meals.MealDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.meals.MenuDto;
+import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.AddMealDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.ConfigurationDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.ListMealTypeDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.OrderDto;
@@ -266,15 +267,40 @@ public class IntegrityTestController {
     @RequestMapping("/16")
     public String orderTest2() throws ParseException {
 
+        AddMealDto addMealDto = new AddMealDto();
+        addMealDto.setMealId(2L);
+        addMealDto.setNfc("prova");
+        addMealDto.setTypeCaller(OrderType.LUNCHBOX);
+        System.out.println("Ordine con meal aggiunto: "
+                + this.orderRestClient.addMealToOrder(addMealDto));
+
+        return "ok";
+    }
+    @RequestMapping("/17")
+    public String orderTest3() throws ParseException {
+
         System.out.println("Open orders: " + this.orderRestClient
                 .getOrdersByNfc("prova").removeIf(order -> order.isClosed()));
         return "ok";
     }
-    @RequestMapping("/wallets")
-    public String wallet() throws ParseException {
+    @RequestMapping("/18-19")
+    public String priceTest() throws ParseException {
+        List<OrderDto> orders = this.orderRestClient.getOrdersByNfc("prova");
+        System.out.println("Prezzo ordine :"
+                + this.orderRestClient.getTotal(orders.get(0).getOrderId()));
+        return "ok";
+    }
+    @RequestMapping("/20")
+    public String closeTest() throws ParseException {
+        List<OrderDto> orders = this.orderRestClient.getOrdersByNfc("prova");
+        this.orderRestClient.closeOrder(orders.get(0).getOrderId());
+        return "ok";
+    }
+    @RequestMapping("/21")
+    public String walletTest() throws ParseException {
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
-
         UserDto userDto = this.usersRestClient.getById(1L);
+
         OrderDto orderDto = this.orderRestClient
                 .getOrdersByNfc(userDto.getNfcTags().get(0).getNfcId()).get(0);
         WalletDto walletDto = new WalletDto();
@@ -282,7 +308,15 @@ public class IntegrityTestController {
         walletDto = this.walletRestClient.addWallet(walletDto);
         System.out.println("ID wallet: " + walletDto.getWalletId());
 
+        return "ok";
+    }
+    @RequestMapping("/22")
+    public String walletTest3() throws ParseException {
+        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
+        UserDto userDto = this.usersRestClient.getById(1L);
+        WalletDto walletDto = this.walletRestClient.getUserWallet(1L);
         OrderTransactionDto transactionDto = new OrderTransactionDto();
+
         transactionDto.setPrice(new BigDecimal(10));
         transactionDto.setType(TransactionType.ADD_FUNDS);
         transactionDto.setUserNfc(userDto.getNfcTags().get(0).getNfcId());
@@ -291,18 +325,29 @@ public class IntegrityTestController {
 
         System.out.println("Saldo: " + this.walletRestClient
                 .addTransactionToWallet(userDto.getUserId(), transactionDto));
+        return "ok";
+    }
+    @RequestMapping("/23")
+    public String walletTest4() throws ParseException {
+        UserDto userDto = this.usersRestClient.getById(1L);
+        OrderTransactionDto transactionDto = new OrderTransactionDto();
+        OrderDto orderDto = this.orderRestClient
+                .getOrdersByNfc(userDto.getNfcTags().get(0).getNfcId()).get(0);
 
         transactionDto.setType(TransactionType.LOCAL_PURCHASE);
         transactionDto.setTransactionId(null);
         transactionDto.setOrderId(orderDto.getOrderId());
 
-        System.out.println("Saldo: " + this.walletRestClient
-                .addTransactionToWallet(userDto.getUserId(), transactionDto));
+        return "ok";
+    }
+
+    @RequestMapping("/24")
+    public String walletTest5() throws ParseException {
+        UserDto userDto = this.usersRestClient.getById(1L);
         System.out.println("Transazioni: " + this.walletRestClient
                 .getUserTransactions(userDto.getUserId()));
         return "ok";
     }
-
     @RequestMapping("/match")
     public String matchTest() throws ParseException {
 
@@ -330,41 +375,6 @@ public class IntegrityTestController {
         System.out.println("Conf suggerite: " + confs);
 
         return "ok";
-    }
-    @RequestMapping("/price")
-    public String priceTest() throws ParseException {
-        List<OrderDto> orders = this.orderRestClient.getOrdersByNfc("prova");
-        System.out.println("Prezzo ordine :"
-                + this.orderRestClient.getTotal(orders.get(0).getOrderId()));
-        this.orderRestClient.closeOrder(orders.get(0).getOrderId());
-        return "ok";
-    }
-    @RequestMapping("/orders")
-    public String orderTestProv() throws ParseException {
-
-        List<MealDto> meals = Arrays.asList(this.mealRestClient.getAllMeals());
-
-        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
-        OrderDto orderDto = new OrderDto();
-        orderDto.setData(dFormat.parse("2017-08-01"));
-
-        orderDto.setNfcId("prova");
-        List<Long> mealids = new ArrayList<>();
-        mealids.add(meals.get(0).getMealId());
-        mealids.add(meals.get(1).getMealId());
-        mealids.add(meals.get(2).getMealId());
-        orderDto.setMealId(mealids);
-        orderDto.setType(OrderType.LOCAL_PURCHASE);
-        orderDto.getConfigurations()
-                .add(this.orderRestClient.getConfigurationById(1L));
-
-        System.out.println(orderDto.getType());
-
-        orderDto = this.orderRestClient.addOrder(orderDto);
-        System.out.println("Not closed status: "
-                + this.cornerRestClient.getOrdersByStatus(false));
-
-        return "oK";
     }
 
 }

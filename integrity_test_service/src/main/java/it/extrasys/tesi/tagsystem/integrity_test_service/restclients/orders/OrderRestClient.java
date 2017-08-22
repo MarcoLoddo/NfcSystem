@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.meals.MealDto;
+import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.AddMealDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.ConfigurationDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.ListMealTypeDto;
 import it.extrasys.tesi.tagsystem.integrity_test_service.api.orders.OrderDto;
@@ -93,4 +94,6 @@ public interface OrderRestClient {
      * @return the configuration dto
      */
     ConfigurationDto updateConfiguration(ConfigurationDto conf);
+
+    OrderDto addMealToOrder(AddMealDto mealDto);
 }
