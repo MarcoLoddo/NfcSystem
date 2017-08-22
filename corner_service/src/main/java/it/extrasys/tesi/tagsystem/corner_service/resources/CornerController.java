@@ -73,7 +73,10 @@ public class CornerController {
                 .toEntity(readerDto);
         this.readerManager.update(readerEntity);
     }
-
+    @RequestMapping(value = "/readers", method = RequestMethod.GET)
+    public void getReader(@RequestParam String tag) {
+        this.readerManager.getById(tag);
+    }
     @RequestMapping(value = "/readers/{readerNfc}", method = RequestMethod.POST)
     public OrderDto callAddMealFromUser(@PathVariable String readerNfc,
             @RequestParam String userNfc) {

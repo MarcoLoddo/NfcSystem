@@ -50,7 +50,7 @@ public class IntegrityTestController {
     @Autowired
     private WalletRestClient walletRestClient;
 
-    @RequestMapping("/users")
+    @RequestMapping("/1")
     public String userTest() {
         UserDto userDto = new UserDto();
         userDto.setEmail("prova@prova");
@@ -64,6 +64,11 @@ public class IntegrityTestController {
         userDto2.setPassword("password2");
         userDto2 = this.usersRestClient.addUser(userDto2);
 
+        return "ok";
+    }
+    @RequestMapping("/2")
+    public String userTest2() {
+        UserDto userDto = this.usersRestClient.getById(1L);
         NfcTagDto nfcTagDto = new NfcTagDto();
         nfcTagDto.setNfcId("prova");
         NfcTagDto nfcTagDto2 = new NfcTagDto();
@@ -72,20 +77,201 @@ public class IntegrityTestController {
         userDto = this.usersRestClient.addNfc(userDto, nfcTagDto2);
 
         System.out.println(this.usersRestClient.getById(userDto.getUserId()));
+        return "ok";
+    }
+    @RequestMapping("/3")
+    public String userTest3() {
+        UserDto userDto = this.usersRestClient.getById(1L);
 
+        NfcTagDto nfcTagDto = userDto.getNfcTags().get(0);
         NfcTagDto copy = new NfcTagDto();
         copy.setNfcId(nfcTagDto.getNfcId());
 
         nfcTagDto.setDisabled(true);
 
         this.usersRestClient.updateNfc(userDto.getUserId(), copy, nfcTagDto);
+
+        return "ok";
+    }
+    @RequestMapping("/4")
+    public String userTest4() {
+        UserDto userDto = this.usersRestClient.getById(1L);
+
         System.out.println("Info utente: "
                 + this.usersRestClient.getById(userDto.getUserId()));
         return "ok";
     }
+    @RequestMapping("/5")
+    public String menuTest() throws ParseException {
+        MealDto mealDto = new MealDto();
+        mealDto.setPrice(new BigDecimal(10));
+        mealDto.setDescription("prova");
+        mealDto.setType(MealType.DESSERT);
+        mealDto = this.mealRestClient.addMeal(mealDto);
 
+        MealDto mealDto2 = new MealDto();
+        mealDto2.setPrice(new BigDecimal(10));
+        mealDto2.setDescription("prova2");
+        mealDto2.setType(MealType.MEAT);
+        mealDto2 = this.mealRestClient.addMeal(mealDto2);
+
+        MealDto mealDto3 = new MealDto();
+        mealDto3.setPrice(new BigDecimal(10));
+        mealDto3.setDescription("prova3");
+        mealDto3.setType(MealType.DRINK);
+        mealDto3 = this.mealRestClient.addMeal(mealDto3);
+        return "Ok";
+    }
+
+    @RequestMapping("/6")
+    public String menuTest2() throws ParseException {
+        MealDto[] list = this.mealRestClient.getAllMeals();
+        System.out.println("Meals in db: " + list);
+        return "ok";
+    }
+    @RequestMapping("/7")
+    public String menuTest3() throws ParseException {
+        MenuDto menuDto = new MenuDto();
+        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        menuDto.setDate(dFormat.parse("2017-07-31"));
+        menuDto.setType("Generic");
+        return "ok";
+    }
+    @RequestMapping("/8")
+    public String menuTest4() throws ParseException {
+        MealDto[] list = this.mealRestClient.getAllMeals();
+        MenuDto menuDto = this.mealRestClient.getMenu(1L);
+        menuDto = this.mealRestClient.addMenu(menuDto);
+        menuDto = this.mealRestClient.addMealToMenu(list[0], menuDto);
+        menuDto = this.mealRestClient.addMealToMenu(list[1], menuDto);
+        menuDto.getMeals().remove(list[0]);
+        menuDto = this.mealRestClient.updateMenu(menuDto);
+        System.out.println("Menu : " + menuDto.getMeals());
+
+        return "ok";
+    }
+    @RequestMapping("/9")
+    public String menuTest5() throws ParseException {
+        MenuDto menuDto = this.mealRestClient.getMenu(1L);
+
+        System.out.println("Menu : " + menuDto.getMeals());
+
+        return "ok";
+    }
+
+    @RequestMapping("/10")
+    public String confTest() throws ParseException {
+        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        ConfigurationDto configurationDto = new ConfigurationDto();
+        configurationDto.setName("Prova1");
+        configurationDto.setSpecialPrice(new BigDecimal(5));
+        configurationDto.setStartDate(dFormat.parse("2017-07-31"));
+        configurationDto.setEndDate(dFormat.parse("2017-08-01"));
+
+        ConfigurationDto configurationDto2 = new ConfigurationDto();
+        configurationDto2.setName("Prova2");
+        configurationDto2.setSpecialPrice(new BigDecimal(6));
+        configurationDto2.setStartDate(dFormat.parse("2017-07-31"));
+        configurationDto2.setEndDate(dFormat.parse("2017-08-01"));
+
+        configurationDto = this.orderRestClient
+                .addConfiguration(configurationDto);
+        configurationDto = this.orderRestClient
+                .addConfiguration(configurationDto2);
+
+        return "ok";
+    }
+    @RequestMapping("/11")
+    public String confTest1() throws ParseException {
+        ConfigurationDto configurationDto = this.orderRestClient
+                .getConfigurationById(1L);
+        System.out.println(
+                "ID configuration: " + configurationDto.getConfigurationId());
+        configurationDto.setName("Prova update");
+        configurationDto = this.orderRestClient
+                .updateConfiguration(configurationDto);
+        System.out.println("Nome configurazione aggiornato: "
+                + configurationDto.getName());
+
+        return "ok";
+    }
+    @RequestMapping("/11a")
+    public String confTest2() throws ParseException {
+        ConfigurationDto configurationDto = this.orderRestClient
+                .getConfigurationById(1L);
+        ConfigurationDto configurationDto2 = this.orderRestClient
+                .getConfigurationById(2L);
+        List<MealDto> meals = Arrays.asList(this.mealRestClient.getAllMeals());
+        List<MealType> mealTypes = meals.stream().map(meal -> meal.getType())
+                .collect(Collectors.toList());
+        configurationDto.getMealtypes().addAll(mealTypes);
+        configurationDto2.getMealtypes().add(meals.get(0).getType());
+        return "ok";
+    }
+    @RequestMapping("/11b")
+    public String confTest3() throws ParseException {
+        ConfigurationDto configurationDto = this.orderRestClient
+                .getConfigurationById(1L);
+        System.out.println(this.orderRestClient
+                .getConfigurationById(configurationDto.getConfigurationId()));
+        return "ok";
+    }
+    @RequestMapping("/12")
+    public String cornerTest() throws ParseException {
+        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<MealDto> meals = Arrays.asList(this.mealRestClient.getAllMeals());
+        CornerDto cornerDto = new CornerDto();
+        cornerDto.setMealId(meals.get(0).getMealId());
+
+        cornerDto = this.cornerRestClient.addCorner(cornerDto);
+        System.out.println("Id corner:" + cornerDto.getCornerId());
+
+        return "ok";
+    }
+
+    @RequestMapping("/13-14")
+    public String cornerTest3() throws ParseException {
+        CornerDto cornerDto = this.cornerRestClient.getCornerById(1L);
+        List<MealDto> meals = Arrays.asList(this.mealRestClient.getAllMeals());
+
+        NfcReaderDto nfcReaderDto = new NfcReaderDto();
+
+        nfcReaderDto.setReaderId("provareader");
+        cornerDto.setReader(nfcReaderDto);
+        nfcReaderDto = this.cornerRestClient.addReader(nfcReaderDto);
+
+        System.out.println("Id reader:" + nfcReaderDto.getReaderId());
+
+        cornerDto = this.cornerRestClient.updateCorner(cornerDto,
+                meals.get(1).getMealId(), nfcReaderDto.getReaderId());
+        return "ok";
+    }
+
+    @RequestMapping("/15")
+    public String orderTest() throws ParseException {
+        NfcReaderDto nfcReaderDto = this.cornerRestClient
+                .getReader("provareader");
+        System.out
+                .println(
+                        "Ordine con meal aggiunto: " + this.cornerRestClient
+                                .callAddMealFromUser(nfcReaderDto,
+                                        this.usersRestClient.getById(1L)
+                                                .getNfcTags().get(1))
+                                .getMealId());
+
+        return "ok";
+    }
+    @RequestMapping("/16")
+    public String orderTest2() throws ParseException {
+
+        System.out.println("Open orders: " + this.orderRestClient
+                .getOrdersByNfc("prova").removeIf(order -> order.isClosed()));
+        return "ok";
+    }
     @RequestMapping("/wallets")
-    public String walletTest() throws ParseException {
+    public String wallet() throws ParseException {
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         UserDto userDto = this.usersRestClient.getById(1L);
@@ -117,76 +303,8 @@ public class IntegrityTestController {
         return "ok";
     }
 
-    @RequestMapping("/menus")
-    public String menuTest() throws ParseException {
-        MealDto mealDto = new MealDto();
-        mealDto.setPrice(new BigDecimal(10));
-        mealDto.setDescription("prova");
-        mealDto.setType(MealType.DESSERT);
-        mealDto = this.mealRestClient.addMeal(mealDto);
-
-        MealDto mealDto2 = new MealDto();
-        mealDto2.setPrice(new BigDecimal(10));
-        mealDto2.setDescription("prova2");
-        mealDto2.setType(MealType.MEAT);
-        mealDto2 = this.mealRestClient.addMeal(mealDto2);
-
-        MealDto mealDto3 = new MealDto();
-        mealDto3.setPrice(new BigDecimal(10));
-        mealDto3.setDescription("prova3");
-        mealDto3.setType(MealType.DRINK);
-        mealDto3 = this.mealRestClient.addMeal(mealDto3);
-
-        MealDto[] list = this.mealRestClient.getAllMeals();
-        System.out.println("Meals in db: " + list);
-
-        MenuDto menuDto = new MenuDto();
-        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        menuDto.setDate(dFormat.parse("2017-07-31"));
-        menuDto.setType("Generic");
-
-        menuDto = this.mealRestClient.addMenu(menuDto);
-        menuDto = this.mealRestClient.addMealToMenu(mealDto, menuDto);
-        menuDto = this.mealRestClient.addMealToMenu(mealDto2, menuDto);
-
-        menuDto.getMeals().remove(mealDto);
-        menuDto = this.mealRestClient.updateMenu(menuDto);
-        System.out.println("Menu : " + menuDto.getMeals());
-        return "Ok";
-    }
-    @RequestMapping("/corner")
-    public String mainTest() throws ParseException {
-        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        List<MealDto> meals = Arrays.asList(this.mealRestClient.getAllMeals());
-
-        CornerDto cornerDto = new CornerDto();
-        cornerDto.setMealId(meals.get(0).getMealId());
-        NfcReaderDto nfcReaderDto = new NfcReaderDto();
-        nfcReaderDto.setReaderId("provareader");
-
-        cornerDto = this.cornerRestClient.addCorner(cornerDto);
-        System.out.println("Id corner:" + cornerDto.getCornerId());
-        cornerDto.setReader(nfcReaderDto);
-        nfcReaderDto = this.cornerRestClient.addReader(nfcReaderDto);
-        System.out.println("Id reader:" + nfcReaderDto.getReaderId());
-        cornerDto = this.cornerRestClient.updateCorner(cornerDto,
-                meals.get(1).getMealId(), nfcReaderDto.getReaderId());
-
-        System.out
-                .println(
-                        "Ordine con meal aggiunto: " + this.cornerRestClient
-                                .callAddMealFromUser(nfcReaderDto,
-                                        this.usersRestClient.getById(1L)
-                                                .getNfcTags().get(1))
-                                .getMealId());
-
-        return "ok";
-    }
-
-    @RequestMapping("/matchprice")
-    public String matchAndPriceTest() throws ParseException {
+    @RequestMapping("/match")
+    public String matchTest() throws ParseException {
 
         List<MealDto> meals = Arrays.asList(this.mealRestClient.getAllMeals());
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -211,6 +329,10 @@ public class IntegrityTestController {
 
         System.out.println("Conf suggerite: " + confs);
 
+        return "ok";
+    }
+    @RequestMapping("/price")
+    public String priceTest() throws ParseException {
         List<OrderDto> orders = this.orderRestClient.getOrdersByNfc("prova");
         System.out.println("Prezzo ordine :"
                 + this.orderRestClient.getTotal(orders.get(0).getOrderId()));
@@ -218,7 +340,7 @@ public class IntegrityTestController {
         return "ok";
     }
     @RequestMapping("/orders")
-    public String orderTest() throws ParseException {
+    public String orderTestProv() throws ParseException {
 
         List<MealDto> meals = Arrays.asList(this.mealRestClient.getAllMeals());
 
@@ -244,42 +366,5 @@ public class IntegrityTestController {
 
         return "oK";
     }
-    @RequestMapping("/confs")
-    public String confTest() throws ParseException {
-        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        List<MealDto> meals = Arrays.asList(this.mealRestClient.getAllMeals());
-        List<MealType> mealTypes = meals.stream().map(meal -> meal.getType())
-                .collect(Collectors.toList());
-        ConfigurationDto configurationDto = new ConfigurationDto();
-        configurationDto.setName("Prova1");
-        configurationDto.setSpecialPrice(new BigDecimal(5));
-        configurationDto.setStartDate(dFormat.parse("2017-07-31"));
-        configurationDto.setEndDate(dFormat.parse("2017-08-01"));
-
-        ConfigurationDto configurationDto2 = new ConfigurationDto();
-        configurationDto2.setName("Prova2");
-        configurationDto2.setSpecialPrice(new BigDecimal(6));
-        configurationDto2.setStartDate(dFormat.parse("2017-07-31"));
-        configurationDto2.setEndDate(dFormat.parse("2017-08-01"));
-
-        configurationDto.getMealtypes().addAll(mealTypes);
-        configurationDto2.getMealtypes().add(meals.get(0).getType());
-
-        configurationDto = this.orderRestClient
-                .addConfiguration(configurationDto);
-        configurationDto = this.orderRestClient
-                .addConfiguration(configurationDto2);
-        System.out.println(
-                "ID configuration: " + configurationDto.getConfigurationId());
-        configurationDto.setName("Prova update");
-        configurationDto = this.orderRestClient
-                .updateConfiguration(configurationDto);
-        System.out.println("Nome configurazione aggiornato: "
-                + configurationDto.getName());
-
-        System.out.println(this.orderRestClient
-                .getConfigurationById(configurationDto.getConfigurationId()));
-        return "ok";
-    }
 }

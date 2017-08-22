@@ -17,4 +17,5 @@ public interface CornerRestClient {
     List<CornerDto> getOrdersByStatus(Boolean status);
     NfcReaderDto addReader(NfcReaderDto nfcReaderDto);
     OrderDto callAddMealFromUser(NfcReaderDto nfcReaderDto, NfcTagDto userTag);
+    NfcReaderDto getReader(String tag);
 }

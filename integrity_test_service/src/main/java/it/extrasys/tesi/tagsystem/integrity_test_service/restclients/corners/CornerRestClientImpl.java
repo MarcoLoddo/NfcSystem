@@ -108,4 +108,13 @@ public class CornerRestClientImpl implements CornerRestClient {
         return this.restTemplate.postForEntity(uri, null, OrderDto.class, map)
                 .getBody();
     }
+
+    @Override
+    public NfcReaderDto getReader(String tag) {
+        String uri = this.messages.getMessages("get.reader");
+        Map<String, String> map = new HashMap<>();
+        map.put("tag", tag);
+        return this.restTemplate.getForEntity(uri, NfcReaderDto.class, map)
+                .getBody();
+    }
 }
