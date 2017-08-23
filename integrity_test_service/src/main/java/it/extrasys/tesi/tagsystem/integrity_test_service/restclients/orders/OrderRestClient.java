@@ -95,5 +95,23 @@ public interface OrderRestClient {
      */
     ConfigurationDto updateConfiguration(ConfigurationDto conf);
 
+    /**
+     * Adds the meal to order.
+     *
+     * @param mealDto
+     *            the meal dto
+     * @return the order dto
+     */
     OrderDto addMealToOrder(AddMealDto mealDto);
+
+    /**
+     * Gets the orders by status and nfc.
+     *
+     * @param status
+     *            the status
+     * @param userNfc
+     *            the user nfc
+     * @return the orders by status and nfc
+     */
+    List<OrderDto> getOrdersByStatusAndNfc(Boolean status, String userNfc);
 }

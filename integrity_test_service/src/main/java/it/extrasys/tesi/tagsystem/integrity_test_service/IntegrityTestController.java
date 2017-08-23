@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,8 +99,8 @@ public class IntegrityTestController {
     public String userTest4() {
         UserDto userDto = this.usersRestClient.getById(1L);
 
-        System.out.println("Info utente: "
-                + this.usersRestClient.getById(userDto.getUserId()));
+        System.out.println("Info utente: " + userDto.getName() + " "
+                + userDto.getEmail() + " " + userDto.getNfcTags().size());
         return "ok";
     }
     @RequestMapping("/5")
@@ -127,7 +128,9 @@ public class IntegrityTestController {
     @RequestMapping("/6")
     public String menuTest2() throws ParseException {
         MealDto[] list = this.mealRestClient.getAllMeals();
-        System.out.println("Meals in db: " + list);
+        for (MealDto mealDto : list) {
+            System.out.println("Meals in db: " + mealDto.getDescription());
+        }
         return "ok";
     }
     @RequestMapping("/7")
@@ -137,6 +140,7 @@ public class IntegrityTestController {
 
         menuDto.setDate(dFormat.parse("2017-07-31"));
         menuDto.setType("Generic");
+        this.mealRestClient.addMenu(menuDto);
         return "ok";
     }
     @RequestMapping("/8")
@@ -148,7 +152,6 @@ public class IntegrityTestController {
         menuDto = this.mealRestClient.addMealToMenu(list[1], menuDto);
         menuDto.getMeals().remove(list[0]);
         menuDto = this.mealRestClient.updateMenu(menuDto);
-        System.out.println("Menu : " + menuDto.getMeals());
 
         return "ok";
     }
@@ -209,14 +212,17 @@ public class IntegrityTestController {
                 .collect(Collectors.toList());
         configurationDto.getMealtypes().addAll(mealTypes);
         configurationDto2.getMealtypes().add(meals.get(0).getType());
+        this.orderRestClient.updateConfiguration(configurationDto);
+        this.orderRestClient.updateConfiguration(configurationDto2);
         return "ok";
     }
-    @RequestMapping("/11b")
+    @RequestMapping("/11b") // correggere stampa
     public String confTest3() throws ParseException {
         ConfigurationDto configurationDto = this.orderRestClient
                 .getConfigurationById(1L);
-        System.out.println(this.orderRestClient
-                .getConfigurationById(configurationDto.getConfigurationId()));
+        System.out.println("Configurazione: " + configurationDto.getName() + " "
+                + configurationDto.getMealtypes() + " "
+                + configurationDto.getStarDate());
         return "ok";
     }
     @RequestMapping("/12")
@@ -254,6 +260,7 @@ public class IntegrityTestController {
     public String orderTest() throws ParseException {
         NfcReaderDto nfcReaderDto = this.cornerRestClient
                 .getReader("provareader");
+        System.out.println(nfcReaderDto.getReaderId());
         System.out
                 .println(
                         "Ordine con meal aggiunto: " + this.cornerRestClient
@@ -280,14 +287,16 @@ public class IntegrityTestController {
     public String orderTest3() throws ParseException {
 
         System.out.println("Open orders: " + this.orderRestClient
-                .getOrdersByNfc("prova").removeIf(order -> order.isClosed()));
+                .getOrdersByStatusAndNfc(false, "prova2").get(0).getOrderId());
+
         return "ok";
     }
     @RequestMapping("/18-19")
     public String priceTest() throws ParseException {
         List<OrderDto> orders = this.orderRestClient.getOrdersByNfc("prova");
+        OrderDto orderDto = orders.get(0);
         System.out.println("Prezzo ordine :"
-                + this.orderRestClient.getTotal(orders.get(0).getOrderId()));
+                + this.orderRestClient.getTotal(orderDto.getOrderId()));
         return "ok";
     }
     @RequestMapping("/20")
@@ -329,15 +338,21 @@ public class IntegrityTestController {
     }
     @RequestMapping("/23")
     public String walletTest4() throws ParseException {
+        SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
         UserDto userDto = this.usersRestClient.getById(1L);
         OrderTransactionDto transactionDto = new OrderTransactionDto();
         OrderDto orderDto = this.orderRestClient
                 .getOrdersByNfc(userDto.getNfcTags().get(0).getNfcId()).get(0);
 
+        transactionDto.setPrice(orderDto.getTotalPrice());
         transactionDto.setType(TransactionType.LOCAL_PURCHASE);
         transactionDto.setTransactionId(null);
         transactionDto.setOrderId(orderDto.getOrderId());
 
+        transactionDto.setDate(new Date());
+        transactionDto.setUserNfc(orderDto.getNfcId());
+        this.walletRestClient.addTransactionToWallet(userDto.getUserId(),
+                transactionDto);
         return "ok";
     }
 

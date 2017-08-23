@@ -19,7 +19,7 @@ public class CornerRestClientImpl implements CornerRestClient {
         this.restTemplate = new RestTemplate();
     }
     @Override
-    public OrderDto addMealToOrder(String userNfc, Long mealId) {
+    public OrderDto addMealToOrderFromCorner(String userNfc, Long mealId) {
         String uri = this.messages.getMessages("add.meal.to.order");
 
         AddMealDto addMealDto = new AddMealDto();

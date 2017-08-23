@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -212,14 +213,18 @@ public class OrderController {
                 .getOrderByStatusAndNfcAndType(false, mealDto.getNfc(),
                         mealDto.getTypeCaller());
         if (orderOnGoing != null) {
-            orderOnGoing.getMealId().add(mealDto.getMealId());
-            this.orderManager.updateOrder(orderOnGoing);
+            if (!orderOnGoing.getMealId().contains(mealDto.getMealId())) {
+                orderOnGoing.getMealId().add(mealDto.getMealId());
+                this.orderManager.updateOrder(orderOnGoing);
+            }
+
         } else {
             SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
             orderOnGoing = new OrderEntity();
             orderOnGoing.setData(dFormat.parse(Instant.now().toString()));
             orderOnGoing.setType(mealDto.getTypeCaller());
             orderOnGoing.getMealId().add(mealDto.getMealId());
+            orderOnGoing.setNfcId(mealDto.getNfc());
             this.orderManager.addOrder(orderOnGoing);
         }
         return this.orderDtoConverter.entityToDto(orderOnGoing);
@@ -263,10 +268,36 @@ public class OrderController {
      * @return the order dto
      */
     @RequestMapping(value = "/close/", method = RequestMethod.GET)
-    public List<OrderDto> getOrderByStatus(@RequestParam Boolean status) {
-        return this.orderManager.getOrderByStatus(status).stream()
+    public OrderDto[] getOrderByStatus(@RequestParam Boolean status) {
+        return (OrderDto[]) this.orderManager.getOrderByStatus(status).stream()
                 .map(order -> this.orderDtoConverter.entityToDto(order))
-                .collect(Collectors.toList());
+                .toArray();
     }
 
+    /**
+     * Gets the order by status.
+     *
+     * @param status
+     *            the status
+     * @param userNfc
+     *            the user nfc
+     * @return the order by status
+     */
+    @RequestMapping(value = "/close/{userNfc}", method = RequestMethod.GET)
+    public OrderDto[] getOrderByStatusAndNfc(@RequestParam Boolean status,
+            @PathVariable String userNfc) {
+
+        Object[] aObjects = Arrays
+                .asList(this.orderManager.getOrderByStatusAndNfc(status,
+                        userNfc))
+                .stream()
+                .map(entity -> this.orderDtoConverter.entityToDto(entity))
+                .toArray();
+
+        OrderDto[] orderDtos = new OrderDto[aObjects.length];
+        for (int i = 0; i < aObjects.length; i++) {
+            orderDtos[i] = (OrderDto) aObjects[i];
+        }
+        return orderDtos;
+    }
 }

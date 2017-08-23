@@ -101,7 +101,7 @@ public interface OrderManaging {
      *            the nfc
      * @return the order by status and nfc
      */
-    OrderEntity getOrderByStatusAndNfc(Boolean status, String nfc);
+    OrderEntity[] getOrderByStatusAndNfc(Boolean status, String nfc);
 
     /**
      * Gets the order by status and nfc and type.

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
+import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderType;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -49,5 +50,19 @@ public interface OrderDao extends JpaRepository<OrderEntity, Long> {
      *            the nfc
      * @return the order entity
      */
-    OrderEntity findByClosedAndNfcId(Boolean status, String nfc);
+    OrderEntity[] findByClosedAndNfcId(Boolean status, String nfc);
+
+    /**
+     * Find by closed and nfc id and type.
+     *
+     * @param status
+     *            the status
+     * @param nfc
+     *            the nfc
+     * @param type
+     *            the type
+     * @return the order entity
+     */
+    OrderEntity findByClosedAndNfcIdAndType(Boolean status, String nfc,
+            OrderType type);
 }

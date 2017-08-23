@@ -167,7 +167,7 @@ public class OrderManagingImpl implements OrderManaging {
      * @return the order by status and nfc
      */
     @Override
-    public OrderEntity getOrderByStatusAndNfc(Boolean status, String nfc) {
+    public OrderEntity[] getOrderByStatusAndNfc(Boolean status, String nfc) {
         return this.orderDao.findByClosedAndNfcId(status, nfc);
     }
 
@@ -175,6 +175,6 @@ public class OrderManagingImpl implements OrderManaging {
     public OrderEntity getOrderByStatusAndNfcAndType(Boolean status, String nfc,
             OrderType type) {
         // TODO Auto-generated method stub
-        return null;
+        return this.orderDao.findByClosedAndNfcIdAndType(status, nfc, type);
     }
 }

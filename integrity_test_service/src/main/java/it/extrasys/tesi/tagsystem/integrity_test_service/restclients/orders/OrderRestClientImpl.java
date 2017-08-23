@@ -141,4 +141,14 @@ public class OrderRestClientImpl implements OrderRestClient {
                 .getBody();
 
     }
+    @Override
+    public List<OrderDto> getOrdersByStatusAndNfc(Boolean status,
+            String userNfc) {
+        String uri = this.messages.getMessages("get.orders.by.status.and.nfc");
+        Map<String, String> map = new HashMap<>();
+        map.put("status", status.toString());
+        map.put("userNfc", userNfc);
+        return Arrays.asList(this.restTemplate
+                .getForEntity(uri, OrderDto[].class, map).getBody());
+    }
 }
