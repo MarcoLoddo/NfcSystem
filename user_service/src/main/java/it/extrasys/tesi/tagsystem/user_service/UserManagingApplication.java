@@ -24,6 +24,6 @@ public class UserManagingApplication implements CommandLineRunner {
     @Override
     public void run(String... arg0) throws Exception {
         // TODO Auto-generated method stub
-
+    	System.getenv().forEach((f,k)-> System.out.println("Var : "+f+"val : "+k));
     }
 }

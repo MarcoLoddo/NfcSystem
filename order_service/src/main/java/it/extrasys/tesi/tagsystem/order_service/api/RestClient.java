@@ -6,13 +6,14 @@ package it.extrasys.tesi.tagsystem.order_service.api;
  */
 public interface RestClient {
 
-    /**
-     * Gets the meal.
-     *
-     * @param id
-     *            the id
-     * @return the meal
-     */
-    MealDto getMeal(Long id);
+  /**
+   * Gets the meal.
+   *
+   * @param id
+   *          the id
+   * @return the meal
+   */
+
+  MealDto getMeal(Long id);
 
 }

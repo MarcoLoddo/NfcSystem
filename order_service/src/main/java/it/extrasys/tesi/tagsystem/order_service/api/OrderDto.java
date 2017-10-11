@@ -12,80 +12,80 @@ import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderType;
  */
 public class OrderDto {
 
-    private Long orderId;
+  private Long orderId;
 
-    private Date data;
+  private Date data;
 
-    private BigDecimal totalPrice;
+  private BigDecimal totalPrice;
 
-    private String nfcId;
+  private String nfcId;
 
-    private List<ConfigurationDto> configurations = new ArrayList<>();
+  private List<ConfigurationDto> configurations = new ArrayList<>();
 
-    private List<Long> mealId = new ArrayList<>();
+  private List<Long> mealId = new ArrayList<>();
 
-    private OrderType type;
+  private OrderType type;
 
-    private boolean closed;
+  private boolean closed;
 
-    public List<Long> getMealId() {
-        return this.mealId;
-    }
+  public List<Long> getMealId() {
+    return this.mealId;
+  }
 
-    public void setMealId(List<Long> mealId) {
-        this.mealId = mealId;
-    }
+  public void setMealId(List<Long> mealId) {
+    this.mealId = mealId;
+  }
 
-    public BigDecimal getTotalPrice() {
-        return this.totalPrice;
-    }
+  public BigDecimal getTotalPrice() {
+    return this.totalPrice;
+  }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+  public void setTotalPrice(BigDecimal totalPrice) {
+    this.totalPrice = totalPrice;
+  }
 
-    public String getNfcId() {
-        return this.nfcId;
-    }
+  public String getNfcId() {
+    return this.nfcId;
+  }
 
-    public void setNfcId(String nfcId) {
-        this.nfcId = nfcId;
-    }
+  public void setNfcId(String nfcId) {
+    this.nfcId = nfcId;
+  }
 
-    public List<ConfigurationDto> getConfigurations() {
-        return this.configurations;
-    }
+  public List<ConfigurationDto> getConfigurations() {
+    return this.configurations;
+  }
 
-    public Date getData() {
-        return this.data;
-    }
+  public Date getData() {
+    return this.data;
+  }
 
-    public void setData(Date data) {
-        this.data = data;
-    }
+  public void setData(Date data) {
+    this.data = data;
+  }
 
-    public Long getOrderId() {
-        return this.orderId;
-    }
+  public Long getOrderId() {
+    return this.orderId;
+  }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
+  public void setOrderId(Long orderId) {
+    this.orderId = orderId;
+  }
 
-    public boolean isClosed() {
-        return this.closed;
-    }
+  public boolean isClosed() {
+    return this.closed;
+  }
 
-    public void setClosed(boolean closed) {
-        this.closed = closed;
-    }
+  public void setClosed(boolean closed) {
+    this.closed = closed;
+  }
 
-    public OrderType getType() {
-        return this.type;
-    }
+  public OrderType getType() {
+    return this.type;
+  }
 
-    public void setType(OrderType type) {
-        this.type = type;
-    }
+  public void setType(OrderType type) {
+    this.type = type;
+  }
 
 }

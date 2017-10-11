@@ -12,15 +12,16 @@ import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderEntity;
  */
 public interface PriceCalculator {
 
-    /**
-     * Calculate price.
-     *
-     * @param orderEntity
-     *            the order entity
-     * @param meals
-     *            the meals
-     * @return the big decimal
-     */
-    BigDecimal calculatePrice(OrderEntity orderEntity, List<MealDto> meals);
+  /**
+   * Calculate price.
+   *
+   * @param orderEntity
+   *          the order entity
+   * @param meals
+   *          the meals
+   * @return the big decimal
+   * 
+   */
+  BigDecimal calculatePrice(OrderEntity orderEntity, List<MealDto> meals);
 
 }

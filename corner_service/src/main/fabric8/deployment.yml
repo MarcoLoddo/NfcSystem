@@ -1,0 +1,19 @@
+spec:
+  template:
+    spec:
+      containers:
+        - 
+          resources:
+            requests:
+              cpu: "0.2"
+#              memory: 256Mi
+            limits:
+              cpu: "1.0"
+#              memory: 256Mi
+          env:
+          - name: CORNERDB_USERNAME
+            value: "marco"
+          - name: CORNERDB_PASSWORD
+            value: "superman"
+          - name: CORNERDB_DATABASE
+            value: "tagsystem_corner"

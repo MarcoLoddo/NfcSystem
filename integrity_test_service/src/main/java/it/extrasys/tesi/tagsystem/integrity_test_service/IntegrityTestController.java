@@ -310,8 +310,6 @@ public class IntegrityTestController {
         SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
         UserDto userDto = this.usersRestClient.getById(1L);
 
-        OrderDto orderDto = this.orderRestClient
-                .getOrdersByNfc(userDto.getNfcTags().get(0).getNfcId()).get(0);
         WalletDto walletDto = new WalletDto();
         walletDto.setUserId(userDto.getUserId());
         walletDto = this.walletRestClient.addWallet(walletDto);

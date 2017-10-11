@@ -1,0 +1,19 @@
+spec:
+  template:
+    spec:
+      containers:
+        - 
+          resources:
+            requests:
+              cpu: "0.2"
+#              memory: 256Mi
+            limits:
+              cpu: "1.0"
+#              memory: 256Mi
+          env:
+          - name: MEALDB_USERNAME
+            value: "marco"
+          - name: MEALDB_PASSWORD
+            value: "superman"
+          - name: MEALDB_DATABASE
+            value: "tagsystem_meal"

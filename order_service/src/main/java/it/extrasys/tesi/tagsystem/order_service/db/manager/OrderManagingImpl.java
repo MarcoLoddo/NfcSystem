@@ -27,154 +27,147 @@ import it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.OrderType;
 @Component
 public class OrderManagingImpl implements OrderManaging {
 
-    /** The order dao. */
-    @Autowired
-    private OrderDao orderDao;
+  /** The order dao. */
+  @Autowired
+  private OrderDao orderDao;
 
-    /** The config dao. */
-    @Autowired
-    private ConfigurationDao configDao;
+  /** The config dao. */
+  @Autowired
+  private ConfigurationDao configDao;
 
-    /** The rest client. */
-    @Autowired
-    private RestClient restClient;
+  /** The rest client. */
+  @Autowired
+  private RestClient restClient;
 
-    /** The price calc. */
-    private PriceCalculator priceCalc = new PriceCalculatorImpl();
+  /** The price calc. */
+  @Autowired
+  private PriceCalculator priceCalc;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
-     * addOrder(it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.
-     * OrderEntity)
-     */
-    @Override
-    @Transactional
-    public OrderEntity addOrder(OrderEntity order) {
-        return this.orderDao.save(order);
+  /*
+   * (non-Javadoc)
+   *
+   * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
+   * addOrder(it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.
+   * OrderEntity)
+   */
+  @Override
+  @Transactional
+  public OrderEntity addOrder(OrderEntity order) {
+    return this.orderDao.save(order);
+  }
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
+   * calculatePrice(it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.
+   * OrderEntity)
+   */
+  @Override
+  public BigDecimal calculatePrice(OrderEntity orderEntity) {
+    List<MealDto> meals = new ArrayList<>();
+    // recupero i meal dal servizio esposto
+    for (Long id : orderEntity.getMealId()) {
+      meals.add(this.restClient.getMeal(id));
     }
+    // ne derivo i mealtypes
+    List<MealType> mealTypes = meals.stream().map(meal -> meal.getType()).collect(Collectors.toList());
+    // passo al calcolo del prezzo e lo restituisco
+    return this.priceCalc.calculatePrice(orderEntity, meals);
+  }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
-     * calculatePrice(it.extrasys.tesi.tagsystem.order_service.db.jpa.entity.
-     * OrderEntity)
-     */
-    @Override
-    public BigDecimal calculatePrice(OrderEntity orderEntity) {
-        List<MealDto> meals = new ArrayList<>();
-        // recupero i meal dal servizio esposto
-        for (Long id : orderEntity.getMealId()) {
-            meals.add(this.restClient.getMeal(id));
-        }
-        // ne derivo i mealtypes
-        List<MealType> mealTypes = meals.stream().map(meal -> meal.getType())
-                .collect(Collectors.toList());
-        // passo al calcolo del prezzo e lo restituisco
-        return this.priceCalc.calculatePrice(orderEntity, meals);
+  /**
+   * Match configuration.
+   *
+   * @param mealtypes
+   *          the mealtypes
+   * @param date
+   *          the date
+   * @return the list
+   */
+  private List<ConfigurationEntity> matchConfiguration(List<MealType> mealtypes, Date date) {
+    List<ConfigurationEntity> entities = this.configDao.findByDate(date);
+
+    return entities.stream().filter(e -> e.getMealtypes().containsAll(mealtypes)).collect(Collectors.toList());
+  }
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
+   * matchConfiguration(java.util.List, java.util.Date, boolean)
+   */
+  @Override
+  @Transactional
+  public List<ConfigurationEntity> matchConfiguration(List<MealType> mealtypes, Date date, boolean precise) {
+    if (precise) {
+      List<ConfigurationEntity> configs = matchConfiguration(mealtypes, date);
+      return configs.stream().filter(config -> config.getMealtypes().size() == mealtypes.size())
+          .collect(Collectors.toList());
     }
+    return matchConfiguration(mealtypes, date);
+  }
 
-    /**
-     * Match configuration.
-     *
-     * @param mealtypes
-     *            the mealtypes
-     * @param date
-     *            the date
-     * @return the list
-     */
-    private List<ConfigurationEntity> matchConfiguration(
-            List<MealType> mealtypes, Date date) {
-        List<ConfigurationEntity> entities = this.configDao.findByDate(date);
+  /*
+   * (non-Javadoc)
+   *
+   * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
+   * getByDate(java.util.Date)
+   */
+  @Override
+  @Transactional
+  public List<OrderEntity> getByDate(Date date) {
+    return this.orderDao.findByData(date);
+  }
 
-        return entities.stream()
-                .filter(e -> e.getMealtypes().containsAll(mealtypes))
-                .collect(Collectors.toList());
-    }
+  /*
+   * (non-Javadoc)
+   *
+   * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
+   * getByNfc(java.lang.String)
+   */
+  @Override
+  @Transactional
+  public List<OrderEntity> getByNfc(String nfc) {
+    return this.orderDao.findByNfcId(nfc);
+  }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
-     * matchConfiguration(java.util.List, java.util.Date, boolean)
-     */
-    @Override
-    @Transactional
-    public List<ConfigurationEntity> matchConfiguration(
-            List<MealType> mealtypes, Date date, boolean precise) {
-        if (precise) {
-            List<ConfigurationEntity> configs = matchConfiguration(mealtypes,
-                    date);
-            return configs.stream().filter(
-                    config -> config.getMealtypes().size() == mealtypes.size())
-                    .collect(Collectors.toList());
-        }
-        return matchConfiguration(mealtypes, date);
-    }
+  @Override
+  @Transactional
+  public OrderEntity getById(Long id) {
+    return this.orderDao.findOne(id);
+  }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
-     * getByDate(java.util.Date)
-     */
-    @Override
-    @Transactional
-    public List<OrderEntity> getByDate(Date date) {
-        return this.orderDao.findByData(date);
-    }
+  @Override
+  @Transactional
+  public OrderEntity updateOrder(OrderEntity order) {
+    return this.orderDao.save(order);
+  }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see it.extrasys.tesi.tagsystem.order_service.db.manager.OrderManaging#
-     * getByNfc(java.lang.String)
-     */
-    @Override
-    @Transactional
-    public List<OrderEntity> getByNfc(String nfc) {
-        return this.orderDao.findByNfcId(nfc);
-    }
+  @Override
+  @Transactional
+  public List<OrderEntity> getOrderByStatus(Boolean status) {
+    // TODO Auto-generated method stub
+    return this.orderDao.findByClosed(status);
+  }
 
-    @Override
-    @Transactional
-    public OrderEntity getById(Long id) {
-        return this.orderDao.findOne(id);
-    }
+  /**
+   * Gets the order by status and nfc.
+   *
+   * @param status
+   *          the status
+   * @param nfc
+   *          the nfc
+   * @return the order by status and nfc
+   */
+  @Override
+  public OrderEntity[] getOrderByStatusAndNfc(Boolean status, String nfc) {
+    return this.orderDao.findByClosedAndNfcId(status, nfc);
+  }
 
-    @Override
-    @Transactional
-    public OrderEntity updateOrder(OrderEntity order) {
-        return this.orderDao.save(order);
-    }
-
-    @Override
-    @Transactional
-    public List<OrderEntity> getOrderByStatus(Boolean status) {
-        // TODO Auto-generated method stub
-        return this.orderDao.findByClosed(status);
-    }
-
-    /**
-     * Gets the order by status and nfc.
-     *
-     * @param status
-     *            the status
-     * @param nfc
-     *            the nfc
-     * @return the order by status and nfc
-     */
-    @Override
-    public OrderEntity[] getOrderByStatusAndNfc(Boolean status, String nfc) {
-        return this.orderDao.findByClosedAndNfcId(status, nfc);
-    }
-
-    @Override
-    public OrderEntity getOrderByStatusAndNfcAndType(Boolean status, String nfc,
-            OrderType type) {
-        // TODO Auto-generated method stub
-        return this.orderDao.findByClosedAndNfcIdAndType(status, nfc, type);
-    }
+  @Override
+  public OrderEntity getOrderByStatusAndNfcAndType(Boolean status, String nfc, OrderType type) {
+    // TODO Auto-generated method stub
+    return this.orderDao.findByClosedAndNfcIdAndType(status, nfc, type);
+  }
 }
